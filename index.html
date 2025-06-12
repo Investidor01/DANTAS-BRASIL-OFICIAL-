@@ -6,26 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Portal de notícias brasileiras e internacionais, bolsa de valores, investimentos e economia.">
   <meta name="theme-color" content="#004aad">
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:700,400|Roboto:400,700&display=swap">
+  <!-- Favicon personalizado -->
+  <link rel="icon" type="image/png" href="images/logo-dantas.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Roboto:400,700&display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="light">
   <header>
     <div class="container header-flex">
-      <a href="/" class="logo" aria-label="Página inicial">
-        <span class="logo-icon">📰</span>
-        <span class="logo-title">INFO DANTAS <span class="highlight">BRASIL</span></span>
+      <a href="/" class="logo" aria-label="Página inicial" style="display:flex;align-items:center;gap:0.7em;">
+        <!-- LOGO VISUAL: emoji, imagem e texto -->
+        <span style="font-size:2.7rem;vertical-align:middle;line-height:1;">🦅</span>
+        <img src="images/logo-dantas.png" alt="Logo INFO DANTAS BRASIL" height="50" style="vertical-align:middle;border-radius:12px;box-shadow:0 2px 10px #004aad55;">
+        <span class="logo-title"
+          style="font-family:Montserrat,sans-serif;font-size:2rem;font-weight:900;letter-spacing:2px;color:#004aad;text-shadow:0 2px 8px #004aad22;">
+          INFO DANTAS <span style="color:#FFB800;text-shadow:0 1px 4px #ffb80066;">BRASIL</span>
+        </span>
       </a>
       <nav aria-label="Menu principal">
         <ul>
-          <li><a href="#">Início</a></li>
-          <li><a href="#principais">Principais</a></li>
-          <li><a href="#politica">Política</a></li>
-          <li><a href="#economia">Economia</a></li>
-          <li><a href="#mundo">Mundo</a></li>
-          <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#contato">Contato</a></li>
+          <li><a href="#">🏠 Início</a></li>
+          <li><a href="#principais">📰 Principais</a></li>
+          <li><a href="#politica">⚖️ Política</a></li>
+          <li><a href="#economia">💰 Economia</a></li>
+          <li><a href="#mundo">🌎 Mundo</a></li>
+          <li><a href="#sobre">ℹ️ Sobre</a></li>
+          <li><a href="#contato">✉️ Contato</a></li>
         </ul>
       </nav>
       <div class="header-actions">
@@ -59,7 +65,7 @@
 
     <!-- Carrossel de Manchetes -->
     <section id="carousel-section">
-      <h2>Manchetes em destaque</h2>
+      <h2>📰 Manchetes em destaque</h2>
       <div class="carousel" id="news-carousel">
         <div class="carousel-inner" id="carousel-inner"></div>
         <button class="carousel-btn carousel-btn-prev" id="carousel-prev">&#10094;</button>
@@ -69,6 +75,7 @@
 
     <!-- Filtros -->
     <section class="filters-section">
+      <h2>🔍 Filtros</h2>
       <form id="filters-form">
         <label>
           Fonte:
@@ -100,18 +107,19 @@
 
     <!-- Grid de notícias agregadas -->
     <section class="news-grid" aria-label="Notícias agregadas" id="news-grid">
+      <h2>🗞️ Notícias agregadas</h2>
       <div class="loading">Carregando notícias...</div>
     </section>
 
     <!-- Mais lidas -->
     <section class="most-read-section">
-      <h2>Mais lidas</h2>
+      <h2>🔥 Mais lidas</h2>
       <ul id="most-read-list"></ul>
     </section>
 
     <!-- Newsletter -->
     <section class="newsletter-section">
-      <h2>Receba notícias no seu e-mail</h2>
+      <h2>📧 Receba notícias no seu e-mail</h2>
       <form id="newsletter-form">
         <input type="email" placeholder="Seu e-mail" required>
         <button type="submit">Inscrever</button>
@@ -121,18 +129,18 @@
 
     <!-- Sobre -->
     <section id="sobre" class="about-section">
-      <h2>Sobre o INFO DANTAS BRASIL</h2>
+      <h2>ℹ️ Sobre o INFO DANTAS BRASIL</h2>
       <p>O <strong>INFO DANTAS BRASIL</strong> é um portal independente que agrega notícias das principais fontes do Brasil e do mundo, com foco especial em bolsa de valores, investimentos e economia, oferecendo filtros inteligentes, experiência personalizada e compromisso com a credibilidade.</p>
       <ul>
-        <li>Equipe editorial dedicada</li>
-        <li>Notícias sempre atualizadas</li>
-        <li>Foco em tecnologia, economia, política, mundo e mercados</li>
+        <li>Equipe editorial dedicada 🧑‍💻</li>
+        <li>Notícias sempre atualizadas ⏰</li>
+        <li>Foco em tecnologia, economia, política, mundo e mercados 🌐</li>
       </ul>
     </section>
 
     <!-- Contato -->
     <section id="contato" class="contact-section">
-      <h2>Contato</h2>
+      <h2>✉️ Contato</h2>
       <form id="contact-form">
         <input type="text" name="nome" placeholder="Seu nome" required>
         <input type="email" name="email" placeholder="Seu e-mail" required>
@@ -144,13 +152,13 @@
 
     <!-- Políticas -->
     <section id="politica-privacidade" class="policy-section">
-      <h2>Política de privacidade & Termos de uso</h2>
+      <h2>🔒 Política de privacidade & Termos de uso</h2>
       <p>Respeitamos sua privacidade. Não coletamos dados pessoais sem seu consentimento. Para mais detalhes, acesse nossa <a href="#">Política de Privacidade</a>.</p>
     </section>
 
     <!-- Espaço para apoio -->
     <section class="support-section">
-      <h2>Apoie o projeto</h2>
+      <h2>❤️ Apoie o projeto</h2>
       <p>Gostou do portal? Considere apoiar para mantermos este serviço gratuito e independente:</p>
       <button class="support-btn">Apoiar via Pix</button>
     </section>
@@ -158,12 +166,12 @@
 
   <footer>
     <div class="container">
-      <p>&copy; 2025 <span class="highlight">INFO DANTAS BRASIL</span> • Feito com ❤️ para você</p>
+      <p>&copy; 2025 <span class="highlight">INFO DANTAS BRASIL</span> • Feito com <span style="color:#FFB800;">❤️</span> para você</p>
       <nav aria-label="Links do rodapé">
         <ul>
-          <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#contato">Contato</a></li>
-          <li><a href="#politica-privacidade">Política de Privacidade</a></li>
+          <li><a href="#sobre">ℹ️ Sobre</a></li>
+          <li><a href="#contato">✉️ Contato</a></li>
+          <li><a href="#politica-privacidade">🔒 Política de Privacidade</a></li>
         </ul>
       </nav>
       <div class="footer-social">
@@ -176,4 +184,4 @@
 
   <script src="script.js"></script>
 </body>
-  </html>
+          </html>
