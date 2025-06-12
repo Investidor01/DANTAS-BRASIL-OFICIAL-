@@ -32,6 +32,7 @@ body {
   margin: 0;
   padding: 0;
   transition: background var(--transition), color var(--transition);
+  padding-top: 56px; /* Espaco para barra urgente fixa */
 }
 
 .theme-toggle {
@@ -167,22 +168,23 @@ body {
 
 /* BREAKING BAR */
 .breaking-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 9999;
+  border-radius: 0 0 1.2em 1.2em;
   display: none;
   align-items: center;
   background: var(--breaking-bg);
   color: var(--breaking-text);
   font-weight: 700;
   font-size: 1em;
-  min-height: 36px;
+  min-height: 44px;
   padding: 0.35em 1.3em;
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 99;
   gap: 1.1em;
   box-shadow: var(--shadow);
   animation: pulseBar 2s infinite linear;
-  border-radius: 0 0 1.2em 1.2em;
 }
 .breaking-bar.active { display: flex; }
 @keyframes pulseBar { 0%{opacity:.98;} 50%{opacity:.91;} 100%{opacity:.98;} }
