@@ -201,19 +201,13 @@ function mostrarBreakingBar(breaking) {
   bar.style.display = 'flex';
 }
 
-// ======= DARK MODE =======
-function setTheme(theme) {
-  document.body.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-  document.getElementById('themeIcon').textContent = theme === 'dark' ? '☀️' : '🌙';
-}
-document.getElementById('themeToggle').onclick = function() {
-  setTheme(document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-};
-(function() {
-  let st = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  setTheme(st);
-})();
+// ======= MODO ESCURO FORÇADO =======
+document.body.setAttribute('data-theme', 'dark');
+localStorage.setItem('theme', 'dark');
+
+// Remove ou esconde o botão de alternância de tema caso exista
+const themeToggleBtn = document.getElementById('themeToggle');
+if (themeToggleBtn) themeToggleBtn.style.display = 'none';
 
 // ======= BUSCA INSTANTÂNEA =======
 document.getElementById('searchForm').onsubmit = function(e) { e.preventDefault(); };
