@@ -3,95 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>INFO DANTAS BRASIL</title>
+  <title>IDB CNN Header + Google Login</title>
+  <!-- Seu CSS principal -->
   <link rel="stylesheet" href="styles.css">
+  <!-- CSS do header CNN/IDB -->
+  <link rel="stylesheet" href="header-idb.css">
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <!-- Barra urgente fixa no topo -->
-  <div class="breaking-bar active">
-    <span>🔴 URGENTE: <a href="#">io da morte” da PM em São Paulo</a></span>
-    <span>—</span>
-    <span><a href="#">Empresa área indiana...</a></span>
+  <!-- Barra de urgente simulada -->
+  <div class="barra-urgente" style="background:#e30613;color:#fff;padding:8px 1em;font-weight:bold;position:fixed;top:0;left:0;width:100vw;z-index:1300;">
+    URGENTE: Últimas notícias importantes aqui!
   </div>
 
-  <!-- Cabeçalho -->
-  <header class="main-header">
-    <div class="header-top">
-      <div class="brand-title">INFO DANTAS BRASIL</div>
+  <!-- HEADER CNN/IDB + LOGIN GOOGLE -->
+  <header class="idb-header-cnn">
+    <div class="idb-header-inner-cnn">
+      <button id="menu-toggle-cnn" class="idb-menu-btn-cnn" aria-label="Abrir menu">
+        <span class="idb-menu-icon-cnn"></span>
+      </button>
+      <a href="/" class="idb-logo-cnn">IDB</a>
+      <div id="idb-google-login-cnn" class="idb-login-google-cnn"></div>
     </div>
-    <div class="header-bottom">
-      <p>Notícias em tempo real dos principais portais do Brasil.<br>
-      <b>Atualize-se com os fatos mais importantes do país!</b></p>
-      <form id="searchForm">
-        <input id="searchInput" type="text" placeholder="🔍 Buscar notícia, portal ou palavra-chave...">
-      </form>
-    </div>
-    <nav class="portais-navbar">
-      <a class="g1"><span class="dot g1"></span>G1</a>
-      <a class="uol"><span class="dot uol"></span>UOL</a>
-      <a class="estadao"><span class="dot estadao"></span>Estadão</a>
-      <a class="folha"><span class="dot folha"></span>Folha</a>
-      <a class="r7"><span class="dot r7"></span>R7</a>
-      <a class="terra"><span class="dot terra"></span>Terra</a>
-      <a class="cnnbr"><span class="dot cnnbr"></span>CNN Brasil</a>
-      <a class="band"><span class="dot band"></span>Band</a>
-      <a class="metropoles"><span class="dot metropoles"></span>Metrópoles</a>
-      <a class="oglobo"><span class="dot oglobo"></span>O Globo</a>
-      <a class="gazeta"><span class="dot gazeta"></span>Gazeta</a>
-      <a class="valor"><span class="dot valor"></span>Valor</a>
-    </nav>
   </header>
 
-  <main>
-    <section class="news-section">
-      <h2><span class="dot metropoles"></span> Breaking News</h2>
-      <div class="news-list">
-        <!-- Card 1 -->
-        <div class="news-card">
-          <img class="news-image" src="https://via.placeholder.com/600x250.png?text=Noticia+Urgente" alt="Imagem notícia urgente">
-          <div class="news-content">
-            <div class="news-title">Deputada cobra Derrite sobre “pelotão da morte” da PM em São Paulo <span style="color:red;">[URGENTE]</span></div>
-            <div class="news-meta">12/06/2025, 21:14:48</div>
-            <div class="news-summary">
-              Deputada Paula Nunes pediu informações a Derrite após levantamento feito pelo Metrópoles. Grupo de 22 PMs foi responsável por 52 mortes...
-            </div>
-            <div class="news-footer">
-              <a href="#" class="read-more-btn">Ler mais</a>
-              <span class="news-source">Metrópoles</span>
-            </div>
-            <div class="news-share">
-              <button title="Compartilhar no WhatsApp">📱</button>
-              <button title="Compartilhar no X">X</button>
-              <button title="Copiar link">🔗</button>
-            </div>
-          </div>
-        </div>
-        <!-- Card 2 -->
-        <div class="news-card">
-          <div class="news-image" style="background:#e0e4ea; color:#a0a4a8; display:flex;align-items:center;justify-content:center;">Sem imagem</div>
-          <div class="news-content">
-            <div class="news-title">Empresa aérea indiana indenizará famílias das vítimas em R$ 643 mil</div>
-            <div class="news-meta">12/06/2025, 20:55:22</div>
-            <div class="news-summary">
-              Anúncio foi feito após acordo judicial sobre o acidente que vitimou dezenas de brasileiros...
-            </div>
-            <div class="news-footer">
-              <a href="#" class="read-more-btn">Ler mais</a>
-              <span class="news-source">Folha</span>
-            </div>
-            <div class="news-share">
-              <button title="Compartilhar no WhatsApp">📱</button>
-              <button title="Compartilhar no X">X</button>
-              <button title="Copiar link">🔗</button>
-            </div>
-          </div>
-        </div>
-        <!-- Adicione mais cards conforme a necessidade -->
-      </div>
-    </section>
+  <!-- Menu lateral estilo CNN -->
+  <aside id="side-menu-cnn" class="side-menu-cnn">
+    <div class="side-menu-header-cnn">
+      <button id="menu-close-cnn" class="idb-menu-btn-cnn" aria-label="Fechar menu">
+        <span class="idb-close-icon-cnn">&times;</span>
+      </button>
+      <a href="/" class="idb-logo-cnn side-logo-cnn">IDB</a>
+    </div>
+    <ul class="side-menu-list-cnn">
+      <li><a href="#">Política</a></li>
+      <li><a href="#">Internacional</a></li>
+      <li><a href="#">Nacional</a></li>
+      <li><a href="#">Esportes</a></li>
+      <li><a href="#">Economia</a></li>
+      <li><a href="#">Money</a></li>
+      <li><a href="#">Entretenimento</a></li>
+      <li><a href="#">Saúde</a></li>
+      <li><a href="#">Tecnologia</a></li>
+      <li><a href="#">Lifestyle</a></li>
+      <li><a href="#">Viagem & Gastronomia</a></li>
+      <li><a href="#">Auto</a></li>
+      <li><a href="#">Educação</a></li>
+      <li><a href="#">Colunas</a></li>
+      <li><a href="#">Programação</a></li>
+      <li><a href="#">Equipe IDB</a></li>
+      <li><a href="#">Newsletters</a></li>
+    </ul>
+  </aside>
+  <div id="menu-backdrop-cnn" class="menu-backdrop-cnn"></div>
+
+  <!-- Conteúdo de exemplo -->
+  <main style="margin:0 auto;max-width:700px;padding:120px 1em 2em 1em;">
+    <h1>Bem-vindo ao IDB</h1>
+    <p>Exemplo de site com header estilo CNN, menu lateral e login real do Google.</p>
+    <p>Altere este conteúdo para o seu!</p>
   </main>
-  <footer>
-    &copy; 2025 INFO DANTAS BRASIL. Todos os direitos reservados.
-  </footer>
+
+  <!-- JS do header/menu/login -->
+  <script src="header-idb.js"></script>
 </body>
-              </html>
+  </html>
