@@ -8,74 +8,18 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <meta name="theme-color" content="#1976d2"/>
-  <!-- SEO Avançado -->
-  <meta property="og:title" content="INFO DANTAS BRASIL - Notícias e Breaking News"/>
-  <meta property="og:description" content="Agregador de notícias e breaking news dos maiores portais do Brasil"/>
-  <meta property="og:image" content="https://infodantasbrasil.com/og-image.png"/>
-  <meta property="og:url" content="https://infodantasbrasil.com/"/>
-  <meta property="og:type" content="website"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="INFO DANTAS BRASIL"/>
-  <meta name="twitter:description" content="Agregador de notícias e breaking news do Brasil"/>
-  <meta name="twitter:image" content="https://infodantasbrasil.com/og-image.png"/>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "NewsMediaOrganization",
-    "name": "INFO DANTAS BRASIL",
-    "url": "https://infodantasbrasil.com/",
-    "logo": "https://infodantasbrasil.com/favicon.ico",
-    "sameAs": [
-      "https://twitter.com/",
-      "https://github.com/Investidor01"
-    ]
-  }
-  </script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;700;600;500;400&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="https://unpkg.com/feather-icons"></script>
-  <!-- Google Analytics exemplo -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
 </head>
 <body>
-  <!-- Menu Hamburguer Mobile -->
-  <button id="sidebarToggle" aria-label="Abrir menu de portais" class="sidebar-toggle">
-    <i data-feather="menu"></i>
-  </button>
-  <div class="breaking-bar" id="breakingBar" style="display:none;">
-    <span class="breaking-icon"><i data-feather="alert-triangle"></i></span>
-    <div class="breaking-marquee"><span id="breakingMarquee"></span></div>
-  </div>
   <header>
     <h1><i data-feather="globe"></i> INFO DANTAS BRASIL</h1>
     <p>O portal de notícias e manchetes em tempo real</p>
-    <!-- Busca -->
-    <form id="searchForm" autocomplete="off" role="search">
-      <label for="searchInput" class="sr-only">Buscar notícias</label>
-      <input type="search" id="searchInput" name="q" placeholder="Buscar notícia, portal, palavra-chave..." aria-label="Buscar notícias" />
-      <button type="submit" aria-label="Buscar">
-        <i data-feather="search"></i>
-      </button>
-    </form>
-    <!-- Alternância de tema -->
-    <button id="themeToggle" class="theme-toggle" aria-label="Alternar tema claro/escuro">
-      <i data-feather="moon"></i>
-    </button>
   </header>
-  <section class="destaques-manchetes" id="destaques-manchetes">
-    <h2>DESTAQUES DE HOJE</h2>
-    <div class="destaques-lista" id="destaques-lista"></div>
-  </section>
   <div class="container-flex">
     <nav class="sidebar" id="sidebarNav">
       <h3>Portais</h3>
-      <a href="#breaking"><span class="icon-dot icon-g1"></span> Breaking</a>
       <a href="#g1"><span class="icon-dot icon-g1"></span> G1</a>
       <a href="#uol"><span class="icon-dot icon-uol"></span> UOL</a>
       <a href="#estadao"><span class="icon-dot icon-estadao"></span> Estadão</a>
@@ -85,44 +29,40 @@
       <a href="#cnnbr"><span class="icon-dot icon-cnnbr"></span> CNN Brasil</a>
     </nav>
     <main>
-      <section class="breaking-section" id="breaking" style="display:none;">
-        <h2><span class="icon-dot icon-g1"></span><i data-feather="alert-triangle"></i> Breaking News</h2>
-        <div class="news-grid" id="breaking-grid"></div>
+      <section class="news-section" id="g1">
+        <h2><span class="icon-dot icon-g1"></span>G1</h2>
+        <div class="news-list" id="news-g1"></div>
       </section>
-      <section class="news-section g1" id="g1">
-        <h2><span class="icon-dot icon-g1"></span>G1 <span class="news-ico"><i data-feather="zap"></i></span></h2>
-        <div class="news-grid" id="news-g1"><div class="loading">Carregando notícias...</div></div>
+      <section class="news-section" id="uol">
+        <h2><span class="icon-dot icon-uol"></span>UOL</h2>
+        <div class="news-list" id="news-uol"></div>
       </section>
-      <section class="news-section uol" id="uol">
-        <h2><span class="icon-dot icon-uol"></span>UOL <span class="news-ico"><i data-feather="star"></i></span></h2>
-        <div class="news-grid" id="news-uol"><div class="loading">Carregando notícias...</div></div>
+      <section class="news-section" id="estadao">
+        <h2><span class="icon-dot icon-estadao"></span>Estadão</h2>
+        <div class="news-list" id="news-estadao"></div>
       </section>
-      <section class="news-section estadao" id="estadao">
-        <h2><span class="icon-dot icon-estadao"></span>Estadão <span class="news-ico"><i data-feather="flag"></i></span></h2>
-        <div class="news-grid" id="news-estadao"><div class="loading">Carregando notícias...</div></div>
+      <section class="news-section" id="folha">
+        <h2><span class="icon-dot icon-folha"></span>Folha</h2>
+        <div class="news-list" id="news-folha"></div>
       </section>
-      <section class="news-section folha" id="folha">
-        <h2><span class="icon-dot icon-folha"></span>Folha <span class="news-ico"><i data-feather="book-open"></i></span></h2>
-        <div class="news-grid" id="news-folha"><div class="loading">Carregando notícias...</div></div>
+      <section class="news-section" id="r7">
+        <h2><span class="icon-dot icon-r7"></span>R7</h2>
+        <div class="news-list" id="news-r7"></div>
       </section>
-      <section class="news-section r7" id="r7">
-        <h2><span class="icon-dot icon-r7"></span>R7 <span class="news-ico"><i data-feather="activity"></i></span></h2>
-        <div class="news-grid" id="news-r7"><div class="loading">Carregando notícias...</div></div>
+      <section class="news-section" id="terra">
+        <h2><span class="icon-dot icon-terra"></span>Terra</h2>
+        <div class="news-list" id="news-terra"></div>
       </section>
-      <section class="news-section terra" id="terra">
-        <h2><span class="icon-dot icon-terra"></span>Terra <span class="news-ico"><i data-feather="sun"></i></span></h2>
-        <div class="news-grid" id="news-terra"><div class="loading">Carregando notícias...</div></div>
-      </section>
-      <section class="news-section cnnbr" id="cnnbr">
-        <h2><span class="icon-dot icon-cnnbr"></span>CNN Brasil <span class="news-ico"><i data-feather="tv"></i></span></h2>
-        <div class="news-grid" id="news-cnnbr"><div class="loading">Carregando notícias...</div></div>
+      <section class="news-section" id="cnnbr">
+        <h2><span class="icon-dot icon-cnnbr"></span>CNN Brasil</h2>
+        <div class="news-list" id="news-cnnbr"></div>
       </section>
     </main>
   </div>
   <footer>
     <div class="footer-social">
-      <a href="https://github.com/Investidor01/Dantas-Not-cias-" title="GitHub" target="_blank" rel="noopener"><i data-feather="github"></i></a>
-      <a href="https://twitter.com/" title="Twitter/X" target="_blank" rel="noopener"><i data-feather="twitter"></i></a>
+      <a href="https://github.com/Investidor01/Dantas-Not-cias-" title="GitHub" target="_blank"><i data-feather="github"></i></a>
+      <a href="https://twitter.com/" title="Twitter/X" target="_blank"><i data-feather="twitter"></i></a>
       <a href="mailto:contato@infodantasbrasil.com" title="E-mail"><i data-feather="mail"></i></a>
     </div>
     <div>
@@ -131,4 +71,4 @@
   </footer>
   <script src="script.js"></script>
 </body>
-        </html>
+          </html>
