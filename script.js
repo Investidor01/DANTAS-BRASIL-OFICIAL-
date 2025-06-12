@@ -1,6 +1,4 @@
 // script.js
-// Exibe notícias de múltiplos portais brasileiros via RSS (usando rss2json)
-
 const RSS_FEEDS = [
   {
     nome: "G1",
@@ -39,7 +37,7 @@ const RSS_FEEDS = [
   }
 ];
 
-// Função para exibir notícias em uma seção
+// Função para exibir notícias
 function exibirNoticias(selecao, noticias, fonte) {
   const grid = document.getElementById(selecao);
   if (!grid) return;
@@ -76,7 +74,6 @@ async function buscarFeedRSS(feed) {
   }
 }
 
-// Ao carregar página
 document.addEventListener('DOMContentLoaded', function () {
   RSS_FEEDS.forEach(feed => buscarFeedRSS(feed));
 });
