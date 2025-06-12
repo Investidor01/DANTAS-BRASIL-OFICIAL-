@@ -1,4 +1,3 @@
-// script.js
 const RSS_FEEDS = [
   {
     nome: "G1",
@@ -37,27 +36,25 @@ const RSS_FEEDS = [
   }
 ];
 
-// Função para exibir notícias
-function exibirNoticias(selecao, noticias, fonte) {
+window.exibirNoticias = function(selecao, noticias, fonte) {
   const grid = document.getElementById(selecao);
   if (!grid) return;
   grid.innerHTML = noticias.map(noticia => `
-    <div class="news-card">
+    <div class="news-card${noticia.isUrgent ? ' urgent' : ''}">
+      ${noticia.isUrgent ? `<span class="urgent-badge"><i data-feather="alert-triangle"></i> URGENTE</span>` : ""}
       ${noticia.thumbnail ? `<img class="news-image" src="${noticia.thumbnail}" alt="Notícia">` : ""}
-      <div class="news-content">
-        <div class="news-title">${noticia.title}</div>
-        <div class="news-meta">
-          ${noticia.pubDate ? new Date(noticia.pubDate).toLocaleString('pt-BR') : ""}
-        </div>
-        <div class="news-summary">${noticia.description ? noticia.description.substring(0, 140) + '...' : ""}</div>
-        <a class="news-link" href="${noticia.link}" target="_blank" rel="noopener">Ler notícia</a>
-        <span class="news-source">Fonte: ${fonte}</span>
+      <div class="news-title">${noticia.title}</div>
+      <div class="news-meta">
+        ${noticia.pubDate ? new Date(noticia.pubDate).toLocaleString('pt-BR') : ""}
       </div>
+      <div class="news-summary">${noticia.description ? noticia.description.substring(0, 140) + '...' : ""}</div>
+      <a class="news-link" href="${noticia.link}" target="_blank" rel="noopener">Ler notícia</a>
+      <span class="news-source">Fonte: ${fonte}</span>
     </div>
   `).join('');
+  if(window.feather) feather.replace();
 }
 
-// Função para buscar e mostrar notícias de um feed
 async function buscarFeedRSS(feed) {
   const grid = document.getElementById(feed.secao);
   if (grid) grid.innerHTML = "<div class='loading'>Carregando notícias...</div>";
@@ -65,7 +62,7 @@ async function buscarFeedRSS(feed) {
     const res = await fetch(feed.url);
     const data = await res.json();
     if (data.items && data.items.length > 0) {
-      exibirNoticias(feed.secao, data.items.slice(0, 6), feed.nome);
+      window.exibirNoticias(feed.secao, data.items.slice(0, 8), feed.nome);
     } else {
       throw new Error("Nenhuma notícia encontrada");
     }
