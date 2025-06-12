@@ -61,21 +61,12 @@ body {
   margin: 0 auto;
   padding: 1.3em 1em 0.6em 1em;
 }
-.brand {
-  display: flex; align-items: center; gap: 0.7em;
-}
 .brand-title {
   font-family: 'Montserrat', Arial, sans-serif;
   font-size: 2em;
   font-weight: 800;
   letter-spacing: 0.01em;
   color: var(--header-text);
-}
-.favicon {
-  width: 32px; height: 32px;
-  border-radius: 7px;
-  background: #fff;
-  box-shadow: 0 2px 8px #1976d260;
 }
 .theme-toggle {
   background: none;
@@ -119,6 +110,70 @@ body {
 }
 #searchInput:focus { border: 1.5px solid var(--primary); outline: none;}
 
+/* MENU PROFISSIONAL PORTAIS */
+.portais-navbar {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.6em 0.7em 0.6em 0.7em;
+  margin: 0 auto 2em auto;
+  max-width: 1020px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.portais-navbar a {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.35em 1.1em;
+  border-radius: 0.7em;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text);
+  background: none;
+  transition: background .2s, color .2s;
+  font-size: 1em;
+  border: 2px solid transparent;
+}
+.portais-navbar a.g1 { color: var(--g1);}
+.portais-navbar a.uol { color: var(--uol);}
+.portais-navbar a.estadao { color: var(--estadao);}
+.portais-navbar a.folha { color: var(--folha);}
+.portais-navbar a.r7 { color: var(--r7);}
+.portais-navbar a.terra { color: var(--terra);}
+.portais-navbar a.cnnbr { color: var(--cnnbr);}
+.portais-navbar a.band { color: var(--band);}
+.portais-navbar a.metropoles { color: var(--metropoles);}
+.portais-navbar a.oglobo { color: var(--oglobo);}
+.portais-navbar a.gazeta { color: var(--gazeta);}
+.portais-navbar a.valor { color: var(--valor);}
+.portais-navbar a:hover, .portais-navbar a:focus {
+  background: var(--primary);
+  color: #fff !important;
+  border-color: var(--primary);
+}
+.dot {
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 50%;
+  display: inline-block;
+}
+.g1 { background: var(--g1);}
+.uol { background: var(--uol);}
+.estadao { background: var(--estadao);}
+.folha { background: var(--folha);}
+.r7 { background: var(--r7);}
+.terra { background: var(--terra);}
+.cnnbr { background: var(--cnnbr);}
+.band { background: var(--band);}
+.metropoles { background: var(--metropoles);}
+.oglobo { background: var(--oglobo);}
+.gazeta { background: var(--gazeta);}
+.valor { background: var(--valor);}
+
 .breaking-bar {
   display: none;
   align-items: center;
@@ -156,72 +211,6 @@ main {
   margin: 2em auto;
   padding: 0 1em;
 }
-
-.sidebar {
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 1.2em 1em 1.7em 1em;
-  margin-bottom: 2em;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8em;
-  justify-content: center;
-  align-items: center;
-}
-.sidebar h3 {
-  margin: 0 1em 0 0;
-  color: var(--primary);
-  font-size: 1.13em;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-.sidebar a {
-  display: flex;
-  align-items: center;
-  gap: 0.45em;
-  padding: 0.35em 1.1em;
-  border-radius: 0.7em;
-  text-decoration: none;
-  font-weight: 600;
-  color: var(--text);
-  background: none;
-  transition: background .2s, color .2s;
-}
-.sidebar a.g1 { color: var(--g1);}
-.sidebar a.uol { color: var(--uol);}
-.sidebar a.estadao { color: var(--estadao);}
-.sidebar a.folha { color: var(--folha);}
-.sidebar a.r7 { color: var(--r7);}
-.sidebar a.terra { color: var(--terra);}
-.sidebar a.cnnbr { color: var(--cnnbr);}
-.sidebar a.band { color: var(--band);}
-.sidebar a.metropoles { color: var(--metropoles);}
-.sidebar a.oglobo { color: var(--oglobo);}
-.sidebar a.gazeta { color: var(--gazeta);}
-.sidebar a.valor { color: var(--valor);}
-.sidebar a:hover, .sidebar a:focus {
-  background: var(--primary);
-  color: #fff !important;
-}
-.dot {
-  width: 0.9em;
-  height: 0.9em;
-  border-radius: 50%;
-  display: inline-block;
-}
-.g1 { background: var(--g1);}
-.uol { background: var(--uol);}
-.estadao { background: var(--estadao);}
-.folha { background: var(--folha);}
-.r7 { background: var(--r7);}
-.terra { background: var(--terra);}
-.cnnbr { background: var(--cnnbr);}
-.band { background: var(--band);}
-.metropoles { background: var(--metropoles);}
-.oglobo { background: var(--oglobo);}
-.gazeta { background: var(--gazeta);}
-.valor { background: var(--valor);}
 
 .news-section {
   margin-bottom: 2.8em;
@@ -359,8 +348,11 @@ footer {
 }
 footer a { color: #1976d2; text-decoration: underline; font-weight: 600;}
 
+@media (max-width: 900px) {
+  .portais-navbar { max-width: 100vw; }
+}
 @media (max-width: 700px) {
   main { padding: 0 0.3em; }
-  .sidebar { flex-direction: column; gap: 0.35em;}
+  .portais-navbar { flex-wrap: nowrap; gap: 0.35em; font-size: 0.99em; }
   .news-list { grid-template-columns: 1fr; }
   }
