@@ -51,9 +51,7 @@ async function buscarAltaBaixaAtivos() {
         }
       });
     }
-  } catch (e) {
-    // Em caso de erro, mantém ---
-  }
+  } catch (e) {}
 }
 
 // NOTÍCIAS REAIS (NewsAPI)
