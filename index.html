@@ -4,52 +4,53 @@
   <meta charset="UTF-8">
   <title>INFO DANTAS BRASIL - Notícias e Bolsa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Notícias do Brasil e do mundo, economia, política e cotações da bolsa de valores em tempo real.">
+  <meta name="description" content="Notícias do Brasil e do mundo, economia, política, cotações da bolsa de valores e mais.">
   <meta name="theme-color" content="#c00">
   <link rel="icon" href="https://cdn.cnn.com/cnn/.e1mo/img/4.0/logos/favicon-cnn.ico">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Roboto:400,700&display=swap">
   <style>
     :root {
       --vermelho: #c00;
-      --vermelho-claro: #e50914;
       --vermelho-dark: #900;
-      --cinza-bg: #181818;
-      --cinza-card: #222;
-      --branco: #fff;
-      --cinza-menu: #212121;
+      --cinza-bg: #f4f4f4;
+      --cinza-menu: #222;
+      --cinza-card: #fff;
       --cinza-borda: #e5e5e5;
-      --cinza-claro: #f5f5f5;
       --fonte-titulo: 'Montserrat', 'Arial Black', Arial, sans-serif;
       --fonte-texto: 'Roboto', Arial, sans-serif;
     }
-    html, body { margin: 0; padding: 0; background: var(--cinza-claro); color: #111; }
+    html, body { margin: 0; padding: 0; background: var(--cinza-bg); color: #111; }
     body { font-family: var(--fonte-texto); }
-    /* CNN HEADER */
+    /* Top bar CNN */
     .cnn-header-topbar {
       width: 100%;
       background: var(--vermelho);
-      color: var(--branco);
+      color: #fff;
       font-family: var(--fonte-titulo);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.96rem;
+      font-size: 0.98rem;
       min-height: 36px;
       letter-spacing: 1px;
     }
+    /* Main header */
     .cnn-header-main {
       width: 100%;
-      background: var(--branco);
-      border-bottom: 2px solid var(--vermelho);
+      background: var(--cinza-card);
+      border-bottom: 3px solid var(--vermelho);
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 2px 8px #0001;
+      z-index: 9;
+      position: sticky;
+      top: 0;
     }
     .cnn-header-main-inner {
       width: 100%;
-      max-width: 1200px;
-      min-height: 60px;
+      max-width: 1240px;
+      min-height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -58,20 +59,20 @@
     .cnn-logo {
       display: flex;
       align-items: center;
-      gap: 0.44em;
+      gap: 0.4em;
       text-decoration: none;
     }
     .cnn-logo-img {
-      width: 56px;
-      height: 56px;
-      background: var(--branco);
+      width: 54px;
+      height: 54px;
+      background: #fff;
       background-image: url('https://cdn.cnn.com/cnn/.e1mo/img/4.0/logos/logo-cnn.svg');
       background-repeat: no-repeat;
       background-size: 90% 90%;
       background-position: center;
-      border-radius: 9px;
+      border-radius: 7px;
       border: 2px solid var(--vermelho);
-      box-shadow: 0 1px 6px #c0040444;
+      box-shadow: 0 1px 7px #c0040444;
       display: inline-block;
     }
     .cnn-logo-title {
@@ -97,8 +98,8 @@
       font-family: var(--fonte-titulo);
       font-weight: 700;
       text-decoration: none;
-      font-size: 1.13em;
-      padding: 0.08em 0.7em 0.08em 0.7em;
+      font-size: 1.11em;
+      padding: 0.08em 0.7em;
       border-radius: 6px;
       transition: background .13s, color .13s;
       position: relative;
@@ -106,7 +107,7 @@
     }
     .cnn-nav-link:hover, .cnn-nav-link:focus {
       background: var(--vermelho);
-      color: var(--branco);
+      color: #fff;
     }
     .cnn-search {
       margin-left: 2.4em;
@@ -135,35 +136,26 @@
       transform: translateY(-50%);
       cursor: pointer;
     }
-    /* MOBILE NAV */
-    .cnn-menu-mobile-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--vermelho);
-      font-size: 2.25rem;
-      margin-left: 1em;
-      cursor: pointer;
-    }
+    .cnn-menu-mobile-btn { display: none; }
     @media (max-width: 950px) {
-      .cnn-header-main-inner { flex-direction: column; align-items: flex-start; gap: 0.8em; }
+      .cnn-header-main-inner { flex-direction: column; align-items: flex-start; gap: 0.7em; }
       .cnn-nav { margin-left: 0; }
       .cnn-search { margin-left: 0; }
       .cnn-logo-title { font-size: 1.3rem; margin-left: 4px;}
       .cnn-logo-img { width: 40px; height: 40px;}
     }
     @media (max-width: 750px) {
-      .cnn-nav { display: none; }
-      .cnn-search { display: none; }
-      .cnn-menu-mobile-btn { display: block; }
+      .cnn-nav, .cnn-search { display: none; }
+      .cnn-header-main-inner { flex-direction: row; }
+      .cnn-menu-mobile-btn { display: block; background: none; border: none; color: var(--vermelho); font-size: 2.25rem; margin-left: 1em; cursor: pointer;}
     }
     .cnn-nav-mobile {
       display: none;
       position: fixed;
-      top: 98px;
+      top: 100px;
       left: 0;
       width: 100vw;
-      background: var(--cinza-card);
+      background: var(--cinza-menu);
       box-shadow: 0 14px 40px #000a;
       z-index: 1002;
       padding: 1.2em 0 2em 0;
@@ -179,7 +171,7 @@
       gap: 0.5em;
     }
     .cnn-nav-mobile-link {
-      color: var(--branco);
+      color: #fff;
       text-decoration: none;
       font-family: var(--fonte-titulo);
       font-size: 1.11em;
@@ -192,13 +184,13 @@
       margin: 0 auto;
       width: 100%;
     }
-    .cnn-nav-mobile-link:hover, .cnn-nav-mobile-link:focus { background: var(--vermelho); color: var(--branco);}
-    /* LINHA ATIVOS - CNN STYLE */
+    .cnn-nav-mobile-link:hover, .cnn-nav-mobile-link:focus { background: var(--vermelho); color: #fff;}
+    /* Ativos CNN style */
     .linha-alta-baixa {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0.7em auto 1.3em auto;
-      background: #f7f7f7;
+      background: #fafafa;
       border-radius: 9px;
       box-shadow: 0 2px 10px #c0040444;
       padding: .7em 1.5em;
@@ -212,7 +204,7 @@
       gap: 1.5em;
     }
     .linha-alta-baixa .ativo-bloco {
-      background: var(--branco);
+      background: var(--cinza-card);
       border-radius: 7px;
       box-shadow: 0 1px 4px #c0040422;
       padding: 0.36em 1em 0.36em 1em;
@@ -224,7 +216,7 @@
       border: 1.2px solid #eee;
     }
     .linha-alta-baixa .ativo-bloco strong {
-      font-size: 1.02em;
+      font-size: 1.01em;
       color: var(--vermelho);
       margin-bottom: 2px;
       letter-spacing: 0.5px;
@@ -244,9 +236,9 @@
       padding: 0 4px;
       border-radius: 4px;
     }
-    /* GRID DE NOTÍCIAS CNN */
+    /* Seções de notícias - CNN grid */
     .news-section {
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 2em auto 0 auto;
       padding: 0 2vw;
     }
@@ -254,11 +246,16 @@
       color: var(--vermelho);
       font-family: var(--fonte-titulo);
       font-weight: 900;
-      font-size: 1.55em;
+      font-size: 1.37em;
       letter-spacing: 1px;
       margin-top: 0.6em;
       margin-bottom: 1.1em;
       text-align: left;
+      border-left: 8px solid var(--vermelho);
+      padding-left: 0.7em;
+      background: #fafafa;
+      border-radius: 5px 0 0 5px;
+      box-shadow: 0 3px 12px #c004040c;
     }
     .news-grid {
       display: grid;
@@ -267,9 +264,9 @@
       margin-bottom: 2em;
     }
     .news-card {
-      background: var(--branco);
+      background: var(--cinza-card);
       border-radius: 12px;
-      box-shadow: 0 2px 18px #0002;
+      box-shadow: 0 2px 16px #0001;
       display: flex;
       flex-direction: column;
       border: 1.5px solid var(--cinza-borda);
@@ -285,7 +282,7 @@
     }
     .news-card .news-image {
       width: 100%;
-      height: 180px;
+      height: 190px;
       object-fit: cover;
       background: #ccc;
       display: block;
@@ -347,7 +344,7 @@
     .news-card .news-link {
       display: inline-block;
       background: var(--vermelho);
-      color: var(--branco);
+      color: #fff;
       text-decoration: none;
       font-weight: 700;
       font-family: var(--fonte-titulo);
@@ -363,7 +360,7 @@
     /* Footer CNN style */
     .cnn-footer {
       background: var(--vermelho);
-      color: var(--branco);
+      color: #fff;
       font-family: var(--fonte-titulo);
       font-size: 1.03em;
       padding: 2.1em 0 1em 0;
@@ -376,8 +373,19 @@
     .cnn-footer .footer-social {margin-top:1em;}
     .cnn-footer .footer-social a { color: #fff; margin: 0 0.5em; text-decoration: none; font-weight: 700;}
     .cnn-footer .footer-social a:hover { text-decoration: underline; }
-    /* Outros */
     .loading {color: var(--vermelho); font-weight: 700; font-family: var(--fonte-titulo);}
+    @media (max-width: 950px) {
+      .news-grid {grid-template-columns:1fr;}
+      .cnn-header-main-inner {flex-direction: column; align-items:stretch;}
+      .cnn-logo-title {margin:0 auto;}
+    }
+    @media (max-width: 700px) {
+      h2 {font-size:1.13em;}
+      .news-section, section {padding:0 1vw;}
+      .linha-alta-baixa {font-size:.97rem;flex-direction:column;gap:0.7em;}
+      .linha-alta-baixa .ativo-bloco {width:100%;min-width:unset;}
+      .news-card .news-image {height:120px;}
+    }
   </style>
 </head>
 <body>
@@ -398,6 +406,7 @@
         <a class="cnn-nav-link" href="#politica">Política</a>
         <a class="cnn-nav-link" href="#economia">Economia</a>
         <a class="cnn-nav-link" href="#mundo">Mundo</a>
+        <a class="cnn-nav-link" href="#tecnologia">Tecnologia</a>
         <a class="cnn-nav-link" href="#sobre">Sobre</a>
         <a class="cnn-nav-link" href="#contato">Contato</a>
       </nav>
@@ -415,6 +424,7 @@
       <li><a class="cnn-nav-mobile-link" href="#politica">Política</a></li>
       <li><a class="cnn-nav-mobile-link" href="#economia">Economia</a></li>
       <li><a class="cnn-nav-mobile-link" href="#mundo">Mundo</a></li>
+      <li><a class="cnn-nav-mobile-link" href="#tecnologia">Tecnologia</a></li>
       <li><a class="cnn-nav-mobile-link" href="#sobre">Sobre</a></li>
       <li><a class="cnn-nav-mobile-link" href="#contato">Contato</a></li>
     </ul>
@@ -422,10 +432,34 @@
   <!-- Ativos em linha estilo CNN -->
   <div class="linha-alta-baixa" id="linha-alta-baixa"></div>
   <main>
-    <section class="news-section">
-      <h2>Últimas Notícias de Economia e Negócios</h2>
-      <div class="news-grid" id="news-grid">
-        <div class="loading">Carregando notícias reais...</div>
+    <section class="news-section" id="principais">
+      <h2>Principais Notícias</h2>
+      <div class="news-grid" id="news-principais">
+        <div class="loading">Carregando...</div>
+      </div>
+    </section>
+    <section class="news-section" id="politica">
+      <h2>Política</h2>
+      <div class="news-grid" id="news-politica">
+        <div class="loading">Carregando...</div>
+      </div>
+    </section>
+    <section class="news-section" id="economia">
+      <h2>Economia</h2>
+      <div class="news-grid" id="news-economia">
+        <div class="loading">Carregando...</div>
+      </div>
+    </section>
+    <section class="news-section" id="mundo">
+      <h2>Mundo</h2>
+      <div class="news-grid" id="news-mundo">
+        <div class="loading">Carregando...</div>
+      </div>
+    </section>
+    <section class="news-section" id="tecnologia">
+      <h2>Tecnologia</h2>
+      <div class="news-grid" id="news-tecnologia">
+        <div class="loading">Carregando...</div>
       </div>
     </section>
   </main>
@@ -463,4 +497,4 @@
     });
   </script>
 </body>
-  </html>
+        </html>
