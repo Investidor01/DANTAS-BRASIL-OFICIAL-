@@ -5,329 +5,22 @@
   <title>INFO DANTAS BRASIL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="INFO DANTAS BRASIL - Agregador de notícias e breaking news do Brasil">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta name="theme-color" content="#1976d2"/>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;700;600;500;400&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <script src="https://unpkg.com/feather-icons"></script>
-  <style>
-    :root {
-      --g1: #c4170c;
-      --uol: #ffcb05;
-      --estadao: #005ca9;
-      --folha: #195b8a;
-      --r7: #5ab0e6;
-      --terra: #f4841b;
-      --cnn: #c30000;
-      --break: #d7263d;
-      --break-bg: linear-gradient(90deg, #d7263d 80%, #fff200 100%);
-      --main-radius: 24px;
-      --card-radius: 18px;
-      --sidebar-bg: rgba(33,38,59,0.88);
-      --sidebar-width: 210px;
-      --max-width: 1320px;
-      --shadow-card: 0 4px 22px #0002;
-      --shadow-main: 0 4px 36px #1976d219;
-      --shadow-section: 0 2px 24px #0001;
-      --transition: .18s cubic-bezier(.65,.05,.36,1);
-      --section-padding: 2.2em 1.3em 1.4em 1.3em;
-      --light-bg: #f9f9fc;
-      --header-grad: linear-gradient(-45deg, #1976d2, #43a047, #ffcb05, #c4170c);
-      --footer-bg: #232a36;
-      --footer-color: #bdbdbd;
-      --footer-link: #ffcb05;
-      --destaques-bg: linear-gradient(120deg, #1976d2 60%, #43a047 100%);
-    }
-    @media (prefers-color-scheme: dark) {
-      html, body { background: #14161e; color: #e6e6e6; }
-      main { background: #1a1c25; }
-      .news-section, .breaking-section { background: #181c23; }
-      .news-card { background: linear-gradient(135deg, #22263b 68%, #181c23 100%); }
-      header { background: linear-gradient(90deg, #181c23 0%, #232a36 100%);}
-      nav.sidebar { background: rgba(28,30,38,0.97); }
-      .news-title { color: #7dccff; }
-      .news-link { color: #ffcb05; }
-      .news-link:hover { color: #ff5f7e; }
-      .news-source { color: #ffcb05; }
-      footer { background: #181c23; color: #aaa; }
-      .breaking-bar { background: var(--break-bg);}
-      .breaking-section { background: #20161c; }
-      .destaques-manchetes {background: linear-gradient(120deg, #14161e 60%, #232a36 100%);}
-      .destaques-manchetes a {color: #ffcb05;}
-    }
-    html, body { height: 100%; margin: 0; }
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      background: linear-gradient(135deg, #e7eaf6 0%, #f6f6f6 100%);
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-      transition: background 0.7s;
-      box-sizing: border-box;
-      color: #232a36;
-    }
-    /* Breaking News Bar */
-    .breaking-bar {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; z-index: 9999;
-      background: var(--break-bg);
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.22em;
-      padding: .55em 1em;
-      box-shadow: 0 4px 18px #d7263d22;
-      border-bottom: 3.5px solid #fff200;
-      display: flex;
-      align-items: center;
-      gap: .9em;
-      letter-spacing: .04em;
-    }
-    .breaking-icon {
-      font-size: 1.5em;
-      animation: shake .8s infinite alternate;
-      margin-right: .3em;
-      vertical-align: middle;
-    }
-    @keyframes shake { 0%{transform:rotate(-7deg);} 100%{transform:rotate(7deg);} }
-    .breaking-marquee {
-      flex: 1;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .breaking-marquee span {
-      display: inline-block;
-      padding-left: 100vw;
-      animation: marquee 20s linear infinite;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(0);}
-      100% { transform: translateX(-100%);}
-    }
-    header {
-      background: var(--header-grad);
-      background-size: 400% 400%;
-      animation: gradientBG 16s ease infinite;
-      color: #fff;
-      padding: 5em 2em 2.7em 2em;
-      text-align: center;
-      box-shadow: 0 2px 16px #0001;
-      position: relative;
-      z-index: 2;
-    }
-    @keyframes gradientBG {
-      0%,100% {background-position:0% 50%;}
-      50% {background-position:100% 50%;}
-    }
-    header h1 {
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-size: 2.8em;
-      font-weight: 800;
-      margin: 0 0 .19em 0;
-      letter-spacing: -2.5px;
-      text-shadow: 0 3px 12px #0003;
-      line-height: 1.1;
-      text-transform: uppercase;
-      letter-spacing: .02em;
-    }
-    header p {
-      font-size: 1.19em;
-      font-weight: 600;
-      margin: 0;
-      opacity: .97;
-      letter-spacing: .3px;
-      text-shadow: 0 1px 8px #0002;
-      text-transform: uppercase;
-    }
-    /* DESTAQUES DE MANCHETES */
-    .destaques-manchetes {
-      background: var(--destaques-bg);
-      padding: 1.1em 2em 1.3em 2em;
-      border-radius: 0 0 28px 28px;
-      margin-top: -2.9em;
-      margin-bottom: 2.1em;
-      box-shadow: 0 4px 24px #1976d226;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 5;
-      position: relative;
-    }
-    .destaques-manchetes h2 {
-      color: #fff;
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-size: 1.29em;
-      font-weight: 800;
-      margin: 0 0 .7em 0;
-      letter-spacing: .02em;
-      text-shadow: 0 2px 7px #0002;
-      text-transform: uppercase;
-    }
-    .destaques-lista {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.2em 2em;
-      justify-content: center;
-      align-items: stretch;
-      width: 100%;
-      max-width: 1080px;
-      margin: 0 auto;
-    }
-    .destaque-link {
-      background: #fff;
-      color: #1976d2;
-      font-weight: 700;
-      font-family: 'Montserrat', Arial, sans-serif;
-      border-radius: 12px;
-      padding: .77em 1.3em;
-      text-decoration: none;
-      box-shadow: 0 3px 18px #1976d232;
-      font-size: 1.08em;
-      display: flex;
-      align-items: center;
-      gap: .57em;
-      transition: background .16s, color .16s, transform .15s;
-      border: 2px solid transparent;
-      position: relative;
-    }
-    .destaque-link:hover, .destaque-link:focus {
-      background: #1976d2;
-      color: #fff;
-      border-color: #fff200;
-      transform: translateY(-2px) scale(1.07);
-      box-shadow: 0 7px 26px #1976d230;
-    }
-    .destaque-link .destaque-ico {
-      font-size: 1.2em;
-      color: #43a047;
-    }
-    @media (max-width: 900px) {
-      .destaques-manchetes {padding: 1em 0.7em 1.1em 0.7em;}
-      .destaques-lista {gap: 0.7em 1.1em;}
-    }
-    @media (max-width: 700px) {
-      header h1 { font-size: 1.2em; }
-      .destaques-lista {flex-direction: column; align-items: stretch;}
-      .destaque-link {justify-content: center;}
-      .destaques-manchetes {padding: 0.7em 0.3em 0.9em 0.3em;}
-    }
-    .container-flex {
-      display: flex;
-      align-items: flex-start;
-      max-width: var(--max-width);
-      margin: -2.7em auto 0 auto;
-      min-height: 78vh;
-      box-sizing: border-box;
-      justify-content: center;
-    }
-    nav.sidebar {
-      background: var(--sidebar-bg);
-      color: #fff;
-      width: var(--sidebar-width);
-      min-height: 70vh;
-      border-radius: 20px 0 0 20px;
-      padding: 2.6em 1em 2.5em 1em;
-      box-shadow: 0 4px 24px #0002;
-      position: sticky;
-      top: 2em;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-      height: fit-content;
-      margin-right: 1.7em;
-      backdrop-filter: blur(16px);
-      animation: fadeInSidebar .8s;
-      border: 1px solid #fff3;
-      transition: background var(--transition);
-      align-self: flex-start;
-    }
-    nav.sidebar a {
-      display: flex;
-      align-items: center;
-      gap: .8em;
-      font-weight: 700;
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-size: 1.12em;
-      color: #fff;
-      text-decoration: none;
-      padding: 0.59em 1em 0.59em 0.95em;
-      border-radius: 10px;
-      margin-bottom: 0.3em;
-      transition: background .18s, color .18s, font-size .14s;
-      position: relative;
-      letter-spacing: 0.2px;
-      border: 2px solid transparent;
-      justify-content: flex-start;
-    }
-    nav.sidebar a.active, nav.sidebar a:hover {
-      background: #fff2;
-      color: #ffcb05;
-      font-weight: 900;
-      letter-spacing: 1.3px;
-      font-size: 1.15em;
-      border-color: #ffcb05;
-    }
-    nav.sidebar .icon-dot {
-      width: 1.25em; height: 1.25em; border-radius: 50%; display: inline-block; flex-shrink: 0;
-      border: 2.2px solid #fff6;
-    }
-    .icon-g1 { background: var(--g1);}
-    .icon-uol { background: var(--uol);}
-    .icon-estadao { background: var(--estadao);}
-    .icon-folha { background: var(--folha);}
-    .icon-r7 { background: var(--r7);}
-    .icon-terra { background: var(--terra);}
-    .icon-cnnbr { background: var(--cnn);}
-    main {
-      flex: 1;
-      background: #fff;
-      border-radius: 0 var(--main-radius) var(--main-radius) var(--main-radius);
-      box-shadow: var(--shadow-main);
-      padding: 2.7em 1.7em 2.1em 1.7em;
-      position: relative;
-      z-index: 2;
-      animation: fadeInMain 1.2s;
-      transition: background 0.5s;
-      box-sizing: border-box;
-      min-width: 0;
-    }
-    @media (max-width: 950px) {
-      .container-flex { flex-direction: column; }
-      nav.sidebar {
-        width: 100vw;
-        min-width: unset;
-        max-width: 100vw;
-        flex-direction: row;
-        justify-content: space-around;
-        border-radius: 0 0 16px 16px;
-        margin-bottom: 2.2em;
-        margin-right: 0;
-        position: static;
-        top: unset;
-        box-shadow: 0 2px 18px #0002;
-        padding: 1.2em 0.1em;
-        height: auto;
-        border: none;
-        backdrop-filter: blur(3px);
-        align-self: stretch;
-      }
-      nav.sidebar h3 { display: none; }
-    }
-    @keyframes fadeInSidebar {
-      from { opacity: 0; transform: translateX(-50px);}
-      to { opacity: 1; transform: translateX(0);}
-    }
-    @keyframes fadeInMain {
-      from { opacity: 0; transform: translateY(40px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    /* News sections, news-card, urgent badge, footer, etc: igual ao exemplo anterior */
-    /* ...mantenha o restante do CSS igual ao exemplo anterior para as notícias... */
-    .news-section, .breaking-section, .news-card, .urgent-badge, .footer-social, footer { /* ... */ }
-    /* Espaço para barra breaking */
-    body { padding-top: 54px;}
-    @media (max-width: 700px) { body { padding-top: 80px; } }
-  </style>
+  <!-- Google Analytics exemplo -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
 </head>
 <body>
-  <!-- Breaking News Bar (preenchido via JS) -->
   <div class="breaking-bar" id="breakingBar" style="display:none;">
     <span class="breaking-icon"><i data-feather="alert-triangle"></i></span>
     <div class="breaking-marquee"><span id="breakingMarquee"></span></div>
@@ -336,16 +29,9 @@
     <h1><i data-feather="globe"></i> INFO DANTAS BRASIL</h1>
     <p>O portal de notícias e manchetes em tempo real</p>
   </header>
-  <!-- DESTAQUES DE MANCHETES -->
   <section class="destaques-manchetes" id="destaques-manchetes">
     <h2>DESTAQUES DE HOJE</h2>
-    <div class="destaques-lista" id="destaques-lista">
-      <!-- Destaques inseridos via JS -->
-      <!-- Exemplo estático para fallback/carga inicial:
-      <a class="destaque-link" href="https://g1.globo.com/" target="_blank"><span class="destaque-ico"><i data-feather="zap"></i></span> Nova medida econômica anunciada</a>
-      <a class="destaque-link" href="https://www.uol.com.br/" target="_blank"><span class="destaque-ico"><i data-feather="star"></i></span> Destaque: Seleção brasileira vence amistoso</a>
-      -->
-    </div>
+    <div class="destaques-lista" id="destaques-lista"></div>
   </section>
   <div class="container-flex">
     <nav class="sidebar">
@@ -437,13 +123,11 @@
       "FATAL", "PERIGO", "RISCO", "CRIME", "PRISÃO", "ATENTADO", "TIROTEIO", "PANDEMIA", "COVID", "VARÍOLA", "EPIDEMIA", "VÍRUS"
     ];
 
-    // Intercepta a função exibirNoticias do script.js e detecta notícias urgentes + destaques
     (function() {
       let origExibirNoticias = window.exibirNoticias;
       let breakingNews = [];
       let destaques = [];
       window.exibirNoticias = function(selecao, noticias, fonte) {
-        // Captura breaking e destaca as primeiras manchetes de cada portal
         const breaking = [];
         const normal = [];
         noticias.forEach((noticia, idx) => {
@@ -522,4 +206,16 @@
             marquee.innerHTML = breakingNews
               .map(
                 n =>
-            
+                  `<a href="${n.link}" target="_blank" style="color:#fff;text-decoration:underline;margin-right:2.5em;">${n.title}</a>`
+              )
+              .join(" — ");
+          } else {
+            document.getElementById("breakingBar").style.display = "none";
+            document.getElementById("breaking").style.display = "none";
+          }
+        }, 2200);
+      });
+    })();
+  </script>
+</body>
+  </html>
