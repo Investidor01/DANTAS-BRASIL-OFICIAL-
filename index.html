@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>INFO DANTAS BRASIL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="INFO DANTAS BRASIL - Agregador de notícias dos principais portais do Brasil">
+  <meta name="description" content="INFO DANTAS BRASIL - Agregador de notícias dos principais portais do Brasil em tempo real">
   <link rel="icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;700;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -15,10 +15,29 @@
   <meta property="og:url" content="https://infodantasbrasil.com/">
 </head>
 <body>
-  <header>
-    <h1>INFO DANTAS BRASIL</h1>
-    <p>O portal de notícias e manchetes em tempo real</p>
+  <!-- Topo Fixo Moderno -->
+  <header class="main-header">
+    <div class="header-top">
+      <div class="brand">
+        <img src="favicon.ico" alt="INFO DANTAS BRASIL" class="favicon">
+        <span class="brand-title">INFO DANTAS BRASIL</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Alternar tema" aria-label="Alternar tema">
+        <span class="toggle-icon" id="themeIcon">🌙</span>
+      </button>
+    </div>
+    <div class="header-bottom">
+      <p>
+        Notícias em tempo real dos principais portais do Brasil.<br>
+        <b>Atualize-se com os fatos mais importantes do país!</b>
+      </p>
+      <form id="searchForm" autocomplete="off">
+        <input type="search" id="searchInput" placeholder="🔎 Buscar notícia, portal ou palavra-chave..." aria-label="Buscar notícias">
+      </form>
+    </div>
   </header>
+  <!-- Breaking News Bar -->
+  <div id="breakingBar" class="breaking-bar" style="display:none;"></div>
   <main>
     <nav class="sidebar">
       <h3>Portais</h3>
@@ -29,7 +48,16 @@
       <a href="#r7" class="r7">R7</a>
       <a href="#terra" class="terra">Terra</a>
       <a href="#cnnbr" class="cnnbr">CNN Brasil</a>
+      <a href="#band" class="band">Band</a>
+      <a href="#metropoles" class="metropoles">Metrópoles</a>
+      <a href="#oglobo" class="oglobo">O Globo</a>
+      <a href="#gazeta" class="gazeta">Gazeta do Povo</a>
+      <a href="#valor" class="valor">Valor Econômico</a>
     </nav>
+    <section class="news-section breaking-section" id="breaking">
+      <h2><span class="dot g1"></span>🔴 Breaking News</h2>
+      <div class="news-list" id="news-breaking"></div>
+    </section>
     <section class="news-section" id="g1">
       <h2><span class="dot g1"></span>G1</h2>
       <div class="news-list" id="news-g1"></div>
@@ -58,10 +86,30 @@
       <h2><span class="dot cnnbr"></span>CNN Brasil</h2>
       <div class="news-list" id="news-cnnbr"></div>
     </section>
+    <section class="news-section" id="band">
+      <h2><span class="dot band"></span>Band</h2>
+      <div class="news-list" id="news-band"></div>
+    </section>
+    <section class="news-section" id="metropoles">
+      <h2><span class="dot metropoles"></span>Metrópoles</h2>
+      <div class="news-list" id="news-metropoles"></div>
+    </section>
+    <section class="news-section" id="oglobo">
+      <h2><span class="dot oglobo"></span>O Globo</h2>
+      <div class="news-list" id="news-oglobo"></div>
+    </section>
+    <section class="news-section" id="gazeta">
+      <h2><span class="dot gazeta"></span>Gazeta do Povo</h2>
+      <div class="news-list" id="news-gazeta"></div>
+    </section>
+    <section class="news-section" id="valor">
+      <h2><span class="dot valor"></span>Valor Econômico</h2>
+      <div class="news-list" id="news-valor"></div>
+    </section>
   </main>
   <footer>
     &copy; 2025 — INFO DANTAS BRASIL | Criado por <a href="https://github.com/Investidor01" target="_blank">Investidor01</a>
   </footer>
   <script src="script.js"></script>
 </body>
-            </html>
+      </html>
