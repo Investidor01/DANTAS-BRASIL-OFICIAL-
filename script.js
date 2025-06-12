@@ -54,43 +54,63 @@ async function buscarAltaBaixaAtivos() {
   } catch (e) {}
 }
 
-// NOTÍCIAS REAIS (NewsAPI)
+// NOTÍCIAS REAIS - NewsAPI E DEMAIS SITES
 const NEWSAPI_KEY = '92221e88091bab959857e1a937a68fc9';
-const newsGrid = document.getElementById('news-grid');
 
-async function carregarNoticiasReais() {
-  newsGrid.innerHTML = `<div class="loading">Carregando notícias reais...</div>`;
-  try {
-    const url = `https://newsapi.org/v2/top-headlines?country=br&category=business&pageSize=12&apiKey=${NEWSAPI_KEY}`;
-    const res = await fetch(url);
-    const data = await res.json();
+// Mapeamento de seções e categorias
+const sections = [
+  {id: 'news-principais',   query: {country: 'br', pageSize: 8},           category: null}, // Principais
+  {id: 'news-politica',     query: {country: 'br', category: 'politics', pageSize: 6}, category: 'politics'},
+  {id: 'news-economia',     query: {country: 'br', category: 'business', pageSize: 6}, category: 'business'},
+  {id: 'news-mundo',        query: {country: 'us', pageSize: 6},           category: null},
+  {id: 'news-tecnologia',   query: {country: 'br', category: 'technology', pageSize: 6}, category: 'technology'},
+];
 
-    if (data.articles && data.articles.length > 0) {
-      newsGrid.innerHTML = data.articles.map((noticia) => `
-        <div class="news-card">
-          ${noticia.urlToImage ? `<img class="news-image" src="${noticia.urlToImage}" alt="Imagem da notícia">` : `<div class="news-image" style="background:#ccc"></div>`}
-          <div class="news-content">
-            <div class="news-title">${noticia.title ? noticia.title : ""}</div>
-            <div class="news-meta">
-              ${noticia.publishedAt ? new Date(noticia.publishedAt).toLocaleDateString('pt-BR') : ""}
-              ${noticia.author ? " &bull; " + noticia.author.replace(/[^\wÀ-ÿ0-9.,:;!?'"()\-–—/\s]/gi, "") : ""}
+// Helper para montar URL da NewsAPI
+function buildNewsAPIUrl(query) {
+  let url = `https://newsapi.org/v2/top-headlines?apiKey=${NEWSAPI_KEY}`;
+  if (query.country) url += `&country=${query.country}`;
+  if (query.category) url += `&category=${query.category}`;
+  if (query.pageSize) url += `&pageSize=${query.pageSize}`;
+  return url;
+}
+
+async function carregarSecaoNoticias(sections) {
+  for (const sec of sections) {
+    const grid = document.getElementById(sec.id);
+    if (!grid) continue;
+    grid.innerHTML = `<div class="loading">Carregando notícias...</div>`;
+    try {
+      const url = buildNewsAPIUrl(sec.query);
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.articles && data.articles.length > 0) {
+        grid.innerHTML = data.articles.map((noticia) => `
+          <div class="news-card">
+            ${noticia.urlToImage ? `<img class="news-image" src="${noticia.urlToImage}" alt="Imagem da notícia">` : `<div class="news-image" style="background:#ccc"></div>`}
+            <div class="news-content">
+              <div class="news-title">${noticia.title ? noticia.title : ""}</div>
+              <div class="news-meta">
+                ${noticia.publishedAt ? new Date(noticia.publishedAt).toLocaleDateString('pt-BR') : ""}
+                ${noticia.author ? " &bull; " + noticia.author.replace(/[^\wÀ-ÿ0-9.,:;!?'"()\-–—/\s]/gi, "") : ""}
+              </div>
+              <div class="news-summary">${noticia.description ? noticia.description : ""}</div>
+              <span class="news-source">Fonte: ${noticia.source && noticia.source.name ? noticia.source.name : "Desconhecida"}</span>
+              <a class="news-link" href="${noticia.url}" target="_blank" rel="noopener">Ler completa</a>
             </div>
-            <div class="news-summary">${noticia.description ? noticia.description : ""}</div>
-            <span class="news-source">Fonte: ${noticia.source && noticia.source.name ? noticia.source.name : "Desconhecida"}</span>
-            <a class="news-link" href="${noticia.url}" target="_blank" rel="noopener">Ler completa</a>
           </div>
-        </div>
-      `).join('');
-    } else {
-      newsGrid.innerHTML = "<p style='color:#c00'>Nenhuma notícia encontrada no momento.</p>";
+        `).join('');
+      } else {
+        grid.innerHTML = `<p style='color:#c00'>Nenhuma notícia encontrada no momento.</p>`;
+      }
+    } catch (e) {
+      grid.innerHTML = `<p style='color:#c00'>Erro ao carregar notícias.</p>`;
     }
-  } catch (e) {
-    newsGrid.innerHTML = "<p style='color:#c00'>Erro ao carregar notícias reais.</p>";
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   criarLinhaAltaBaixaAtivos();
   buscarAltaBaixaAtivos();
-  carregarNoticiasReais();
+  carregarSecaoNoticias(sections);
 });
