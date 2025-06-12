@@ -5,61 +5,159 @@
   <title>INFO DANTAS BRASIL - Portal de Notícias</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Portal de notícias brasileiras e internacionais, bolsa de valores, investimentos e economia.">
-  <meta name="theme-color" content="#c00">
-  <!-- Favicon personalizado -->
-  <link rel="icon" type="image/png" href="images/logo-dantas.png">
+  <meta name="theme-color" content="#000">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23000%22/></svg>">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Roboto:400,700&display=swap">
   <link rel="stylesheet" href="styles.css">
   <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      width: 100%;
+      background: #101010;
+      box-shadow: 0 2px 10px #0008;
+      padding: 0;
+    }
+    .header-flex {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.7em 2vw 0.4em 2vw;
+      gap: 1em;
+    }
+    .logo-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #c00;
+      background: #fff;
+      border-radius: 10px;
+      padding: 0.17em 1em 0.17em 1em;
+      box-shadow: 0 2px 8px #c0040444;
+      margin: 0;
+      text-shadow: none;
+      display: block;
+      white-space: nowrap;
+    }
+    .menu {
+      position: relative;
+      z-index: 20;
+    }
+    .menu-toggle {
+      background: #c00;
+      border: none;
+      border-radius: 7px;
+      padding: 0.43em 1.1em;
+      font-size: 1.2rem;
+      color: #fff;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      box-shadow: 0 2px 8px #c0040444;
+      margin-left: 0.7em;
+      transition: background .2s;
+      letter-spacing: 1px;
+    }
+    .menu-toggle:hover, .menu-toggle:focus { background: #900; }
+    .menu-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #181818;
+      min-width: 200px;
+      border-radius: 9px;
+      box-shadow: 0 4px 24px #000b, 0 1px 4px #c0040411;
+      margin-top: 0.3em;
+      padding: 0.5em 0;
+      z-index: 99;
+      animation: fadeMenu .18s;
+    }
+    @keyframes fadeMenu {
+      from { opacity:0; transform: translateY(10px);}
+      to   { opacity:1; transform: translateY(0);}
+    }
+    .menu-content ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .menu-content li {
+      margin: 0;
+      border-bottom: 1px solid #222;
+    }
+    .menu-content li:last-child { border-bottom: none; }
+    .menu-content a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      padding: 0.9em 1.4em;
+      border-radius: 6px;
+      transition: background .18s, color .18s;
+    }
+    .menu-content a:hover, .menu-content a:focus {
+      background: #c00;
+      color: #fff;
+      outline: none;
+    }
+    .menu.open .menu-content { display: block; }
     .linha-alta-baixa {
       width: 100%;
-      max-width: 900px;
-      margin: 0.7em auto 0.6em auto;
-      background: #ffeaea;
+      max-width: 1100px;
+      margin: 0.2em auto 0.7em auto;
+      background: #181818;
       border-radius: 12px;
       box-shadow: 0 2px 10px #c0040444;
-      padding: 0.3em 1em;
+      padding: .3em 1em;
       font-family: 'Roboto', Arial, sans-serif;
       font-size: 1.13rem;
       font-weight: 700;
       letter-spacing: 1px;
-      color: #b00;
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 1.5em;
+      gap: 1.2em;
+      margin-bottom: 1.5em;
     }
     .linha-alta-baixa .ativo-bloco {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      background: #fff;
+      background: #111;
       box-shadow: 0 1px 8px #c0040422;
       border-radius: 8px;
-      padding: 0.4em 1em 0.4em 1em;
+      padding: 0.33em 1em 0.33em 1em;
       margin: 0.2em 0.5em;
       min-width: 170px;
     }
     .linha-alta-baixa .ativo-bloco strong {
-      font-size: 1.02em;
-      color: #c00;
+      font-size: 1.05em;
+      color: #fff;
       margin-bottom: 2px;
       letter-spacing: 0.5px;
     }
-    .linha-alta-baixa span {
-      display: flex;
-      align-items: center;
-      gap: 0.18em;
-    }
     .linha-alta-baixa .alta {
-      color: #065e00;
+      color: #05dd05;
     }
     .linha-alta-baixa .baixa {
-      color: #c00;
+      color: #f44336;
     }
     .linha-alta-baixa .preco-atual {
-      color: #222;
+      color: #fff;
     }
     .linha-alta-baixa .variacao {
       font-weight: 700;
@@ -68,94 +166,172 @@
       margin-left: 2px;
     }
     .linha-alta-baixa .variacao.positivo {
-      background: #d3ffd3;
-      color: #065e00;
+      background: #1a3b1a;
+      color: #0f0;
     }
     .linha-alta-baixa .variacao.negativo {
-      background: #ffd3d3;
-      color: #c00;
+      background: #3b1a1a;
+      color: #f44336;
     }
-    @media (max-width: 900px) {
-      .linha-alta-baixa {
-        font-size: 0.98rem;
-        flex-direction: column;
-        gap: 0.8em;
-        padding: 0.5em 0.5em;
-      }
-      .linha-alta-baixa .ativo-bloco {
-        min-width: unset;
-        width: 100%;
-        align-items: flex-start;
-      }
+    .news-grid, .investimentos-news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 2em 2em;
+      margin: 2em 0;
+    }
+    .news-card {
+      background: #161616;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px #0007;
+      padding: 1.3em 1.3em 1.1em 1.3em;
+      display: flex;
+      flex-direction: column;
+      transition: transform .18s, box-shadow .18s;
+      border: 1.7px solid #232323;
+      position: relative;
+    }
+    .news-card:hover { 
+      transform: translateY(-4px) scale(1.01); 
+      box-shadow: 0 8px 36px #c0040422, 0 2px 14px #000b;
+      border-color: #c00;
+    }
+    .news-card .news-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      color: #fff;
+      font-size: 1.13em;
+      margin-bottom: 0.4em;
+      letter-spacing: 0.5px;
+    }
+    .news-card .news-meta {
+      font-size: .94em;
+      color: #c00;
+      margin-bottom: 0.7em;
+      opacity: .85;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+    }
+    .news-card .news-summary {
+      font-size: 1em;
+      color: #e5e5e5;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      margin-bottom: 0.6em;
+      line-height: 1.6;
+    }
+    .news-card .news-source {
+      position: absolute;
+      bottom: 1em;
+      right: 1.2em;
+      font-size: 0.95em;
+      color: #aaa;
+      background: #222;
+      border-radius: 6px;
+      padding: 2px 9px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+    section, .container { max-width: 1100px; margin: 0 auto; }
+    h2 {
+      color: #fff;
+      font-weight: 800;
+      margin-top:1.9em;
+      font-size: 1.3em;
+      letter-spacing: 1px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    label, p, li, span, button, input, select, textarea {
+      color: #fff;
+      font-family: 'Roboto', Arial, sans-serif;
+      font-size: 1em;
+    }
+    input, select, textarea, button {
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 0.45em 0.9em;
+      margin-top: 0.2em;
+      margin-bottom: 0.5em;
+      color: #fff !important;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid #c00;
+    }
+    button, .support-btn {
+      color: #fff;
+      background: #c00;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 1em;
+      padding: 0.5em 1.2em;
+      cursor: pointer;
+      box-shadow: 0 1px 4px #c0040444;
+      margin-top: 0.3em;
+      transition: background .2s;
+    }
+    button:hover, .support-btn:hover {background: #900;}
+    .about-section strong {color:#fff;}
+    .highlight {color:#c00;}
+    footer {margin-top:2em;background:#181818;}
+    footer p, footer a, footer li {color:#ccc;}
+    .footer-social a {font-size:1.1em;margin-right:.7em;text-decoration:none;}
+    @media (max-width:900px) {
+      .header-flex { flex-direction: column; align-items:stretch; padding:0.7em 2vw 0.4em 2vw;}
+      .logo-title { font-size:1.3rem; width:100%; }
+      .news-grid, .investimentos-news-grid { grid-template-columns:1fr; }
     }
   </style>
 </head>
-<body class="light">
+<body>
   <header>
-    <div class="container header-flex" style="flex-direction:column;align-items:flex-start;">
-      <a href="/" class="logo" aria-label="Página inicial" style="display:flex;align-items:center;gap:1em;margin-bottom:0.1em;">
-        <span style="font-size:2.4rem;vertical-align:middle;line-height:1;">🦅</span>
-        <img src="images/logo-dantas.png" alt="Logo INFO DANTAS BRASIL" height="48" style="vertical-align:middle;border-radius:12px;box-shadow:0 2px 10px #c0040444;">
-        <span class="logo-title"
-          style="font-family:Montserrat,sans-serif;font-size:2rem;font-weight:900;letter-spacing:2px;color:#c00;text-shadow:0 2px 8px #c0040444;">
-          INFO DANTAS <span style="color:#fff;background:#c00;padding:2px 8px;border-radius:6px;margin-left:3px;">BRASIL</span>
-        </span>
-      </a>
-      <!-- LINHA ALTA/BAIXA E MAIS INFORMAÇÕES -->
-      <div class="linha-alta-baixa" id="linha-alta-baixa"></div>
-      <nav aria-label="Menu principal" style="margin-bottom:0.7em;">
-        <ul>
-          <li><a href="#">🏠 Início</a></li>
-          <li><a href="#principais">📰 Principais</a></li>
-          <li><a href="#politica">⚖️ Política</a></li>
-          <li><a href="#economia">💰 Economia</a></li>
-          <li><a href="#mundo">🌎 Mundo</a></li>
-          <li><a href="#sobre">ℹ️ Sobre</a></li>
-          <li><a href="#contato">✉️ Contato</a></li>
-        </ul>
-      </nav>
-      <div class="header-actions" style="margin-left:0;">
-        <button id="theme-toggle" title="Alternar modo claro/escuro" aria-label="Modo claro/escuro">🌙</button>
-        <form class="search-form" id="search-form" role="search">
-          <input type="search" id="search-input" placeholder="Buscar notícia..." aria-label="Buscar notícia" autocomplete="off">
-          <button type="submit" aria-label="Buscar">&#128269;</button>
-          <div id="search-suggestions" class="suggestions"></div>
-        </form>
+    <div class="header-flex">
+      <span class="logo-title">INFO DANTAS BRASIL</span>
+      <div class="menu" id="menu">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-haspopup="true" aria-controls="menu-list" aria-expanded="false">
+          Menu &#9776;
+        </button>
+        <nav class="menu-content" id="menu-content" aria-label="Menu principal" role="menu">
+          <ul id="menu-list">
+            <li><a href="#">Início</a></li>
+            <li><a href="#principais">Principais</a></li>
+            <li><a href="#politica">Política</a></li>
+            <li><a href="#economia">Economia</a></li>
+            <li><a href="#mundo">Mundo</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </nav>
       </div>
     </div>
+    <div class="linha-alta-baixa" id="linha-alta-baixa"></div>
     <div class="breadcrumb-container" id="breadcrumb"></div>
   </header>
 
   <main>
-    <!-- Cotações da Bolsa -->
     <section id="cotacoes-section" class="cotacoes-section">
-      <h2>📈 Cotações da Bolsa de Valores (B3)</h2>
+      <h2>Cotações da Bolsa de Valores (B3)</h2>
       <div id="cotacoes-box">
         <div class="loading">Carregando cotações...</div>
       </div>
     </section>
 
-    <!-- Notícias de Investimentos e Bolsa -->
     <section id="investimentos-section" class="investimentos-section">
-      <h2>💹 Notícias de Investimentos & Bolsa de Valores</h2>
-      <div id="investimentos-news" class="investimentos-news-grid">
-        <div class="loading">Carregando notícias de investimentos...</div>
-      </div>
+      <h2>Notícias de Investimentos & Bolsa de Valores</h2>
+      <div id="investimentos-news" class="investimentos-news-grid"></div>
     </section>
 
-    <!-- Carrossel de Manchetes -->
     <section id="carousel-section">
-      <h2>📰 Manchetes em destaque</h2>
+      <h2>Manchetes em destaque</h2>
       <div class="carousel" id="news-carousel">
         <div class="carousel-inner" id="carousel-inner"></div>
-        <button class="carousel-btn carousel-btn-prev" id="carousel-prev">&#10094;</button>
-        <button class="carousel-btn carousel-btn-next" id="carousel-next">&#10095;</button>
+        <button class="carousel-btn carousel-btn-prev" id="carousel-prev">&lt;</button>
+        <button class="carousel-btn carousel-btn-next" id="carousel-next">&gt;</button>
       </div>
     </section>
 
-    <!-- Filtros -->
     <section class="filters-section">
-      <h2>🔍 Filtros</h2>
+      <h2>Filtros</h2>
       <form id="filters-form">
         <label>
           Fonte:
@@ -185,21 +361,18 @@
       </form>
     </section>
 
-    <!-- Grid de notícias agregadas -->
     <section class="news-grid" aria-label="Notícias agregadas" id="news-grid">
-      <h2>🗞️ Notícias agregadas</h2>
-      <div class="loading">Carregando notícias...</div>
+      <h2>Notícias agregadas</h2>
+      <div class="loading">Carregando notícias reais...</div>
     </section>
 
-    <!-- Mais lidas -->
     <section class="most-read-section">
-      <h2>🔥 Mais lidas</h2>
+      <h2>Mais lidas</h2>
       <ul id="most-read-list"></ul>
     </section>
 
-    <!-- Newsletter -->
     <section class="newsletter-section">
-      <h2>📧 Receba notícias no seu e-mail</h2>
+      <h2>Receba notícias no seu e-mail</h2>
       <form id="newsletter-form">
         <input type="email" placeholder="Seu e-mail" required>
         <button type="submit">Inscrever</button>
@@ -207,20 +380,18 @@
       <div id="newsletter-msg"></div>
     </section>
 
-    <!-- Sobre -->
     <section id="sobre" class="about-section">
-      <h2>ℹ️ Sobre o INFO DANTAS BRASIL</h2>
+      <h2>Sobre o INFO DANTAS BRASIL</h2>
       <p>O <strong>INFO DANTAS BRASIL</strong> é um portal independente que agrega notícias das principais fontes do Brasil e do mundo, com foco especial em bolsa de valores, investimentos e economia, oferecendo filtros inteligentes, experiência personalizada e compromisso com a credibilidade.</p>
       <ul>
-        <li>Equipe editorial dedicada 🧑‍💻</li>
-        <li>Notícias sempre atualizadas ⏰</li>
-        <li>Foco em tecnologia, economia, política, mundo e mercados 🌐</li>
+        <li>Equipe editorial dedicada</li>
+        <li>Notícias sempre atualizadas</li>
+        <li>Foco em tecnologia, economia, política, mundo e mercados</li>
       </ul>
     </section>
 
-    <!-- Contato -->
     <section id="contato" class="contact-section">
-      <h2>✉️ Contato</h2>
+      <h2>Contato</h2>
       <form id="contact-form">
         <input type="text" name="nome" placeholder="Seu nome" required>
         <input type="email" name="email" placeholder="Seu e-mail" required>
@@ -230,15 +401,13 @@
       <div id="contact-msg"></div>
     </section>
 
-    <!-- Políticas -->
     <section id="politica-privacidade" class="policy-section">
-      <h2>🔒 Política de privacidade & Termos de uso</h2>
+      <h2>Política de privacidade & Termos de uso</h2>
       <p>Respeitamos sua privacidade. Não coletamos dados pessoais sem seu consentimento. Para mais detalhes, acesse nossa <a href="#">Política de Privacidade</a>.</p>
     </section>
 
-    <!-- Espaço para apoio -->
     <section class="support-section">
-      <h2>❤️ Apoie o projeto</h2>
+      <h2>Apoie o projeto</h2>
       <p>Gostou do portal? Considere apoiar para mantermos este serviço gratuito e independente:</p>
       <button class="support-btn">Apoiar via Pix</button>
     </section>
@@ -246,22 +415,38 @@
 
   <footer>
     <div class="container">
-      <p>&copy; 2025 <span class="highlight">INFO DANTAS BRASIL</span> • Feito com <span style="color:#FFB800;">❤️</span> para você</p>
+      <p>&copy; 2025 <span class="highlight">INFO DANTAS BRASIL</span> • Feito com <span style="color:#c00;">❤</span> para você</p>
       <nav aria-label="Links do rodapé">
         <ul>
-          <li><a href="#sobre">ℹ️ Sobre</a></li>
-          <li><a href="#contato">✉️ Contato</a></li>
-          <li><a href="#politica-privacidade">🔒 Política de Privacidade</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#contato">Contato</a></li>
+          <li><a href="#politica-privacidade">Política de Privacidade</a></li>
         </ul>
       </nav>
       <div class="footer-social">
-        <a href="https://twitter.com/" target="_blank" title="Twitter" rel="noopener">🐦</a>
-        <a href="https://facebook.com/" target="_blank" title="Facebook" rel="noopener">📘</a>
-        <a href="https://wa.me/" target="_blank" title="WhatsApp" rel="noopener">🟢</a>
+        <a href="https://twitter.com/" target="_blank" title="Twitter" rel="noopener">Twitter</a>
+        <a href="https://facebook.com/" target="_blank" title="Facebook" rel="noopener">Facebook</a>
+        <a href="https://wa.me/" target="_blank" title="WhatsApp" rel="noopener">WhatsApp</a>
       </div>
     </div>
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    // Menu hamburguer profissional acessível
+    const menuToggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    const menuContent = document.getElementById('menu-content');
+    menuToggle.addEventListener('click', function() {
+      const opened = menu.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', opened);
+    });
+    document.addEventListener('click', function(e) {
+      if (!menu.contains(e.target)) menu.classList.remove('open');
+    });
+    menuToggle.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') menu.classList.remove('open');
+    });
+  </script>
 </body>
-                        </html>
+  </html>
