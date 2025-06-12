@@ -6,116 +6,205 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Notícias do Brasil e do mundo, economia, política e cotações da bolsa de valores em tempo real.">
   <meta name="theme-color" content="#c00">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23c00%22/></svg>">
+  <link rel="icon" href="https://cdn.cnn.com/cnn/.e1mo/img/4.0/logos/favicon-cnn.ico">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Roboto:400,700&display=swap">
   <style>
     :root {
       --vermelho: #c00;
-      --vermelho-escuro: #900;
+      --vermelho-claro: #e50914;
+      --vermelho-dark: #900;
       --cinza-bg: #181818;
       --cinza-card: #222;
-      --cinza-menu: #1a1a1a;
-      --cinza-borda: #333;
       --branco: #fff;
-      --cinza-texto: #eaeaea;
+      --cinza-menu: #212121;
+      --cinza-borda: #e5e5e5;
       --cinza-claro: #f5f5f5;
-      --fonte-titulo: 'Montserrat', sans-serif;
+      --fonte-titulo: 'Montserrat', 'Arial Black', Arial, sans-serif;
       --fonte-texto: 'Roboto', Arial, sans-serif;
     }
-    html, body {margin: 0; padding: 0; background: var(--cinza-bg); color: var(--cinza-texto);}
-    body {font-family: var(--fonte-texto);}
-    /* Header fixo estilo CNN Brasil */
-    header {
-      background: var(--branco);
-      border-bottom: 4px solid var(--vermelho);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px #0003;
+    html, body { margin: 0; padding: 0; background: var(--cinza-claro); color: #111; }
+    body { font-family: var(--fonte-texto); }
+    /* CNN HEADER */
+    .cnn-header-topbar {
+      width: 100%;
+      background: var(--vermelho);
+      color: var(--branco);
+      font-family: var(--fonte-titulo);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.96rem;
+      min-height: 36px;
+      letter-spacing: 1px;
     }
-    .header-main {
+    .cnn-header-main {
+      width: 100%;
+      background: var(--branco);
+      border-bottom: 2px solid var(--vermelho);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #0001;
+    }
+    .cnn-header-main-inner {
+      width: 100%;
+      max-width: 1200px;
+      min-height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0.7em 2vw;
+      padding: 0 2vw;
     }
-    .logo-title {
+    .cnn-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.44em;
+      text-decoration: none;
+    }
+    .cnn-logo-img {
+      width: 56px;
+      height: 56px;
+      background: var(--branco);
+      background-image: url('https://cdn.cnn.com/cnn/.e1mo/img/4.0/logos/logo-cnn.svg');
+      background-repeat: no-repeat;
+      background-size: 90% 90%;
+      background-position: center;
+      border-radius: 9px;
+      border: 2px solid var(--vermelho);
+      box-shadow: 0 1px 6px #c0040444;
+      display: inline-block;
+    }
+    .cnn-logo-title {
       font-family: var(--fonte-titulo);
       font-size: 2.2rem;
       font-weight: 900;
-      color: var(--branco);
-      background: var(--vermelho);
-      border-radius: 8px;
-      padding: 0.13em 1.1em;
       letter-spacing: 1.5px;
-      text-shadow: 0 1px 8px #0002;
-      margin-right: 1em;
-      box-shadow: 0 2px 8px #c0040444;
-      display: inline-block;
-      white-space: nowrap;
-    }
-    /* Menu hamburguer */
-    .menu-hamburger {
-      background: none;
-      border: none;
       color: var(--vermelho);
-      font-size: 2.1rem;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      margin-left: 0.5em;
-      transition: color .2s;
+      text-shadow: 0 1px 8px #fff8;
+      display: block;
+      line-height: 1;
+      margin-left: 8px;
     }
-    .menu-hamburger:hover { color: var(--vermelho-escuro);}
-    nav.menu-nav {
-      background: none;
+    .cnn-nav {
       display: flex;
       align-items: center;
+      gap: 1.7em;
+      margin-left: 2em;
+      flex-wrap: wrap;
     }
-    .menu-list {
-      list-style: none;
-      display: flex;
-      gap: 2em;
-      margin: 0;
-      padding: 0;
-    }
-    .menu-list li a {
+    .cnn-nav-link {
       color: var(--cinza-menu);
       font-family: var(--fonte-titulo);
       font-weight: 700;
       text-decoration: none;
-      font-size: 1.15em;
-      padding: 0.2em 0.5em;
-      border-radius: 3px;
-      transition: background .12s, color .12s;
+      font-size: 1.13em;
+      padding: 0.08em 0.7em 0.08em 0.7em;
+      border-radius: 6px;
+      transition: background .13s, color .13s;
+      position: relative;
+      letter-spacing: 0.5px;
     }
-    .menu-list li a:hover, .menu-list li a:focus {
+    .cnn-nav-link:hover, .cnn-nav-link:focus {
       background: var(--vermelho);
       color: var(--branco);
     }
-    /* Menu mobile */
-    @media (max-width: 800px) {
-      .header-main { flex-wrap: wrap; gap: 0.8em;}
-      .menu-hamburger { display: flex;}
-      nav.menu-nav {display: none;}
-      nav.menu-nav.open {display: block; position: absolute; right: 2vw; top: 4em; background: var(--cinza-menu); border-radius: 10px; box-shadow: 0 4px 20px #0009; z-index: 1000;}
-      .menu-list {flex-direction: column; gap: 0;}
-      .menu-list li a {padding: 1em 2.5em; font-size: 1.07em; border-radius: 0;}
+    .cnn-search {
+      margin-left: 2.4em;
+      display: flex;
+      align-items: center;
+      position: relative;
     }
-    /* Linha de ativos */
+    .cnn-search input[type="search"] {
+      background: #f4f4f4;
+      border: 1.1px solid #ccc;
+      border-radius: 5px;
+      padding: 0.41em 2em 0.41em 1em;
+      font-size: 1em;
+      font-family: var(--fonte-texto);
+      min-width: 170px;
+      transition: border .14s;
+    }
+    .cnn-search input[type="search"]:focus { border: 1.5px solid var(--vermelho); outline: none; }
+    .cnn-search button {
+      background: none;
+      border: none;
+      color: var(--vermelho);
+      font-size: 1.3em;
+      position: absolute;
+      right: 0.3em; top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    /* MOBILE NAV */
+    .cnn-menu-mobile-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--vermelho);
+      font-size: 2.25rem;
+      margin-left: 1em;
+      cursor: pointer;
+    }
+    @media (max-width: 950px) {
+      .cnn-header-main-inner { flex-direction: column; align-items: flex-start; gap: 0.8em; }
+      .cnn-nav { margin-left: 0; }
+      .cnn-search { margin-left: 0; }
+      .cnn-logo-title { font-size: 1.3rem; margin-left: 4px;}
+      .cnn-logo-img { width: 40px; height: 40px;}
+    }
+    @media (max-width: 750px) {
+      .cnn-nav { display: none; }
+      .cnn-search { display: none; }
+      .cnn-menu-mobile-btn { display: block; }
+    }
+    .cnn-nav-mobile {
+      display: none;
+      position: fixed;
+      top: 98px;
+      left: 0;
+      width: 100vw;
+      background: var(--cinza-card);
+      box-shadow: 0 14px 40px #000a;
+      z-index: 1002;
+      padding: 1.2em 0 2em 0;
+    }
+    .cnn-nav-mobile.open { display: block;}
+    .cnn-nav-mobile-list {
+      list-style: none;
+      margin: 0 auto;
+      padding: 0;
+      max-width: 95vw;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+    }
+    .cnn-nav-mobile-link {
+      color: var(--branco);
+      text-decoration: none;
+      font-family: var(--fonte-titulo);
+      font-size: 1.11em;
+      letter-spacing: 0.5px;
+      background: none;
+      padding: 0.9em 2em;
+      border-radius: 7px;
+      transition: background .13s, color .13s;
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .cnn-nav-mobile-link:hover, .cnn-nav-mobile-link:focus { background: var(--vermelho); color: var(--branco);}
+    /* LINHA ATIVOS - CNN STYLE */
     .linha-alta-baixa {
       width: 100%;
       max-width: 1200px;
-      margin: 0.5em auto 1em auto;
-      background: var(--cinza-menu);
-      border-radius: 10px;
+      margin: 0.7em auto 1.3em auto;
+      background: #f7f7f7;
+      border-radius: 9px;
       box-shadow: 0 2px 10px #c0040444;
       padding: .7em 1.5em;
-      font-size: 1.1rem;
+      font-size: 1.07rem;
       font-weight: 700;
-      color: var(--branco);
+      color: var(--vermelho);
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -123,29 +212,26 @@
       gap: 1.5em;
     }
     .linha-alta-baixa .ativo-bloco {
-      background: var(--cinza-card);
+      background: var(--branco);
       border-radius: 7px;
-      box-shadow: 0 1px 8px #c0040422;
-      padding: 0.5em 1em;
+      box-shadow: 0 1px 4px #c0040422;
+      padding: 0.36em 1em 0.36em 1em;
       margin: 0.2em 0.3em;
       min-width: 165px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      border: 1.2px solid #eee;
     }
     .linha-alta-baixa .ativo-bloco strong {
       font-size: 1.02em;
       color: var(--vermelho);
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       letter-spacing: 0.5px;
       font-family: var(--fonte-titulo);
     }
-    .linha-alta-baixa .alta {
-      color: #05dd05;
-    }
-    .linha-alta-baixa .baixa {
-      color: #f44336;
-    }
+    .linha-alta-baixa .alta { color: #05dd05; }
+    .linha-alta-baixa .baixa { color: #f44336; }
     .linha-alta-baixa .variacao.positivo {
       background: #1a3b1a;
       color: #0f0;
@@ -158,32 +244,42 @@
       padding: 0 4px;
       border-radius: 4px;
     }
-    /* Grid de notícias */
+    /* GRID DE NOTÍCIAS CNN */
     .news-section {
       max-width: 1200px;
-      margin: 2em auto;
+      margin: 2em auto 0 auto;
       padding: 0 2vw;
+    }
+    .news-section h2 {
+      color: var(--vermelho);
+      font-family: var(--fonte-titulo);
+      font-weight: 900;
+      font-size: 1.55em;
+      letter-spacing: 1px;
+      margin-top: 0.6em;
+      margin-bottom: 1.1em;
+      text-align: left;
     }
     .news-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 2em 2em;
-      margin: 2em 0;
+      margin-bottom: 2em;
     }
     .news-card {
       background: var(--branco);
       border-radius: 12px;
-      box-shadow: 0 2px 18px #0003;
+      box-shadow: 0 2px 18px #0002;
       display: flex;
       flex-direction: column;
-      transition: transform .18s, box-shadow .18s;
       border: 1.5px solid var(--cinza-borda);
       overflow: hidden;
-      min-height: 420px;
+      min-height: 410px;
       position: relative;
+      transition: transform .14s, box-shadow .14s;
     }
     .news-card:hover { 
-      transform: translateY(-4px) scale(1.01); 
+      transform: translateY(-2px) scale(1.01); 
       box-shadow: 0 8px 30px #c0040422, 0 2px 14px #000b;
       border-color: var(--vermelho);
     }
@@ -193,28 +289,30 @@
       object-fit: cover;
       background: #ccc;
       display: block;
+      border-bottom: 1px solid #eee;
     }
     .news-card .news-content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 1.1em 1em 1em 1em;
+      padding: 1.1em 1.1em 1.1em 1.1em;
+      min-height: 185px;
     }
     .news-title {
       font-family: var(--fonte-titulo);
-      font-weight: 800;
+      font-weight: 900;
       color: var(--vermelho);
-      font-size: 1.18em;
-      margin-bottom: 0.2em;
-      letter-spacing: 0.5px;
-      min-height: 2.5em;
-      line-height: 1.14;
+      font-size: 1.13em;
+      margin-bottom: 0.18em;
+      letter-spacing: 0.4px;
+      min-height: 2.2em;
+      line-height: 1.13;
       text-shadow: 0 1px 5px #fff2;
     }
     .news-meta {
       font-size: .93em;
-      color: var(--vermelho-escuro);
-      margin-bottom: 0.6em;
+      color: var(--vermelho-dark);
+      margin-bottom: 0.5em;
       font-family: var(--fonte-texto);
       font-weight: 700;
     }
@@ -224,20 +322,27 @@
       font-family: var(--fonte-texto);
       font-weight: 400;
       margin-bottom: 0.8em;
-      line-height: 1.55;
+      line-height: 1.5;
       flex: 1 1 auto;
       text-shadow: 0 1px 2px #fff2;
+      min-height: 3.5em;
+      max-height: 5.5em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
     }
     .news-source {
       font-size: 0.99em;
-      color: #666;
+      color: #888;
       background: #f5f5f5;
       border-radius: 6px;
       padding: 2px 10px;
       font-family: var(--fonte-titulo);
       font-weight: 700;
       align-self: flex-end;
-      margin-top: 0.4em;
+      margin-top: 0.3em;
     }
     .news-card .news-link {
       display: inline-block;
@@ -251,70 +356,71 @@
       font-size: 1em;
       margin-top: 1.1em;
       box-shadow: 0 1px 6px #c0040444;
-      transition: background .18s;
+      transition: background .15s;
       align-self: flex-start;
     }
-    .news-card .news-link:hover { background: var(--vermelho-escuro);}
-    /* Títulos e textos */
-    section {max-width: 1200px; margin: 0 auto;}
-    h2 {
-      color: var(--vermelho);
+    .news-card .news-link:hover { background: var(--vermelho-dark);}
+    /* Footer CNN style */
+    .cnn-footer {
+      background: var(--vermelho);
+      color: var(--branco);
       font-family: var(--fonte-titulo);
-      font-weight: 900;
-      font-size: 1.6em;
-      letter-spacing: 1px;
-      margin-top: 2.3em;
-      margin-bottom: 0.7em;
-      text-align: left;
-    }
-    @media (max-width: 950px) {
-      .news-grid {grid-template-columns:1fr;}
-      .header-main {flex-direction: column; align-items:stretch;}
-      .logo-title {margin:0 auto;}
-    }
-    @media (max-width: 700px) {
-      h2 {font-size:1.13em;}
-      .news-section, section {padding:0 1vw;}
-      .linha-alta-baixa {font-size:.97rem;flex-direction:column;gap:0.7em;}
-      .linha-alta-baixa .ativo-bloco {width:100%;min-width:unset;}
-      .news-card .news-image {height:140px;}
-    }
-    /* Rodapé */
-    footer {
-      background: var(--cinza-menu);
-      margin-top: 3em;
-      padding: 1.5em 0 1em 0;
-      border-top: 3px solid var(--vermelho);
-      color: #ccc;
-      font-size: 1.01em;
+      font-size: 1.03em;
+      padding: 2.1em 0 1em 0;
       text-align: center;
+      margin-top: 3em;
+      border-top: 5px solid var(--vermelho-dark);
+      letter-spacing: 1px;
     }
-    footer .footer-social a {color:#c00;margin:0 0.5em;text-decoration:none;}
-    footer .footer-social a:hover {text-decoration: underline;}
+    .cnn-footer a { color: #fff; text-decoration: underline; margin: 0 0.5em;}
+    .cnn-footer .footer-social {margin-top:1em;}
+    .cnn-footer .footer-social a { color: #fff; margin: 0 0.5em; text-decoration: none; font-weight: 700;}
+    .cnn-footer .footer-social a:hover { text-decoration: underline; }
     /* Outros */
-    .loading {color: #c00; font-weight: 700; font-family: var(--fonte-titulo);}
+    .loading {color: var(--vermelho); font-weight: 700; font-family: var(--fonte-titulo);}
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-main">
-      <span class="logo-title">INFO DANTAS BRASIL</span>
-      <button class="menu-hamburger" id="menu-hamburger" title="Abrir menu" aria-label="Abrir menu">&#9776;</button>
-      <nav class="menu-nav" id="menu-nav">
-        <ul class="menu-list">
-          <li><a href="#">Início</a></li>
-          <li><a href="#principais">Principais</a></li>
-          <li><a href="#politica">Política</a></li>
-          <li><a href="#economia">Economia</a></li>
-          <li><a href="#mundo">Mundo</a></li>
-          <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#contato">Contato</a></li>
-        </ul>
+  <!-- CNN TOPBAR -->
+  <div class="cnn-header-topbar">
+    <span>Últimas notícias, análises e cotações em tempo real</span>
+  </div>
+  <!-- CNN HEADER -->
+  <div class="cnn-header-main">
+    <div class="cnn-header-main-inner">
+      <a href="#" class="cnn-logo">
+        <span class="cnn-logo-img" aria-label="CNN"></span>
+        <span class="cnn-logo-title">INFO DANTAS BRASIL</span>
+      </a>
+      <nav class="cnn-nav" id="cnn-nav">
+        <a class="cnn-nav-link" href="#">Início</a>
+        <a class="cnn-nav-link" href="#principais">Principais</a>
+        <a class="cnn-nav-link" href="#politica">Política</a>
+        <a class="cnn-nav-link" href="#economia">Economia</a>
+        <a class="cnn-nav-link" href="#mundo">Mundo</a>
+        <a class="cnn-nav-link" href="#sobre">Sobre</a>
+        <a class="cnn-nav-link" href="#contato">Contato</a>
       </nav>
+      <form class="cnn-search" action="#" onsubmit="return false;">
+        <input type="search" placeholder="Buscar" aria-label="Buscar">
+        <button type="submit" aria-label="Buscar">&#128269;</button>
+      </form>
+      <button class="cnn-menu-mobile-btn" id="cnn-menu-mobile-btn" aria-label="Abrir menu">&#9776;</button>
     </div>
-    <div class="linha-alta-baixa" id="linha-alta-baixa"></div>
-  </header>
-
+  </div>
+  <nav class="cnn-nav-mobile" id="cnn-nav-mobile">
+    <ul class="cnn-nav-mobile-list">
+      <li><a class="cnn-nav-mobile-link" href="#">Início</a></li>
+      <li><a class="cnn-nav-mobile-link" href="#principais">Principais</a></li>
+      <li><a class="cnn-nav-mobile-link" href="#politica">Política</a></li>
+      <li><a class="cnn-nav-mobile-link" href="#economia">Economia</a></li>
+      <li><a class="cnn-nav-mobile-link" href="#mundo">Mundo</a></li>
+      <li><a class="cnn-nav-mobile-link" href="#sobre">Sobre</a></li>
+      <li><a class="cnn-nav-mobile-link" href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+  <!-- Ativos em linha estilo CNN -->
+  <div class="linha-alta-baixa" id="linha-alta-baixa"></div>
   <main>
     <section class="news-section">
       <h2>Últimas Notícias de Economia e Negócios</h2>
@@ -323,30 +429,37 @@
       </div>
     </section>
   </main>
-
-  <footer>
+  <footer class="cnn-footer">
     <div class="container">
-      <p>&copy; 2025 <span class="highlight">INFO DANTAS BRASIL</span> • Feito com <span style="color:#c00;">❤</span> para você</p>
+      <div>
+        <span>&copy; 2025 INFO DANTAS BRASIL • Portal independente de notícias e cotações</span>
+      </div>
       <div class="footer-social" style="margin-top:1em;">
         <a href="https://twitter.com/" target="_blank" title="Twitter" rel="noopener">Twitter</a>
         <a href="https://facebook.com/" target="_blank" title="Facebook" rel="noopener">Facebook</a>
         <a href="https://wa.me/" target="_blank" title="WhatsApp" rel="noopener">WhatsApp</a>
       </div>
+      <div style="margin-top:1.3em;font-size:.93em;color:#ffe;">Este site não é afiliado à CNN Brasil. Layout inspirado para fins educacionais.</div>
     </div>
   </footer>
   <script src="script.js"></script>
   <script>
-    // Menu hamburger responsivo
-    const menuHamb = document.getElementById('menu-hamburger');
-    const menuNav = document.getElementById('menu-nav');
-    menuHamb.addEventListener('click', function() {
-      menuNav.classList.toggle('open');
+    // Menu responsivo estilo CNN
+    const btn = document.getElementById('cnn-menu-mobile-btn');
+    const navMobile = document.getElementById('cnn-nav-mobile');
+    btn.addEventListener('click', function() {
+      navMobile.classList.toggle('open');
+      if(navMobile.classList.contains('open')) {
+        btn.setAttribute('aria-label', 'Fechar menu');
+      } else {
+        btn.setAttribute('aria-label', 'Abrir menu');
+      }
     });
     document.addEventListener('click', function(e) {
-      if (!menuNav.contains(e.target) && !menuHamb.contains(e.target)) menuNav.classList.remove('open');
+      if (!navMobile.contains(e.target) && !btn.contains(e.target)) navMobile.classList.remove('open');
     });
-    menuHamb.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') menuNav.classList.remove('open');
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') navMobile.classList.remove('open');
     });
   </script>
 </body>
