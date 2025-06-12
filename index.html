@@ -4,71 +4,64 @@
   <meta charset="UTF-8">
   <title>INFO DANTAS BRASIL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="INFO DANTAS BRASIL - Agregador de notícias e breaking news do Brasil">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <meta name="theme-color" content="#1976d2"/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;700;600;500;400&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <meta name="description" content="INFO DANTAS BRASIL - Agregador de notícias dos principais portais do Brasil">
+  <link rel="icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;700;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <script src="https://unpkg.com/feather-icons"></script>
+  <meta property="og:title" content="INFO DANTAS BRASIL">
+  <meta property="og:description" content="Notícias em tempo real dos principais portais do Brasil em um só lugar">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://infodantasbrasil.com/favicon.ico">
+  <meta property="og:url" content="https://infodantasbrasil.com/">
 </head>
 <body>
   <header>
-    <h1><i data-feather="globe"></i> INFO DANTAS BRASIL</h1>
+    <h1>INFO DANTAS BRASIL</h1>
     <p>O portal de notícias e manchetes em tempo real</p>
   </header>
-  <div class="container-flex">
-    <nav class="sidebar" id="sidebarNav">
+  <main>
+    <nav class="sidebar">
       <h3>Portais</h3>
-      <a href="#g1"><span class="icon-dot icon-g1"></span> G1</a>
-      <a href="#uol"><span class="icon-dot icon-uol"></span> UOL</a>
-      <a href="#estadao"><span class="icon-dot icon-estadao"></span> Estadão</a>
-      <a href="#folha"><span class="icon-dot icon-folha"></span> Folha</a>
-      <a href="#r7"><span class="icon-dot icon-r7"></span> R7</a>
-      <a href="#terra"><span class="icon-dot icon-terra"></span> Terra</a>
-      <a href="#cnnbr"><span class="icon-dot icon-cnnbr"></span> CNN Brasil</a>
+      <a href="#g1" class="g1">G1</a>
+      <a href="#uol" class="uol">UOL</a>
+      <a href="#estadao" class="estadao">Estadão</a>
+      <a href="#folha" class="folha">Folha</a>
+      <a href="#r7" class="r7">R7</a>
+      <a href="#terra" class="terra">Terra</a>
+      <a href="#cnnbr" class="cnnbr">CNN Brasil</a>
     </nav>
-    <main>
-      <section class="news-section" id="g1">
-        <h2><span class="icon-dot icon-g1"></span>G1</h2>
-        <div class="news-list" id="news-g1"></div>
-      </section>
-      <section class="news-section" id="uol">
-        <h2><span class="icon-dot icon-uol"></span>UOL</h2>
-        <div class="news-list" id="news-uol"></div>
-      </section>
-      <section class="news-section" id="estadao">
-        <h2><span class="icon-dot icon-estadao"></span>Estadão</h2>
-        <div class="news-list" id="news-estadao"></div>
-      </section>
-      <section class="news-section" id="folha">
-        <h2><span class="icon-dot icon-folha"></span>Folha</h2>
-        <div class="news-list" id="news-folha"></div>
-      </section>
-      <section class="news-section" id="r7">
-        <h2><span class="icon-dot icon-r7"></span>R7</h2>
-        <div class="news-list" id="news-r7"></div>
-      </section>
-      <section class="news-section" id="terra">
-        <h2><span class="icon-dot icon-terra"></span>Terra</h2>
-        <div class="news-list" id="news-terra"></div>
-      </section>
-      <section class="news-section" id="cnnbr">
-        <h2><span class="icon-dot icon-cnnbr"></span>CNN Brasil</h2>
-        <div class="news-list" id="news-cnnbr"></div>
-      </section>
-    </main>
-  </div>
+    <section class="news-section" id="g1">
+      <h2><span class="dot g1"></span>G1</h2>
+      <div class="news-list" id="news-g1"></div>
+    </section>
+    <section class="news-section" id="uol">
+      <h2><span class="dot uol"></span>UOL</h2>
+      <div class="news-list" id="news-uol"></div>
+    </section>
+    <section class="news-section" id="estadao">
+      <h2><span class="dot estadao"></span>Estadão</h2>
+      <div class="news-list" id="news-estadao"></div>
+    </section>
+    <section class="news-section" id="folha">
+      <h2><span class="dot folha"></span>Folha</h2>
+      <div class="news-list" id="news-folha"></div>
+    </section>
+    <section class="news-section" id="r7">
+      <h2><span class="dot r7"></span>R7</h2>
+      <div class="news-list" id="news-r7"></div>
+    </section>
+    <section class="news-section" id="terra">
+      <h2><span class="dot terra"></span>Terra</h2>
+      <div class="news-list" id="news-terra"></div>
+    </section>
+    <section class="news-section" id="cnnbr">
+      <h2><span class="dot cnnbr"></span>CNN Brasil</h2>
+      <div class="news-list" id="news-cnnbr"></div>
+    </section>
+  </main>
   <footer>
-    <div class="footer-social">
-      <a href="https://github.com/Investidor01/Dantas-Not-cias-" title="GitHub" target="_blank"><i data-feather="github"></i></a>
-      <a href="https://twitter.com/" title="Twitter/X" target="_blank"><i data-feather="twitter"></i></a>
-      <a href="mailto:contato@infodantasbrasil.com" title="E-mail"><i data-feather="mail"></i></a>
-    </div>
-    <div>
-      &copy; 2025 — INFO DANTAS BRASIL | Agregador de portais de notícias brasileiros | <a href="https://github.com/Investidor01" target="_blank" style="color:var(--footer-link);font-weight:600;">Investidor01</a>
-    </div>
+    &copy; 2025 — INFO DANTAS BRASIL | Criado por <a href="https://github.com/Investidor01" target="_blank">Investidor01</a>
   </footer>
   <script src="script.js"></script>
 </body>
-        </html>
+            </html>
