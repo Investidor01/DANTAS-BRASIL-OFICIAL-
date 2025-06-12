@@ -32,12 +32,45 @@ body {
   margin: 0;
   padding: 0;
   transition: background var(--transition), color var(--transition);
-  padding-top: 56px; /* Espaco para barra urgente fixa */
+  padding-top: 52px; /* Espaço para barra urgente fixa */
 }
 
 .theme-toggle {
   display: none !important;
 }
+
+/* BREAKING BAR URGENTE */
+.breaking-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 9999;
+  border-radius: 0 0 1.2em 1.2em;
+  display: flex;
+  align-items: center;
+  background: var(--breaking-bg);
+  color: var(--breaking-text);
+  font-weight: 700;
+  font-size: 1em;
+  min-height: 44px;
+  padding: 0.35em 1.3em;
+  gap: 1.1em;
+  box-shadow: var(--shadow);
+  animation: pulseBar 2s infinite linear;
+}
+@keyframes pulseBar { 0%{opacity:.98;} 50%{opacity:.91;} 100%{opacity:.98;} }
+.breaking-bar .breaking-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  flex: 1;
+}
+.breaking-bar .breaking-marquee span {
+  display: inline-block;
+  animation: marquee 24s linear infinite;
+}
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-60%); } }
+.breaking-bar.active { display: flex; }
 
 /* HEADER */
 .main-header {
@@ -46,8 +79,7 @@ body {
   box-shadow: var(--shadow);
   padding: 0 0 1.3em 0;
   border-radius: 0 0 1.4em 1.4em;
-  position: sticky; 
-  top: 0; 
+  position: relative; /* NÃO sticky/fixed - para não cobrir a barra urgente */
   z-index: 20;
 }
 .header-top {
@@ -166,39 +198,6 @@ body {
 .gazeta { background: var(--gazeta);}
 .valor { background: var(--valor);}
 
-/* BREAKING BAR */
-.breaking-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 9999;
-  border-radius: 0 0 1.2em 1.2em;
-  display: none;
-  align-items: center;
-  background: var(--breaking-bg);
-  color: var(--breaking-text);
-  font-weight: 700;
-  font-size: 1em;
-  min-height: 44px;
-  padding: 0.35em 1.3em;
-  gap: 1.1em;
-  box-shadow: var(--shadow);
-  animation: pulseBar 2s infinite linear;
-}
-.breaking-bar.active { display: flex; }
-@keyframes pulseBar { 0%{opacity:.98;} 50%{opacity:.91;} 100%{opacity:.98;} }
-.breaking-bar .breaking-marquee {
-  overflow: hidden;
-  white-space: nowrap;
-  flex: 1;
-}
-.breaking-bar .breaking-marquee span {
-  display: inline-block;
-  animation: marquee 24s linear infinite;
-}
-@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-60%); } }
-
 /* MAIN CONTENT */
 main {
   max-width: 960px;
@@ -226,13 +225,12 @@ main {
   gap: 2em;
 }
 
-/* DIVISÃO ENTRE NOTÍCIAS (ALTERNATIVA A) */
+/* DIVISÃO ENTRE NOTÍCIAS */
 .news-list .news-card:not(:last-child) {
   border-bottom: 1.5px solid #283347;
   margin-bottom: 1.7em;
 }
 
-/* Em telas pequenas, linha mais evidente */
 @media (max-width: 700px) {
   .news-list { grid-template-columns: 1fr; }
   .news-list .news-card:not(:last-child) {
