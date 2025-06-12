@@ -1,30 +1,577 @@
-<main>
-  <section class="news-section" id="news-g1">
-    <h2>G1</h2>
-    <div class="news-grid" id="news-g1"><div class="loading">Carregando notícias...</div></div>
-  </section>
-  <section class="news-section" id="news-uol">
-    <h2>UOL</h2>
-    <div class="news-grid" id="news-uol"><div class="loading">Carregando notícias...</div></div>
-  </section>
-  <section class="news-section" id="news-estadao">
-    <h2>Estadão</h2>
-    <div class="news-grid" id="news-estadao"><div class="loading">Carregando notícias...</div></div>
-  </section>
-  <section class="news-section" id="news-folha">
-    <h2>Folha</h2>
-    <div class="news-grid" id="news-folha"><div class="loading">Carregando notícias...</div></div>
-  </section>
-  <section class="news-section" id="news-r7">
-    <h2>R7</h2>
-    <div class="news-grid" id="news-r7"><div class="loading">Carregando notícias...</div></div>
-  </section>
-  <section class="news-section" id="news-terra">
-    <h2>Terra</h2>
-    <div class="news-grid" id="news-terra"><div class="loading">Carregando notícias...</div></div>
-  </section>
-  <section class="news-section" id="news-cnnbr">
-    <h2>CNN Brasil</h2>
-    <div class="news-grid" id="news-cnnbr"><div class="loading">Carregando notícias...</div></div>
-  </section>
-</main>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Notícias do Brasil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Agregador de notícias do Brasil com Breaking News em destaque">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;700;600;500;400&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    :root {
+      --g1: #c4170c;
+      --uol: #ffcb05;
+      --estadao: #005ca9;
+      --folha: #195b8a;
+      --r7: #5ab0e6;
+      --terra: #f4841b;
+      --cnn: #c30000;
+      --break: #d7263d;
+      --break-bg: linear-gradient(90deg, #d7263d 80%, #fff200 100%);
+      --main-radius: 24px;
+      --card-radius: 18px;
+      --sidebar-bg: rgba(33,38,59,0.88);
+      --sidebar-width: 210px;
+      --max-width: 1320px;
+      --shadow-card: 0 4px 22px #0002;
+      --shadow-main: 0 4px 36px #1976d219;
+      --shadow-section: 0 2px 24px #0001;
+      --transition: .18s cubic-bezier(.65,.05,.36,1);
+      --section-padding: 2.2em 1.3em 1.4em 1.3em;
+      --light-bg: #f9f9fc;
+      --header-grad: linear-gradient(-45deg, #1976d2, #43a047, #ffcb05, #c4170c);
+      --footer-bg: #232a36;
+      --footer-color: #bdbdbd;
+      --footer-link: #ffcb05;
+    }
+    @media (prefers-color-scheme: dark) {
+      html, body { background: #14161e; color: #e6e6e6; }
+      main { background: #1a1c25; }
+      .news-section, .breaking-section { background: #181c23; }
+      .news-card { background: linear-gradient(135deg, #22263b 68%, #181c23 100%); }
+      header { background: linear-gradient(90deg, #181c23 0%, #232a36 100%);}
+      nav.sidebar { background: rgba(28,30,38,0.97); }
+      .news-title { color: #7dccff; }
+      .news-link { color: #ffcb05; }
+      .news-link:hover { color: #ff5f7e; }
+      .news-source { color: #ffcb05; }
+      footer { background: #181c23; color: #aaa; }
+      .breaking-bar { background: var(--break-bg);}
+      .breaking-section { background: #20161c; }
+    }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: linear-gradient(135deg, #e7eaf6 0%, #f6f6f6 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      transition: background 0.7s;
+      box-sizing: border-box;
+      color: #232a36;
+    }
+    /* Breaking News Bar */
+    .breaking-bar {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; z-index: 9999;
+      background: var(--break-bg);
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.22em;
+      padding: .55em 1em;
+      box-shadow: 0 4px 18px #d7263d22;
+      border-bottom: 3.5px solid #fff200;
+      display: flex;
+      align-items: center;
+      gap: .9em;
+      letter-spacing: .04em;
+    }
+    .breaking-icon {
+      font-size: 1.5em;
+      animation: shake .8s infinite alternate;
+      margin-right: .3em;
+      vertical-align: middle;
+    }
+    @keyframes shake { 0%{transform:rotate(-7deg);} 100%{transform:rotate(7deg);} }
+    .breaking-marquee {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .breaking-marquee span {
+      display: inline-block;
+      padding-left: 100vw;
+      animation: marquee 20s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0);}
+      100% { transform: translateX(-100%);}
+    }
+    header {
+      background: var(--header-grad);
+      background-size: 400% 400%;
+      animation: gradientBG 16s ease infinite;
+      color: #fff;
+      padding: 4.8em 2em 2.4em 2em;
+      text-align: center;
+      box-shadow: 0 2px 16px #0001;
+      position: relative;
+      z-index: 2;
+    }
+    @keyframes gradientBG {
+      0%,100% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+    }
+    header h1 {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 3.2em;
+      font-weight: 800;
+      margin: 0 0 .19em 0;
+      letter-spacing: -2.5px;
+      text-shadow: 0 3px 12px #0003;
+    }
+    header p {
+      font-size: 1.28em;
+      font-weight: 500;
+      margin: 0;
+      opacity: .97;
+      letter-spacing: .3px;
+      text-shadow: 0 1px 8px #0002;
+    }
+    .container-flex {
+      display: flex;
+      align-items: flex-start;
+      max-width: var(--max-width);
+      margin: -2.7em auto 0 auto;
+      min-height: 78vh;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+    nav.sidebar {
+      background: var(--sidebar-bg);
+      color: #fff;
+      width: var(--sidebar-width);
+      min-height: 70vh;
+      border-radius: 20px 0 0 20px;
+      padding: 2.6em 1em 2.5em 1em;
+      box-shadow: 0 4px 24px #0002;
+      position: sticky;
+      top: 2em;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      height: fit-content;
+      margin-right: 1.7em;
+      backdrop-filter: blur(16px);
+      animation: fadeInSidebar .8s;
+      border: 1px solid #fff3;
+      transition: background var(--transition);
+      align-self: flex-start;
+    }
+    @keyframes fadeInSidebar {
+      from { opacity: 0; transform: translateX(-50px);}
+      to { opacity: 1; transform: translateX(0);}
+    }
+    nav.sidebar h3 {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1.09em;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 1.6em;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      color: #ffcb05;
+      text-shadow: 0 2px 6px #000a;
+    }
+    nav.sidebar a {
+      display: flex;
+      align-items: center;
+      gap: .8em;
+      font-weight: 700;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1.12em;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.59em 1em 0.59em 0.95em;
+      border-radius: 10px;
+      margin-bottom: 0.3em;
+      transition: background .18s, color .18s, font-size .14s;
+      position: relative;
+      letter-spacing: 0.2px;
+      border: 2px solid transparent;
+      justify-content: flex-start;
+    }
+    nav.sidebar a.active, nav.sidebar a:hover {
+      background: #fff2;
+      color: #ffcb05;
+      font-weight: 900;
+      letter-spacing: 1.3px;
+      font-size: 1.15em;
+      border-color: #ffcb05;
+    }
+    nav.sidebar .icon-dot {
+      width: 1.25em; height: 1.25em; border-radius: 50%; display: inline-block; flex-shrink: 0;
+      border: 2.2px solid #fff6;
+    }
+    .icon-g1 { background: var(--g1);}
+    .icon-uol { background: var(--uol);}
+    .icon-estadao { background: var(--estadao);}
+    .icon-folha { background: var(--folha);}
+    .icon-r7 { background: var(--r7);}
+    .icon-terra { background: var(--terra);}
+    .icon-cnnbr { background: var(--cnn);}
+    main {
+      flex: 1;
+      background: #fff;
+      border-radius: 0 var(--main-radius) var(--main-radius) var(--main-radius);
+      box-shadow: var(--shadow-main);
+      padding: 2.7em 1.7em 2.1em 1.7em;
+      position: relative;
+      z-index: 2;
+      animation: fadeInMain 1.2s;
+      transition: background 0.5s;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+    @keyframes fadeInMain {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    /* BREAKING NEWS SECTION */
+    .breaking-section {
+      margin-bottom: 2.5em;
+      border-radius: 20px;
+      background: #fff9f2;
+      box-shadow: var(--shadow-section);
+      border: 2.8px solid #d7263d;
+      padding: 1.2em 1em 1.3em 1em;
+      position: relative;
+      animation: fadeInBreaking .8s;
+    }
+    @keyframes fadeInBreaking { from{opacity:0;transform:scale(.92);} to{opacity:1;transform:scale(1);} }
+    .breaking-section h2 {
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #d7263d;
+      font-size: 1.55em;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      margin: 0 0 .8em 0;
+      display: flex;
+      align-items: center;
+      gap: .7em;
+    }
+    .breaking-section .news-grid {
+      gap: 1.8em;
+    }
+    /* URGENT BADGE */
+    .urgent-badge {
+      position: absolute; top: 1.25em; left: 1.1em;
+      background: #d7263d;
+      color: #fff;
+      padding: .22em 1.2em;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: .98em;
+      box-shadow: 0 2px 8px #d7263d22;
+      animation: pulse 1.2s infinite alternate;
+      z-index: 6;
+      letter-spacing: .07em;
+      display: flex;
+      align-items: center;
+      gap: .5em;
+    }
+    .urgent-badge i {
+      font-size: 1em;
+      vertical-align:middle;
+    }
+    @keyframes pulse { 0%{box-shadow:0 0 0 #d7263d00;} 100%{box-shadow:0 0 12px #d7263d88;} }
+    /* NEWS SECTIONS */
+    .news-section {
+      border-radius: 22px;
+      box-shadow: var(--shadow-section);
+      margin-bottom: 3.3em;
+      padding: var(--section-padding);
+      position: relative;
+      background: var(--light-bg);
+      transition: box-shadow .22s, background .3s;
+      border-top: 8px solid transparent;
+      border-left: 8px solid transparent;
+      overflow: visible;
+    }
+    .news-section.g1 { border-top-color: var(--g1);}
+    .news-section.uol { border-top-color: var(--uol);}
+    .news-section.estadao { border-top-color: var(--estadao);}
+    .news-section.folha { border-top-color: var(--folha);}
+    .news-section.r7 { border-top-color: var(--r7);}
+    .news-section.terra { border-top-color: var(--terra);}
+    .news-section.cnnbr { border-top-color: var(--cnn);}
+    .news-section h2 {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 800;
+      font-size: 1.45em;
+      margin: 0 0 .9em 0;
+      letter-spacing: -1px;
+      padding-bottom: .26em;
+      display: flex;
+      align-items: center;
+      gap: .7em;
+      text-shadow: 0 1px 5px #0001;
+    }
+    .news-section.g1 h2 { color: var(--g1);}
+    .news-section.uol h2 { color: var(--uol);}
+    .news-section.estadao h2 { color: var(--estadao);}
+    .news-section.folha h2 { color: var(--folha);}
+    .news-section.r7 h2 { color: var(--r7);}
+    .news-section.terra h2 { color: var(--terra);}
+    .news-section.cnnbr h2 { color: var(--cnn);}
+    .news-section h2 .news-ico {vertical-align:middle;}
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.85em;
+      margin-top: 1.1em;
+      align-items: stretch;
+      width: 100%;
+    }
+    .news-card {
+      background: linear-gradient(135deg, #fff 82%, #f4f7fa 100%);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow-card);
+      padding: 1.1em 1em 1em 1em;
+      display: flex;
+      flex-direction: column;
+      transition: transform .17s, box-shadow .18s, background .2s;
+      border-top: 6px solid #1976d205;
+      position: relative;
+      overflow: hidden;
+      min-height: 310px;
+      animation: fadeInCard .9s;
+      margin-bottom: 0.2em;
+      box-sizing: border-box;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: scale(.93);}
+      to { opacity: 1; transform: scale(1);}
+    }
+    .news-section.g1 .news-card { border-top: 6px solid var(--g1);}
+    .news-section.uol .news-card { border-top: 6px solid var(--uol);}
+    .news-section.estadao .news-card { border-top: 6px solid var(--estadao);}
+    .news-section.folha .news-card { border-top: 6px solid var(--folha);}
+    .news-section.r7 .news-card { border-top: 6px solid var(--r7);}
+    .news-section.terra .news-card { border-top: 6px solid var(--terra);}
+    .news-section.cnnbr .news-card { border-top: 6px solid var(--cnn);}
+    .news-card.urgent {
+      border: 3px solid #d7263d;
+      background: #fff5f5;
+      animation: urgentShake 0.18s 6 alternate;
+      box-shadow: 0 5px 34px #d7263d30;
+    }
+    @keyframes urgentShake {
+      0% {transform:rotate(-2deg);}
+      50% {transform:rotate(2deg);}
+      100% {transform:rotate(0);}
+    }
+    .news-card:hover {
+      transform: translateY(-11px) scale(1.045);
+      box-shadow: 0 14px 32px #0002, 0 1.5px 7px #1976d215;
+      z-index: 10;
+      background: linear-gradient(135deg, #c2e9fb 0%, #f9f9fc 100%);
+    }
+    .news-image {
+      width: 100%;
+      height: 168px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: .8em;
+      background: #f0f0f0;
+      box-shadow: 0 2px 12px #0001;
+      display: block;
+      transition: filter .21s;
+    }
+    .news-card:hover .news-image { filter: brightness(1.13) saturate(1.15);}
+    .news-title {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1.13em;
+      font-weight: 700;
+      margin-bottom: .58em;
+      color: #1976d2;
+      text-shadow: 0 1.5px 5px #1976d219;
+      line-height: 1.22;
+      min-height: 2.2em;
+      margin-top: 0;
+    }
+    .news-meta {
+      font-size: .99em;
+      color: #888;
+      margin-bottom: .52em;
+      font-weight: 500;
+    }
+    .news-summary {
+      font-size: 1.01em;
+      margin-bottom: .7em;
+      color: #444;
+      opacity: .97;
+      min-height: 2em;
+      flex: 1;
+    }
+    .news-link {
+      color: #d7263d;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color .16s;
+      font-size: 1.05em;
+      margin-right: .7em;
+    }
+    .news-link:hover {
+      color: #1976d2;
+      text-decoration: underline;
+    }
+    .news-source {
+      font-size: .98em;
+      color: #666;
+      margin-top: .5em;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .loading { color: #888; font-style: italic; }
+    @media (max-width: 1200px) {
+      .container-flex { max-width: 100vw; }
+      main { padding: 1em .2em; }
+      nav.sidebar { padding: 2em .4em; }
+    }
+    @media (max-width: 950px) {
+      .container-flex { flex-direction: column; }
+      nav.sidebar {
+        width: 100vw;
+        min-width: unset;
+        max-width: 100vw;
+        flex-direction: row;
+        justify-content: space-around;
+        border-radius: 0 0 16px 16px;
+        margin-bottom: 2.2em;
+        margin-right: 0;
+        position: static;
+        top: unset;
+        box-shadow: 0 2px 18px #0002;
+        padding: 1.2em 0.1em;
+        height: auto;
+        border: none;
+        backdrop-filter: blur(3px);
+        align-self: stretch;
+      }
+      nav.sidebar h3 { display: none; }
+    }
+    @media (max-width: 730px) {
+      header h1 { font-size: 1.45em; }
+      .news-section h2 { font-size: 1.1em; }
+      main { padding: 0.2em; }
+      .news-section, .breaking-section { padding: 1em 0.3em 1em 0.3em;}
+      nav.sidebar a { font-size: .99em;}
+    }
+    footer {
+      text-align:center;
+      font-size:.99em;
+      margin:2.7em 0 1.5em 0;
+      opacity: .93;
+      background: var(--footer-bg);
+      padding: 1.3em 0 1.2em 0;
+      color: var(--footer-color);
+      letter-spacing: .12px;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .7em;
+    }
+    .footer-social {
+      margin-bottom: .3em;
+    }
+    .footer-social a {
+      color: var(--footer-link);
+      margin: 0 .3em;
+      opacity: .90;
+      transition: color .21s;
+      text-decoration: none;
+      vertical-align:middle;
+    }
+    .footer-social a:hover { color: #c4170c; }
+    /* Espaço para barra breaking */
+    body { padding-top: 54px;}
+    @media (max-width: 700px) { body { padding-top: 80px; } }
+  </style>
+</head>
+<body>
+  <!-- Breaking News Bar (preenchido via JS) -->
+  <div class="breaking-bar" id="breakingBar" style="display:none;">
+    <span class="breaking-icon"><i data-feather="alert-triangle"></i></span>
+    <div class="breaking-marquee"><span id="breakingMarquee"></span></div>
+  </div>
+  <header>
+    <h1><i data-feather="globe"></i> Notícias do Brasil</h1>
+    <p>Principais manchetes dos maiores portais do país</p>
+  </header>
+  <div class="container-flex">
+    <nav class="sidebar">
+      <h3>Portais</h3>
+      <a href="#breaking"><span class="icon-dot icon-g1"></span> Breaking</a>
+      <a href="#g1"><span class="icon-dot icon-g1"></span> G1</a>
+      <a href="#uol"><span class="icon-dot icon-uol"></span> UOL</a>
+      <a href="#estadao"><span class="icon-dot icon-estadao"></span> Estadão</a>
+      <a href="#folha"><span class="icon-dot icon-folha"></span> Folha</a>
+      <a href="#r7"><span class="icon-dot icon-r7"></span> R7</a>
+      <a href="#terra"><span class="icon-dot icon-terra"></span> Terra</a>
+      <a href="#cnnbr"><span class="icon-dot icon-cnnbr"></span> CNN Brasil</a>
+    </nav>
+    <main>
+      <!-- Seção Breaking News -->
+      <section class="breaking-section" id="breaking" style="display:none;">
+        <h2><span class="icon-dot icon-g1"></span><i data-feather="alert-triangle"></i> Breaking News</h2>
+        <div class="news-grid" id="breaking-grid"></div>
+      </section>
+      <!-- Seções normais -->
+      <section class="news-section g1" id="g1">
+        <h2><span class="icon-dot icon-g1"></span>G1 <span class="news-ico"><i data-feather="zap"></i></span></h2>
+        <div class="news-grid" id="news-g1"><div class="loading">Carregando notícias...</div></div>
+      </section>
+      <section class="news-section uol" id="uol">
+        <h2><span class="icon-dot icon-uol"></span>UOL <span class="news-ico"><i data-feather="star"></i></span></h2>
+        <div class="news-grid" id="news-uol"><div class="loading">Carregando notícias...</div></div>
+      </section>
+      <section class="news-section estadao" id="estadao">
+        <h2><span class="icon-dot icon-estadao"></span>Estadão <span class="news-ico"><i data-feather="flag"></i></span></h2>
+        <div class="news-grid" id="news-estadao"><div class="loading">Carregando notícias...</div></div>
+      </section>
+      <section class="news-section folha" id="folha">
+        <h2><span class="icon-dot icon-folha"></span>Folha <span class="news-ico"><i data-feather="book-open"></i></span></h2>
+        <div class="news-grid" id="news-folha"><div class="loading">Carregando notícias...</div></div>
+      </section>
+      <section class="news-section r7" id="r7">
+        <h2><span class="icon-dot icon-r7"></span>R7 <span class="news-ico"><i data-feather="activity"></i></span></h2>
+        <div class="news-grid" id="news-r7"><div class="loading">Carregando notícias...</div></div>
+      </section>
+      <section class="news-section terra" id="terra">
+        <h2><span class="icon-dot icon-terra"></span>Terra <span class="news-ico"><i data-feather="sun"></i></span></h2>
+        <div class="news-grid" id="news-terra"><div class="loading">Carregando notícias...</div></div>
+      </section>
+      <section class="news-section cnnbr" id="cnnbr">
+        <h2><span class="icon-dot icon-cnnbr"></span>CNN Brasil <span class="news-ico"><i data-feather="tv"></i></span></h2>
+        <div class="news-grid" id="news-cnnbr"><div class="loading">Carregando notícias...</div></div>
+      </section>
+    </main>
+  </div>
+  <footer>
+    <div class="footer-social">
+      <a href="https://github.com/Investidor01/Dantas-Not-cias-" title="GitHub" target="_blank"><i data-feather="github"></i></a>
+      <a href="https://twitter.com/" title="Twitter/X" target="_blank"><i data-feather="twitter"></i></a>
+      <a href="mailto:contato@seudominio.com" title="E-mail"><i data-feather="mail"></i></a>
+    </div>
+    <div>
+      &copy; 2025 — Feeds automáticos de portais de notícias brasileiros | Desenvolvido por <a href="https://github.com/Investidor01" target="_blank" style="color:var(--footer-link);font-weight:600;">Investidor01</a>
+    </div>
+  </footer>
+  <script>
+    // Sidebar navegação highlight
+    const links = document.querySelectorAll('nav.sidebar a');
+    window.addEventListener('scroll', () => {
+      let scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
+      let found = false;
+      links.forEach(link => {
+        let ref = link.getAttribute('href').replace('#','');
+        let sec = document.getElementById(ref);
+        if(sec) {
+          let offset = sec.offsetTop-65;
+          let next = sec.offsetTop + sec.offsetHeight-80;
+          if(scrollPos >= offset &&
