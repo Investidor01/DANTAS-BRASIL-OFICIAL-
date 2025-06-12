@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IDB INFO DANTAS BRASIL + Google Login</title>
-  <!-- Seu CSS principal -->
   <link rel="stylesheet" href="styles.css">
-  <!-- CSS do header CNN/IDB -->
   <link rel="stylesheet" href="header-idb.css">
-  <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     .main-content {
@@ -17,6 +14,64 @@
       padding: 130px 1.2em 2.5em 1.2em;
       min-height: 100vh;
     }
+    /* HEADER + NOVO NOME CENTRAL */
+    .idb-header-cnn {
+      background: #181d23;
+      padding: 0;
+      width: 100vw;
+      z-index: 1200;
+      box-shadow: 0 2px 12px #0004;
+      position: fixed;
+      top: 40px;
+      left: 0;
+    }
+    .idb-header-inner-cnn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 13px 1.2em 13px 1.2em;
+      position: relative;
+    }
+    .idb-logo-cnn {
+      background: #e30613;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.35em;
+      letter-spacing: 0.04em;
+      border-radius: 0.4em;
+      padding: 0.28em 1.3em;
+      text-decoration: none;
+      display: inline-block;
+      margin-right: 18px;
+    }
+    /* NOVO: Nome do site centralizado */
+    .idb-site-title-cnn {
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1em;
+      letter-spacing: 0.02em;
+      flex: 1 1 auto;
+      text-align: center;
+      margin-right: 18px;
+      margin-left: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }
+    @media (max-width:900px) {
+      .idb-header-inner-cnn { padding: 13px 0.3em; }
+      .idb-site-title-cnn { font-size: 0.98em; }
+    }
+    @media (max-width:600px) {
+      .idb-site-title-cnn { font-size: 0.88em; padding:0 2vw;}
+      .idb-logo-cnn { font-size: 1.07em; padding:0.23em 0.8em;}
+    }
+    /* Fim HEADER */
     .destaque {
       background: #232932;
       border-radius: 1.2em;
@@ -71,6 +126,9 @@
       padding: 1.1em 1.5em 1.1em 1.2em;
       border-left: 5px solid #e30613;
       transition: box-shadow .15s;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2em;
     }
     .noticia:hover {
       box-shadow: 0 4px 16px #0004;
@@ -99,6 +157,29 @@
       margin: 0.4em 0 0 0;
       color: #d6d6d6;
       font-size: 1.07em;
+    }
+    .noticia-img {
+      width: 104px;
+      height: 104px;
+      border-radius: 0.5em;
+      object-fit: cover;
+      background: #222;
+      flex-shrink: 0;
+      display: block;
+    }
+    .noticia-content {
+      flex: 1 1 0%;
+      min-width: 0;
+    }
+    .noticia-video {
+      margin-top: 0.7em;
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 16/9;
+      border-radius: 0.6em;
+      border: 2px solid #e30613;
+      box-shadow: 0 2px 8px #0004;
+      display: block;
     }
     /* Carrossel de Manchetes */
     .carrossel-manchetes {
@@ -172,33 +253,35 @@
       color: #fff;
       box-shadow: 0 4px 14px #0003;
     }
-    @media (max-width:600px) {
+    @media (max-width:900px) {
       .main-content { padding: 110px 0.3em 2em 0.3em; }
+      .idb-site-title-cnn { font-size: 0.98em; }
       .destaque, .noticia { padding: 1.2em 0.7em; }
+    }
+    @media (max-width:600px) {
+      .idb-site-title-cnn { font-size: 0.86em; max-width:40vw; }
+      .idb-logo-cnn { font-size: 1.07em; padding:0.23em 0.8em;}
       .carrossel-manchetes { min-height: 54px; }
       .manchete-carrossel { min-width: 200px; padding: 0.7em 0.7em; font-size: 0.94em; }
       .carrossel-lista { max-width: 94vw; }
+      .noticia-img { width: 70px; height: 70px; }
     }
   </style>
 </head>
 <body>
-  <!-- Barra de urgente simulada -->
   <div class="barra-urgente" style="background:#e30613;color:#fff;padding:8px 1em;font-weight:bold;position:fixed;top:0;left:0;width:100vw;z-index:1300;">
     URGENTE: Últimas notícias importantes aqui!
   </div>
-
-  <!-- HEADER CNN/IDB + LOGIN GOOGLE -->
   <header class="idb-header-cnn">
     <div class="idb-header-inner-cnn">
       <button id="menu-toggle-cnn" class="idb-menu-btn-cnn" aria-label="Abrir menu">
         <span class="idb-menu-icon-cnn"></span>
       </button>
       <a href="/" class="idb-logo-cnn">IDB</a>
+      <span class="idb-site-title-cnn">INFO DANTAS BRASIL</span>
       <div id="idb-google-login-cnn" class="idb-login-google-cnn"></div>
     </div>
   </header>
-
-  <!-- Menu lateral estilo CNN -->
   <aside id="side-menu-cnn" class="side-menu-cnn">
     <div class="side-menu-header-cnn">
       <button id="menu-close-cnn" class="idb-menu-btn-cnn" aria-label="Fechar menu">
@@ -227,205 +310,186 @@
     </ul>
   </aside>
   <div id="menu-backdrop-cnn" class="menu-backdrop-cnn"></div>
-
-  <!-- Conteúdo principal com carrossel, manchetes e notícias -->
   <main class="main-content">
-
     <!-- Carrossel de Manchetes de outros sites -->
-    <div class="carrossel-manchetes">
+    <div class="carrossel-manchetes" aria-label="Carrossel de Manchetes">
       <button class="carrossel-arrow" id="carrossel-prev" aria-label="Anterior">&#10094;</button>
       <div class="carrossel-lista" id="carrossel-lista">
-        <a class="manchete-carrossel" href="https://g1.globo.com/" target="_blank">
+        <a class="manchete-carrossel" href="https://g1.globo.com/" target="_blank" aria-label="Notícia G1">
           <span class="fonte">G1</span>
           <span class="texto">Senado aprova novo piso salarial nacional</span>
         </a>
-        <a class="manchete-carrossel" href="https://www.cnnbrasil.com.br/" target="_blank">
+        <a class="manchete-carrossel" href="https://www.cnnbrasil.com.br/" target="_blank" aria-label="Notícia CNN">
           <span class="fonte">CNN</span>
           <span class="texto">Inflação oficial desacelera em maio, diz IBGE</span>
         </a>
-        <a class="manchete-carrossel" href="https://economia.uol.com.br/" target="_blank">
+        <a class="manchete-carrossel" href="https://economia.uol.com.br/" target="_blank" aria-label="Notícia UOL">
           <span class="fonte">UOL</span>
           <span class="texto">Petrobras anuncia queda no preço da gasolina</span>
         </a>
-        <a class="manchete-carrossel" href="https://www.bbc.com/portuguese" target="_blank">
+        <a class="manchete-carrossel" href="https://www.bbc.com/portuguese" target="_blank" aria-label="Notícia BBC">
           <span class="fonte">BBC</span>
           <span class="texto">ONU alerta para aumento de calor extremo em 2025</span>
         </a>
-        <a class="manchete-carrossel" href="https://exame.com/" target="_blank">
+        <a class="manchete-carrossel" href="https://exame.com/" target="_blank" aria-label="Notícia Exame">
           <span class="fonte">Exame</span>
           <span class="texto">Dólar opera em queda após divulgação de novos dados econômicos</span>
         </a>
-        <a class="manchete-carrossel" href="https://oglobo.globo.com/economia/" target="_blank">
+        <a class="manchete-carrossel" href="https://oglobo.globo.com/economia/" target="_blank" aria-label="Notícia O Globo">
           <span class="fonte">O Globo</span>
           <span class="texto">Mercado financeiro fecha em alta após decisão do Banco Central</span>
         </a>
-        <a class="manchete-carrossel" href="https://feeds.folha.uol.com.br/cotidiano/rss091.xml" target="_blank">
+        <a class="manchete-carrossel" href="https://feeds.folha.uol.com.br/cotidiano/rss091.xml" target="_blank" aria-label="Notícia Folha">
           <span class="fonte">Folha</span>
           <span class="texto">Reforma tributária é aprovada e segue para sanção presidencial</span>
         </a>
-        <a class="manchete-carrossel" href="https://www.terra.com.br/noticias/" target="_blank">
+        <a class="manchete-carrossel" href="https://www.terra.com.br/noticias/" target="_blank" aria-label="Notícia Terra">
           <span class="fonte">Terra</span>
           <span class="texto">Brasil conquista medalha de ouro em competição internacional</span>
         </a>
-        <a class="manchete-carrossel" href="https://valor.globo.com/" target="_blank">
+        <a class="manchete-carrossel" href="https://valor.globo.com/" target="_blank" aria-label="Notícia Valor">
           <span class="fonte">Valor</span>
           <span class="texto">Empresas brasileiras lideram ranking de inovação na América Latina</span>
         </a>
       </div>
       <button class="carrossel-arrow" id="carrossel-next" aria-label="Próxima">&#10095;</button>
     </div>
-
-    <!-- Manchete de destaque -->
-    <section class="destaque">
+    <!-- Breaking news em vídeo ao vivo do YouTube (será exibido automaticamente se houver) -->
+    <section id="breaking-news-video" style="display:none;margin-bottom:2em;">
+      <h2 style="color:#e30613;margin-bottom:1em;">AO VIVO: Cobertura Urgente</h2>
+      <div id="breaking-video-embed"></div>
+    </section>
+    <section class="destaque" aria-label="Notícia em Destaque">
       <span class="destaque-chapeu">Destaque</span>
       <h2>Governo anuncia novo pacote econômico para 2025</h2>
       <p>Ministro da Economia apresenta medidas para estimular o crescimento e controlar a inflação. Mercado reage positivamente.</p>
       <span class="destaque-data">12/06/2025 - 19:30</span>
     </section>
-
-    <!-- Lista de notícias -->
     <ul class="noticias-bloco" id="noticias-bloco">
-      <li class="noticia">
-        <span class="noticia-chapeu">Política</span>
-        <span class="noticia-data">12/06/2025</span>
-        <h3>Congresso aprova reforma política em votação histórica</h3>
-        <p>Projeto de lei altera regras eleitorais e é comemorado por especialistas.</p>
-      </li>
-      <li class="noticia">
-        <span class="noticia-chapeu">Economia</span>
-        <span class="noticia-data">12/06/2025</span>
-        <h3>Inflação desacelera em maio, segundo IBGE</h3>
-        <p>Queda nos preços dos alimentos contribuiu para o resultado positivo do mês.</p>
-      </li>
-      <li class="noticia">
-        <span class="noticia-chapeu">Esportes</span>
-        <span class="noticia-data">12/06/2025</span>
-        <h3>Brasil vence na estreia da Copa América</h3>
-        <p>Seleção faz 3 a 0 e lidera o grupo B do torneio continental.</p>
-      </li>
-      <li class="noticia">
-        <span class="noticia-chapeu">Internacional</span>
-        <span class="noticia-data">12/06/2025</span>
-        <h3>ONU aprova nova resolução sobre clima</h3>
-        <p>Países se comprometem com metas ambientais mais ambiciosas.</p>
-      </li>
-      <li class="noticia">
-        <span class="noticia-chapeu">Entretenimento</span>
-        <span class="noticia-data">12/06/2025</span>
-        <h3>Festival de Cinema premia produção brasileira</h3>
-        <p>Filme nacional é destaque internacional e recebe críticas positivas.</p>
-      </li>
       <!-- Notícias automáticas de outros sites serão adicionadas via JS -->
     </ul>
   </main>
-
-  <!-- JS do header/menu/login -->
-  <script src="header-idb.js"></script>
-  <!-- Carrossel JS -->
+  <script src="header-idb.js" defer></script>
   <script>
-    // Carrossel simples de manchetes
-    (function() {
-      const lista = document.getElementById("carrossel-lista");
-      const items = lista.querySelectorAll(".manchete-carrossel");
-      let idx = 0;
-      function update() {
-        lista.style.transform = `translateX(-${idx * (items[0].offsetWidth + 32)}px)`;
+    (function(){
+      const lista=document.getElementById("carrossel-lista"),items=lista.querySelectorAll(".manchete-carrossel");
+      let idx=0;
+      function update(){
+        lista.style.transform=`translateX(-${idx*(items[0].offsetWidth+32)}px)`
       }
-      document.getElementById("carrossel-prev").onclick = function() {
-        idx = (idx - 1 + items.length) % items.length;
-        update();
+      document.getElementById("carrossel-prev").onclick=function(){
+        idx=(idx-1+items.length)%items.length;update()
       };
-      document.getElementById("carrossel-next").onclick = function() {
-        idx = (idx + 1) % items.length;
-        update();
+      document.getElementById("carrossel-next").onclick=function(){
+        idx=(idx+1)%items.length;update()
       };
-      // Auto-avanço a cada 7s
-      setInterval(() => {
-        idx = (idx + 1) % items.length;
-        update();
-      }, 7000);
-      window.addEventListener("resize", update);
+      setInterval(()=>{idx=(idx+1)%items.length;update()},7000);
+      window.addEventListener("resize",update);
+      lista.addEventListener("transitionend",()=>items[idx].focus&&items[idx].focus());
     })();
-  </script>
-  <!-- Notícias automáticas de outros sites via RSS (vários temas e portais) -->
-  <script>
     // Feeds populares de todos os temas de grandes portais
     const feedUrls = [
-      // G1 - Notícias Gerais
       "https://rss2json.com/api.json?rss_url=https://g1.globo.com/rss/g1/",
-      // G1 - Economia
       "https://rss2json.com/api.json?rss_url=https://g1.globo.com/economia/rss/g1/economia/",
-      // G1 - Tecnologia
       "https://rss2json.com/api.json?rss_url=https://g1.globo.com/rss/g1/tecnologia/",
-      // G1 - Esportes
       "https://rss2json.com/api.json?rss_url=https://g1.globo.com/rss/g1/esportes/",
-      // G1 - Política
       "https://rss2json.com/api.json?rss_url=https://g1.globo.com/rss/g1/politica/",
-      // CNN Brasil
       "https://rss2json.com/api.json?rss_url=https://www.cnnbrasil.com.br/feed/",
-      // Folha de S.Paulo - Cotidiano
       "https://rss2json.com/api.json?rss_url=https://feeds.folha.uol.com.br/cotidiano/rss091.xml",
-      // Folha de S.Paulo - Mundo
       "https://rss2json.com/api.json?rss_url=https://feeds.folha.uol.com.br/mundo/rss091.xml",
-      // UOL Notícias
       "https://rss2json.com/api.json?rss_url=https://rss.uol.com.br/feed/noticias.xml",
-      // UOL Economia
       "https://rss2json.com/api.json?rss_url=https://rss.uol.com.br/feed/economia.xml",
-      // BBC Brasil
       "https://rss2json.com/api.json?rss_url=https://feeds.bbci.co.uk/portuguese/rss.xml",
-      // BBC Mundo
       "https://rss2json.com/api.json?rss_url=https://feeds.bbci.co.uk/mundo/rss.xml",
-      // Estadão - Política
       "https://rss2json.com/api.json?rss_url=https://rss.estadao.com.br/politica.xml",
-      // Estadão - Economia
       "https://rss2json.com/api.json?rss_url=https://rss.estadao.com.br/economia.xml",
-      // Estadão - Esportes
       "https://rss2json.com/api.json?rss_url=https://rss.estadao.com.br/esportes.xml",
-      // Estadão - Internacional
       "https://rss2json.com/api.json?rss_url=https://rss.estadao.com.br/internacional.xml",
-      // O Globo - Economia
       "https://rss2json.com/api.json?rss_url=https://oglobo.globo.com/rss/economia/",
-      // O Globo - Mundo
       "https://rss2json.com/api.json?rss_url=https://oglobo.globo.com/rss/mundo/",
-      // Terra - Últimas Notícias
       "https://rss2json.com/api.json?rss_url=https://www.terra.com.br/rss/0,,EI1,00.xml",
-      // Exame - Negócios
       "https://rss2json.com/api.json?rss_url=https://exame.com/feed/",
-      // Valor Econômico - Últimas
       "https://rss2json.com/api.json?rss_url=https://valor.globo.com/rss/",
-      // InfoMoney
       "https://rss2json.com/api.json?rss_url=https://www.infomoney.com.br/feeds/rss/",
-      // Gazeta Esportiva
       "https://rss2json.com/api.json?rss_url=https://www.gazetaesportiva.com/rss/",
-      // Superinteressante
       "https://rss2json.com/api.json?rss_url=https://super.abril.com.br/feed/",
-      // Olhar Digital (tecnologia)
       "https://rss2json.com/api.json?rss_url=https://olhardigital.com.br/feed/",
-      // TecMundo
       "https://rss2json.com/api.json?rss_url=https://www.tecmundo.com.br/rss"
     ];
-    function adicionarNoticiasAutomaticas() {
-      feedUrls.forEach(url => {
-        fetch(url)
-          .then(res => res.json())
-          .then(data => {
-            if (data.items && data.items.length) {
-              data.items.slice(0, 4).forEach(item => {
-                const el = document.createElement("li");
-                el.className = "noticia";
-                el.innerHTML = `
-                  <span class="noticia-chapeu">${data.feed.title ? data.feed.title.split(" ")[0] : "Notícia"}</span>
-                  <span class="noticia-data">${item.pubDate ? new Date(item.pubDate).toLocaleDateString("pt-BR") : ""}</span>
-                  <h3><a href="${item.link}" target="_blank" style="color:#fff;text-decoration:underline;">${item.title}</a></h3>
-                  <p>${item.description ? item.description.replace(/<[^>]+>/g, '').slice(0, 140) : ""}...</p>
-                `;
-                document.getElementById("noticias-bloco").appendChild(el);
-              });
-            }
-          });
-      });
+    function getYoutubeIdFromUrl(url) {
+      if (!url) return null;
+      let idMatch = url.match(/(?:youtube\.com.*(?:\?|&)v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      return idMatch ? idMatch[1] : null;
     }
-    adicionarNoticiasAutomaticas();
-  </script>
-</body>
-  </html>
+    function isBreakingNews(item) {
+      const keywords = [
+        "breaking news","urgente","ao vivo","live","em tempo real",
+        "breaking","urgency","urgent","em andamento"
+      ];
+      const campo = ((item.title||"") + " " + (item.description||"")).toLowerCase();
+      return keywords.some(k => campo.includes(k));
+    }
+    function extractFirstYoutubeFromText(text) {
+      if(!text) return null;
+      const yt = text.match(/https?:\/\/(?:www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_\-]{11})/);
+      return yt ? (yt[2] || yt[0]) : null;
+    }
+    function adicionarNoticiasAutomaticas() {
+      const cacheKey = 'noticiasAutoCacheV2';
+      const cacheMaxAge = 5 * 60 * 1000;
+      let cache = null;
+      try { cache = JSON.parse(localStorage.getItem(cacheKey)); } catch(e){}
+      const breakingVideoSection = document.getElementById("breaking-news-video");
+      const breakingVideoEmbed = document.getElementById("breaking-video-embed");
+      if(cache && Date.now() - cache.timestamp < cacheMaxAge && cache.html){
+        document.getElementById("noticias-bloco").insertAdjacentHTML('beforeend',cache.html);
+        if(cache.breakingVideoId){
+          breakingVideoEmbed.innerHTML = `
+            <iframe class="noticia-video" src="https://www.youtube.com/embed/${cache.breakingVideoId}?autoplay=1" title="AO VIVO Breaking News" frameborder="0" allowfullscreen></iframe>
+          `;
+          breakingVideoSection.style.display="block";
+        }
+        return;
+      }
+      let titulosSet = new Set();
+      let htmlFinal = '';
+      let firstBreakingNewsYoutubeId = null;
+      Promise.all(feedUrls.map(url=>
+        fetch(url).then(res=>res.json()).catch(()=>null)
+      )).then(results=>{
+        results.forEach(data=>{
+          if(data && data.items && data.items.length){
+            data.items.slice(0,2).forEach(item=>{
+              const tit = item.title.trim();
+              if(!titulosSet.has(tit)){
+                titulosSet.add(tit);
+                let img = "";
+                if(item.thumbnail) img = `<img class="noticia-img" src="${item.thumbnail}" alt="Thumb da notícia">`;
+                else if(item.enclosure && item.enclosure.link && item.enclosure.type && item.enclosure.type.startsWith("image"))
+                  img = `<img class="noticia-img" src="${item.enclosure.link}" alt="Thumb da notícia">`;
+                else if(item.enclosure && typeof item.enclosure === "string" && item.enclosure.match(/\.(jpg|jpeg|png|webp|gif)$/i))
+                  img = `<img class="noticia-img" src="${item.enclosure}" alt="Thumb da notícia">`;
+                else if(item.media && item.media.thumbnail && item.media.thumbnail.url)
+                  img = `<img class="noticia-img" src="${item.media.thumbnail.url}" alt="Thumb da notícia">`;
+                let videoEmbed = "";
+                let youtubeId = null;
+                if(item.media && item.media.content && item.media.content.url && item.media.content.url.includes("youtube.com")) {
+                  youtubeId = getYoutubeIdFromUrl(item.media.content.url);
+                }
+                if(!youtubeId) youtubeId = extractFirstYoutubeFromText(item.description||"");
+                if(!youtubeId && item.link && item.link.includes("youtube.com/watch")) youtubeId = getYoutubeIdFromUrl(item.link);
+                if(youtubeId) videoEmbed = `<iframe class="noticia-video" src="https://www.youtube.com/embed/${youtubeId}" frameborder="0" allowfullscreen></iframe>`;
+                if(!firstBreakingNewsYoutubeId && isBreakingNews(item) && youtubeId) {
+                  firstBreakingNewsYoutubeId = youtubeId;
+                }
+                let safeDesc = (item.description||"").replace(/<[^>]+>/g,'').slice(0,180);
+                htmlFinal+=`
+                <li class="noticia">
+                  ${img || ""}
+                  <div class="noticia-content">
+                    <span class="noticia-chapeu">${data.feed.title ? data.feed.title.split(" ")[0] : "Notícia"}</span>
+                    <span class="noticia-data">${item.pubDate ? new Date(item.pubDate).toLocaleDateString("pt-BR") : ""}</span>
+                    <h3><a href="${item.link}" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">${tit}</a></h3>
+                    <p>${safeDesc}...</p>
+                    ${videoEmbed}
+            
