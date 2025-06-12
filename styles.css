@@ -72,7 +72,7 @@ body {
   color: var(--header-text);
 }
 .favicon {
-  width: 38px; height: 38px;
+  width: 32px; height: 32px;
   border-radius: 7px;
   background: #fff;
   box-shadow: 0 2px 8px #1976d260;
@@ -86,6 +86,9 @@ body {
   border-radius: 50%;
   transition: background .18s, color .18s;
   padding: 0.15em 0.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .theme-toggle:hover, .theme-toggle:focus { background: #e3e7ef50; color: #1252a7; }
 .toggle-icon { font-size: 1.35em; }
@@ -161,11 +164,10 @@ main {
   padding: 1.2em 1em 1.7em 1em;
   margin-bottom: 2em;
   display: flex;
-  flex-direction: row;
-  gap: 1.3em;
   flex-wrap: wrap;
-  align-items: center;
+  gap: 0.8em;
   justify-content: center;
+  align-items: center;
 }
 .sidebar h3 {
   margin: 0 1em 0 0;
@@ -175,16 +177,16 @@ main {
   letter-spacing: 0.02em;
 }
 .sidebar a {
-  text-decoration: none;
-  color: var(--text);
-  font-weight: 600;
-  border-radius: 0.7em;
-  padding: 0.34em 1.1em;
-  transition: background .14s, color .14s;
   display: flex;
   align-items: center;
-  gap: 0.40em;
-  font-size: 1em;
+  gap: 0.45em;
+  padding: 0.35em 1.1em;
+  border-radius: 0.7em;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text);
+  background: none;
+  transition: background .2s, color .2s;
 }
 .sidebar a.g1 { color: var(--g1);}
 .sidebar a.uol { color: var(--uol);}
@@ -202,6 +204,24 @@ main {
   background: var(--primary);
   color: #fff !important;
 }
+.dot {
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 50%;
+  display: inline-block;
+}
+.g1 { background: var(--g1);}
+.uol { background: var(--uol);}
+.estadao { background: var(--estadao);}
+.folha { background: var(--folha);}
+.r7 { background: var(--r7);}
+.terra { background: var(--terra);}
+.cnnbr { background: var(--cnnbr);}
+.band { background: var(--band);}
+.metropoles { background: var(--metropoles);}
+.oglobo { background: var(--oglobo);}
+.gazeta { background: var(--gazeta);}
+.valor { background: var(--valor);}
 
 .news-section {
   margin-bottom: 2.8em;
@@ -216,26 +236,6 @@ main {
   align-items: center;
   gap: 0.6em;
 }
-.dot {
-  display: inline-block;
-  width: 0.9em;
-  height: 0.9em;
-  border-radius: 50%;
-  vertical-align: middle;
-  margin-bottom: 1.5px;
-}
-.g1 { background: var(--g1);}
-.uol { background: var(--uol);}
-.estadao { background: var(--estadao);}
-.folha { background: var(--folha);}
-.r7 { background: var(--r7);}
-.terra { background: var(--terra);}
-.cnnbr { background: var(--cnnbr);}
-.band { background: var(--band);}
-.metropoles { background: var(--metropoles);}
-.oglobo { background: var(--oglobo);}
-.gazeta { background: var(--gazeta);}
-.valor { background: var(--valor);}
 
 .news-list {
   display: grid;
