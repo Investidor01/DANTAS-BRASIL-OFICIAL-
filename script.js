@@ -1,3 +1,4 @@
+// ======= RSS FEEDS =======
 const RSS_FEEDS = [
   {
     nome: "G1",
@@ -61,26 +62,28 @@ const RSS_FEEDS = [
   }
 ];
 
-// Palavras-chave de breaking news
+// ======= BREAKING KEYWORDS =======
 const breakingKeywords = [
   "URGENTE", "BREAKING", "LUTO", "URGÊNCIA", "ATENÇÃO", "GRAVE", "ALERTA", "EXPLODE", "TRAGÉDIA", "EMERGÊNCIA", "ACIDENTE", "TIROTEIO", "FATAL", "MORRE", "MORTE", "PANDEMIA", "COVID", "EVACUAÇÃO"
 ];
 
+// ======= HTML SANITIZER =======
 function sanitizeHTML(str) {
   const temp = document.createElement('div');
   temp.innerHTML = str || '';
   return temp.textContent || temp.innerText || '';
 }
 
+// ======= BREAKING NEWS DETECTOR =======
 function noticiaIsBreaking(noticia) {
   const t = (noticia.title || '') + ' ' + (noticia.description || '');
   return breakingKeywords.some(kw => t.toUpperCase().includes(kw));
 }
 
+// ======= RENDER NOTÍCIAS =======
 function renderNoticias(rss, noticias, highlightBreaking = false) {
   return noticias.map(noticia => {
     const isBreaking = noticiaIsBreaking(noticia);
-    // Compartilhamento URLs
     const title = encodeURIComponent(sanitizeHTML(noticia.title));
     const url = encodeURIComponent(noticia.link);
     return `
@@ -109,6 +112,7 @@ function renderNoticias(rss, noticias, highlightBreaking = false) {
   }).join('');
 }
 
+// ======= CARREGAR NOTÍCIAS DE UM PORTAL =======
 function carregarNoticias(rss) {
   const grid = document.getElementById('news-' + rss.cor);
   if (!grid) return;
@@ -127,7 +131,7 @@ function carregarNoticias(rss) {
     });
 }
 
-// Breaking News agregadas de todos os portais
+// ======= BREAKING NEWS AGREGADAS =======
 function carregarBreakingNews() {
   const breakingGrid = document.getElementById('news-breaking');
   breakingGrid.innerHTML = `<div class="loading">Carregando breaking news...</div>`;
@@ -149,7 +153,6 @@ function carregarBreakingNews() {
             // Ordena por mais recente
             allBreaking.sort((a, b) => (b.pubDate || '').localeCompare(a.pubDate || ''));
             breakingGrid.innerHTML = allBreaking.slice(0, 8).map(noticia => {
-              // Compartilhamento
               const title = encodeURIComponent(sanitizeHTML(noticia.title));
               const url = encodeURIComponent(noticia.link);
               return `
@@ -174,7 +177,6 @@ function carregarBreakingNews() {
                 </div>
               </div>
             `}).join('');
-            // Breaking bar topo
             mostrarBreakingBar(allBreaking.slice(0, 5));
           } else {
             breakingGrid.innerHTML = `<div class="error-msg">Nenhuma breaking news no momento.</div>`;
@@ -185,6 +187,7 @@ function carregarBreakingNews() {
   );
 }
 
+// ======= BREAKING BAR NO TOPO =======
 function mostrarBreakingBar(breaking) {
   const bar = document.getElementById('breakingBar');
   if (breaking.length === 0) {
@@ -198,7 +201,7 @@ function mostrarBreakingBar(breaking) {
   bar.style.display = 'flex';
 }
 
-// Dark Mode
+// ======= DARK MODE =======
 function setTheme(theme) {
   document.body.setAttribute('data-theme', theme);
   localStorage.setItem('theme', theme);
@@ -212,7 +215,7 @@ document.getElementById('themeToggle').onclick = function() {
   setTheme(st);
 })();
 
-// Busca de notícias
+// ======= BUSCA INSTANTÂNEA =======
 document.getElementById('searchForm').onsubmit = function(e) { e.preventDefault(); };
 document.getElementById('searchInput').oninput = function() {
   const v = this.value.trim().toLowerCase();
@@ -221,10 +224,22 @@ document.getElementById('searchInput').oninput = function() {
   });
 };
 
-// Inicialização
+// ======= MENU PORTAIS: ROLAGEM SUAVE =======
+document.querySelectorAll('.portais-navbar a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const id = this.getAttribute('href');
+    const sec = document.querySelector(id);
+    if (sec) {
+      e.preventDefault();
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const h2 = sec.querySelector('h2');
+      if (h2) h2.setAttribute('tabindex', '-1'), h2.focus();
+    }
+  });
+});
+
+// ======= INICIALIZAÇÃO =======
 document.addEventListener('DOMContentLoaded', function () {
-  // Breaking News
   carregarBreakingNews();
-  // Portais
   RSS_FEEDS.forEach(carregarNoticias);
 });
