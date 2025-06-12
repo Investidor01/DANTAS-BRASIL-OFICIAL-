@@ -2,153 +2,143 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>INFO DANTAS BRASIL - Portal de Notícias</title>
+  <title>INFO DANTAS BRASIL - Notícias e Bolsa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Portal de notícias brasileiras e internacionais, bolsa de valores, investimentos e economia.">
-  <meta name="theme-color" content="#000">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23000%22/></svg>">
+  <meta name="description" content="Notícias do Brasil e do mundo, economia, política e cotações da bolsa de valores em tempo real.">
+  <meta name="theme-color" content="#c00">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23c00%22/></svg>">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Roboto:400,700&display=swap">
-  <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      background: #000;
-      color: #fff;
-      font-family: 'Roboto', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+    :root {
+      --vermelho: #c00;
+      --vermelho-escuro: #900;
+      --cinza-bg: #181818;
+      --cinza-card: #222;
+      --cinza-menu: #1a1a1a;
+      --cinza-borda: #333;
+      --branco: #fff;
+      --cinza-texto: #eaeaea;
+      --cinza-claro: #f5f5f5;
+      --fonte-titulo: 'Montserrat', sans-serif;
+      --fonte-texto: 'Roboto', Arial, sans-serif;
     }
+    html, body {margin: 0; padding: 0; background: var(--cinza-bg); color: var(--cinza-texto);}
+    body {font-family: var(--fonte-texto);}
+    /* Header fixo estilo CNN Brasil */
     header {
-      width: 100%;
-      background: #101010;
-      box-shadow: 0 2px 10px #0008;
-      padding: 0;
+      background: var(--branco);
+      border-bottom: 4px solid var(--vermelho);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px #0003;
     }
-    .header-flex {
+    .header-main {
       display: flex;
-      flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      width: 100%;
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0.7em 2vw 0.4em 2vw;
-      gap: 1em;
+      padding: 0.7em 2vw;
     }
     .logo-title {
-      font-family: 'Montserrat', sans-serif;
+      font-family: var(--fonte-titulo);
       font-size: 2.2rem;
       font-weight: 900;
-      letter-spacing: 2px;
-      color: #c00;
-      background: #fff;
-      border-radius: 10px;
-      padding: 0.17em 1em 0.17em 1em;
+      color: var(--branco);
+      background: var(--vermelho);
+      border-radius: 8px;
+      padding: 0.13em 1.1em;
+      letter-spacing: 1.5px;
+      text-shadow: 0 1px 8px #0002;
+      margin-right: 1em;
       box-shadow: 0 2px 8px #c0040444;
-      margin: 0;
-      text-shadow: none;
-      display: block;
+      display: inline-block;
       white-space: nowrap;
     }
-    .menu {
-      position: relative;
-      z-index: 20;
-    }
-    .menu-toggle {
-      background: #c00;
+    /* Menu hamburguer */
+    .menu-hamburger {
+      background: none;
       border: none;
-      border-radius: 7px;
-      padding: 0.43em 1.1em;
-      font-size: 1.2rem;
-      color: #fff;
+      color: var(--vermelho);
+      font-size: 2.1rem;
       cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      box-shadow: 0 2px 8px #c0040444;
-      margin-left: 0.7em;
-      transition: background .2s;
-      letter-spacing: 1px;
-    }
-    .menu-toggle:hover, .menu-toggle:focus { background: #900; }
-    .menu-content {
       display: none;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background: #181818;
-      min-width: 200px;
-      border-radius: 9px;
-      box-shadow: 0 4px 24px #000b, 0 1px 4px #c0040411;
-      margin-top: 0.3em;
-      padding: 0.5em 0;
-      z-index: 99;
-      animation: fadeMenu .18s;
+      align-items: center;
+      margin-left: 0.5em;
+      transition: color .2s;
     }
-    @keyframes fadeMenu {
-      from { opacity:0; transform: translateY(10px);}
-      to   { opacity:1; transform: translateY(0);}
+    .menu-hamburger:hover { color: var(--vermelho-escuro);}
+    nav.menu-nav {
+      background: none;
+      display: flex;
+      align-items: center;
     }
-    .menu-content ul {
+    .menu-list {
       list-style: none;
+      display: flex;
+      gap: 2em;
       margin: 0;
       padding: 0;
     }
-    .menu-content li {
-      margin: 0;
-      border-bottom: 1px solid #222;
-    }
-    .menu-content li:last-child { border-bottom: none; }
-    .menu-content a {
-      display: block;
-      color: #fff;
+    .menu-list li a {
+      color: var(--cinza-menu);
+      font-family: var(--fonte-titulo);
+      font-weight: 700;
       text-decoration: none;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 500;
-      padding: 0.9em 1.4em;
-      border-radius: 6px;
-      transition: background .18s, color .18s;
+      font-size: 1.15em;
+      padding: 0.2em 0.5em;
+      border-radius: 3px;
+      transition: background .12s, color .12s;
     }
-    .menu-content a:hover, .menu-content a:focus {
-      background: #c00;
-      color: #fff;
-      outline: none;
+    .menu-list li a:hover, .menu-list li a:focus {
+      background: var(--vermelho);
+      color: var(--branco);
     }
-    .menu.open .menu-content { display: block; }
+    /* Menu mobile */
+    @media (max-width: 800px) {
+      .header-main { flex-wrap: wrap; gap: 0.8em;}
+      .menu-hamburger { display: flex;}
+      nav.menu-nav {display: none;}
+      nav.menu-nav.open {display: block; position: absolute; right: 2vw; top: 4em; background: var(--cinza-menu); border-radius: 10px; box-shadow: 0 4px 20px #0009; z-index: 1000;}
+      .menu-list {flex-direction: column; gap: 0;}
+      .menu-list li a {padding: 1em 2.5em; font-size: 1.07em; border-radius: 0;}
+    }
+    /* Linha de ativos */
     .linha-alta-baixa {
       width: 100%;
-      max-width: 1100px;
-      margin: 0.2em auto 0.7em auto;
-      background: #181818;
-      border-radius: 12px;
+      max-width: 1200px;
+      margin: 0.5em auto 1em auto;
+      background: var(--cinza-menu);
+      border-radius: 10px;
       box-shadow: 0 2px 10px #c0040444;
-      padding: .3em 1em;
-      font-family: 'Roboto', Arial, sans-serif;
-      font-size: 1.13rem;
+      padding: .7em 1.5em;
+      font-size: 1.1rem;
       font-weight: 700;
-      letter-spacing: 1px;
-      color: #fff;
+      color: var(--branco);
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       flex-wrap: wrap;
-      gap: 1.2em;
-      margin-bottom: 1.5em;
+      gap: 1.5em;
     }
     .linha-alta-baixa .ativo-bloco {
+      background: var(--cinza-card);
+      border-radius: 7px;
+      box-shadow: 0 1px 8px #c0040422;
+      padding: 0.5em 1em;
+      margin: 0.2em 0.3em;
+      min-width: 165px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      background: #111;
-      box-shadow: 0 1px 8px #c0040422;
-      border-radius: 8px;
-      padding: 0.33em 1em 0.33em 1em;
-      margin: 0.2em 0.5em;
-      min-width: 170px;
     }
     .linha-alta-baixa .ativo-bloco strong {
-      font-size: 1.05em;
-      color: #fff;
-      margin-bottom: 2px;
+      font-size: 1.02em;
+      color: var(--vermelho);
+      margin-bottom: 3px;
       letter-spacing: 0.5px;
+      font-family: var(--fonte-titulo);
     }
     .linha-alta-baixa .alta {
       color: #05dd05;
@@ -156,296 +146,207 @@
     .linha-alta-baixa .baixa {
       color: #f44336;
     }
-    .linha-alta-baixa .preco-atual {
-      color: #fff;
-    }
-    .linha-alta-baixa .variacao {
-      font-weight: 700;
-      padding: 0 4px;
-      border-radius: 4px;
-      margin-left: 2px;
-    }
     .linha-alta-baixa .variacao.positivo {
       background: #1a3b1a;
       color: #0f0;
+      padding: 0 4px;
+      border-radius: 4px;
     }
     .linha-alta-baixa .variacao.negativo {
       background: #3b1a1a;
       color: #f44336;
+      padding: 0 4px;
+      border-radius: 4px;
     }
-    .news-grid, .investimentos-news-grid {
+    /* Grid de notícias */
+    .news-section {
+      max-width: 1200px;
+      margin: 2em auto;
+      padding: 0 2vw;
+    }
+    .news-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 2em 2em;
       margin: 2em 0;
     }
     .news-card {
-      background: #161616;
-      border-radius: 16px;
-      box-shadow: 0 2px 16px #0007;
-      padding: 1.3em 1.3em 1.1em 1.3em;
+      background: var(--branco);
+      border-radius: 12px;
+      box-shadow: 0 2px 18px #0003;
       display: flex;
       flex-direction: column;
       transition: transform .18s, box-shadow .18s;
-      border: 1.7px solid #232323;
+      border: 1.5px solid var(--cinza-borda);
+      overflow: hidden;
+      min-height: 420px;
       position: relative;
     }
     .news-card:hover { 
       transform: translateY(-4px) scale(1.01); 
-      box-shadow: 0 8px 36px #c0040422, 0 2px 14px #000b;
-      border-color: #c00;
+      box-shadow: 0 8px 30px #c0040422, 0 2px 14px #000b;
+      border-color: var(--vermelho);
     }
-    .news-card .news-title {
-      font-family: 'Montserrat', sans-serif;
+    .news-card .news-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #ccc;
+      display: block;
+    }
+    .news-card .news-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.1em 1em 1em 1em;
+    }
+    .news-title {
+      font-family: var(--fonte-titulo);
       font-weight: 800;
-      color: #fff;
-      font-size: 1.13em;
-      margin-bottom: 0.4em;
+      color: var(--vermelho);
+      font-size: 1.18em;
+      margin-bottom: 0.2em;
       letter-spacing: 0.5px;
+      min-height: 2.5em;
+      line-height: 1.14;
+      text-shadow: 0 1px 5px #fff2;
     }
-    .news-card .news-meta {
-      font-size: .94em;
-      color: #c00;
-      margin-bottom: 0.7em;
-      opacity: .85;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 700;
-    }
-    .news-card .news-summary {
-      font-size: 1em;
-      color: #e5e5e5;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 400;
+    .news-meta {
+      font-size: .93em;
+      color: var(--vermelho-escuro);
       margin-bottom: 0.6em;
-      line-height: 1.6;
-    }
-    .news-card .news-source {
-      position: absolute;
-      bottom: 1em;
-      right: 1.2em;
-      font-size: 0.95em;
-      color: #aaa;
-      background: #222;
-      border-radius: 6px;
-      padding: 2px 9px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: var(--fonte-texto);
       font-weight: 700;
     }
-    section, .container { max-width: 1100px; margin: 0 auto; }
+    .news-summary {
+      font-size: 1em;
+      color: #333;
+      font-family: var(--fonte-texto);
+      font-weight: 400;
+      margin-bottom: 0.8em;
+      line-height: 1.55;
+      flex: 1 1 auto;
+      text-shadow: 0 1px 2px #fff2;
+    }
+    .news-source {
+      font-size: 0.99em;
+      color: #666;
+      background: #f5f5f5;
+      border-radius: 6px;
+      padding: 2px 10px;
+      font-family: var(--fonte-titulo);
+      font-weight: 700;
+      align-self: flex-end;
+      margin-top: 0.4em;
+    }
+    .news-card .news-link {
+      display: inline-block;
+      background: var(--vermelho);
+      color: var(--branco);
+      text-decoration: none;
+      font-weight: 700;
+      font-family: var(--fonte-titulo);
+      padding: 0.55em 1.15em;
+      border-radius: 7px;
+      font-size: 1em;
+      margin-top: 1.1em;
+      box-shadow: 0 1px 6px #c0040444;
+      transition: background .18s;
+      align-self: flex-start;
+    }
+    .news-card .news-link:hover { background: var(--vermelho-escuro);}
+    /* Títulos e textos */
+    section {max-width: 1200px; margin: 0 auto;}
     h2 {
-      color: #fff;
-      font-weight: 800;
-      margin-top:1.9em;
-      font-size: 1.3em;
+      color: var(--vermelho);
+      font-family: var(--fonte-titulo);
+      font-weight: 900;
+      font-size: 1.6em;
       letter-spacing: 1px;
-      font-family: 'Montserrat', sans-serif;
+      margin-top: 2.3em;
+      margin-bottom: 0.7em;
+      text-align: left;
     }
-    label, p, li, span, button, input, select, textarea {
-      color: #fff;
-      font-family: 'Roboto', Arial, sans-serif;
-      font-size: 1em;
+    @media (max-width: 950px) {
+      .news-grid {grid-template-columns:1fr;}
+      .header-main {flex-direction: column; align-items:stretch;}
+      .logo-title {margin:0 auto;}
     }
-    input, select, textarea, button {
-      background: #222;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 0.45em 0.9em;
-      margin-top: 0.2em;
-      margin-bottom: 0.5em;
-      color: #fff !important;
+    @media (max-width: 700px) {
+      h2 {font-size:1.13em;}
+      .news-section, section {padding:0 1vw;}
+      .linha-alta-baixa {font-size:.97rem;flex-direction:column;gap:0.7em;}
+      .linha-alta-baixa .ativo-bloco {width:100%;min-width:unset;}
+      .news-card .news-image {height:140px;}
     }
-    input:focus, select:focus, textarea:focus {
-      outline: 2px solid #c00;
+    /* Rodapé */
+    footer {
+      background: var(--cinza-menu);
+      margin-top: 3em;
+      padding: 1.5em 0 1em 0;
+      border-top: 3px solid var(--vermelho);
+      color: #ccc;
+      font-size: 1.01em;
+      text-align: center;
     }
-    button, .support-btn {
-      color: #fff;
-      background: #c00;
-      border: none;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 1em;
-      padding: 0.5em 1.2em;
-      cursor: pointer;
-      box-shadow: 0 1px 4px #c0040444;
-      margin-top: 0.3em;
-      transition: background .2s;
-    }
-    button:hover, .support-btn:hover {background: #900;}
-    .about-section strong {color:#fff;}
-    .highlight {color:#c00;}
-    footer {margin-top:2em;background:#181818;}
-    footer p, footer a, footer li {color:#ccc;}
-    .footer-social a {font-size:1.1em;margin-right:.7em;text-decoration:none;}
-    @media (max-width:900px) {
-      .header-flex { flex-direction: column; align-items:stretch; padding:0.7em 2vw 0.4em 2vw;}
-      .logo-title { font-size:1.3rem; width:100%; }
-      .news-grid, .investimentos-news-grid { grid-template-columns:1fr; }
-    }
+    footer .footer-social a {color:#c00;margin:0 0.5em;text-decoration:none;}
+    footer .footer-social a:hover {text-decoration: underline;}
+    /* Outros */
+    .loading {color: #c00; font-weight: 700; font-family: var(--fonte-titulo);}
   </style>
 </head>
 <body>
   <header>
-    <div class="header-flex">
+    <div class="header-main">
       <span class="logo-title">INFO DANTAS BRASIL</span>
-      <div class="menu" id="menu">
-        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-haspopup="true" aria-controls="menu-list" aria-expanded="false">
-          Menu &#9776;
-        </button>
-        <nav class="menu-content" id="menu-content" aria-label="Menu principal" role="menu">
-          <ul id="menu-list">
-            <li><a href="#">Início</a></li>
-            <li><a href="#principais">Principais</a></li>
-            <li><a href="#politica">Política</a></li>
-            <li><a href="#economia">Economia</a></li>
-            <li><a href="#mundo">Mundo</a></li>
-            <li><a href="#sobre">Sobre</a></li>
-            <li><a href="#contato">Contato</a></li>
-          </ul>
-        </nav>
-      </div>
+      <button class="menu-hamburger" id="menu-hamburger" title="Abrir menu" aria-label="Abrir menu">&#9776;</button>
+      <nav class="menu-nav" id="menu-nav">
+        <ul class="menu-list">
+          <li><a href="#">Início</a></li>
+          <li><a href="#principais">Principais</a></li>
+          <li><a href="#politica">Política</a></li>
+          <li><a href="#economia">Economia</a></li>
+          <li><a href="#mundo">Mundo</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
     </div>
     <div class="linha-alta-baixa" id="linha-alta-baixa"></div>
-    <div class="breadcrumb-container" id="breadcrumb"></div>
   </header>
 
   <main>
-    <section id="cotacoes-section" class="cotacoes-section">
-      <h2>Cotações da Bolsa de Valores (B3)</h2>
-      <div id="cotacoes-box">
-        <div class="loading">Carregando cotações...</div>
+    <section class="news-section">
+      <h2>Últimas Notícias de Economia e Negócios</h2>
+      <div class="news-grid" id="news-grid">
+        <div class="loading">Carregando notícias reais...</div>
       </div>
-    </section>
-
-    <section id="investimentos-section" class="investimentos-section">
-      <h2>Notícias de Investimentos & Bolsa de Valores</h2>
-      <div id="investimentos-news" class="investimentos-news-grid"></div>
-    </section>
-
-    <section id="carousel-section">
-      <h2>Manchetes em destaque</h2>
-      <div class="carousel" id="news-carousel">
-        <div class="carousel-inner" id="carousel-inner"></div>
-        <button class="carousel-btn carousel-btn-prev" id="carousel-prev">&lt;</button>
-        <button class="carousel-btn carousel-btn-next" id="carousel-next">&gt;</button>
-      </div>
-    </section>
-
-    <section class="filters-section">
-      <h2>Filtros</h2>
-      <form id="filters-form">
-        <label>
-          Fonte:
-          <select id="source-filter">
-            <option value="all">Todas</option>
-            <option value="g1">G1</option>
-            <option value="bbc">BBC</option>
-            <option value="uol">UOL</option>
-          </select>
-        </label>
-        <label>
-          Categoria:
-          <select id="category-filter">
-            <option value="all">Todas</option>
-            <option value="principais">Principais</option>
-            <option value="politica">Política</option>
-            <option value="economia">Economia</option>
-            <option value="mundo">Mundo</option>
-            <option value="tecnologia">Tecnologia</option>
-          </select>
-        </label>
-        <label>
-          Palavra-chave:
-          <input type="text" id="keyword-filter" placeholder="Ex: economia">
-        </label>
-        <button type="submit">Filtrar</button>
-      </form>
-    </section>
-
-    <section class="news-grid" aria-label="Notícias agregadas" id="news-grid">
-      <h2>Notícias agregadas</h2>
-      <div class="loading">Carregando notícias reais...</div>
-    </section>
-
-    <section class="most-read-section">
-      <h2>Mais lidas</h2>
-      <ul id="most-read-list"></ul>
-    </section>
-
-    <section class="newsletter-section">
-      <h2>Receba notícias no seu e-mail</h2>
-      <form id="newsletter-form">
-        <input type="email" placeholder="Seu e-mail" required>
-        <button type="submit">Inscrever</button>
-      </form>
-      <div id="newsletter-msg"></div>
-    </section>
-
-    <section id="sobre" class="about-section">
-      <h2>Sobre o INFO DANTAS BRASIL</h2>
-      <p>O <strong>INFO DANTAS BRASIL</strong> é um portal independente que agrega notícias das principais fontes do Brasil e do mundo, com foco especial em bolsa de valores, investimentos e economia, oferecendo filtros inteligentes, experiência personalizada e compromisso com a credibilidade.</p>
-      <ul>
-        <li>Equipe editorial dedicada</li>
-        <li>Notícias sempre atualizadas</li>
-        <li>Foco em tecnologia, economia, política, mundo e mercados</li>
-      </ul>
-    </section>
-
-    <section id="contato" class="contact-section">
-      <h2>Contato</h2>
-      <form id="contact-form">
-        <input type="text" name="nome" placeholder="Seu nome" required>
-        <input type="email" name="email" placeholder="Seu e-mail" required>
-        <textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
-        <button type="submit">Enviar</button>
-      </form>
-      <div id="contact-msg"></div>
-    </section>
-
-    <section id="politica-privacidade" class="policy-section">
-      <h2>Política de privacidade & Termos de uso</h2>
-      <p>Respeitamos sua privacidade. Não coletamos dados pessoais sem seu consentimento. Para mais detalhes, acesse nossa <a href="#">Política de Privacidade</a>.</p>
-    </section>
-
-    <section class="support-section">
-      <h2>Apoie o projeto</h2>
-      <p>Gostou do portal? Considere apoiar para mantermos este serviço gratuito e independente:</p>
-      <button class="support-btn">Apoiar via Pix</button>
     </section>
   </main>
 
   <footer>
     <div class="container">
       <p>&copy; 2025 <span class="highlight">INFO DANTAS BRASIL</span> • Feito com <span style="color:#c00;">❤</span> para você</p>
-      <nav aria-label="Links do rodapé">
-        <ul>
-          <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#contato">Contato</a></li>
-          <li><a href="#politica-privacidade">Política de Privacidade</a></li>
-        </ul>
-      </nav>
-      <div class="footer-social">
+      <div class="footer-social" style="margin-top:1em;">
         <a href="https://twitter.com/" target="_blank" title="Twitter" rel="noopener">Twitter</a>
         <a href="https://facebook.com/" target="_blank" title="Facebook" rel="noopener">Facebook</a>
         <a href="https://wa.me/" target="_blank" title="WhatsApp" rel="noopener">WhatsApp</a>
       </div>
     </div>
   </footer>
-
   <script src="script.js"></script>
   <script>
-    // Menu hamburguer profissional acessível
-    const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu');
-    const menuContent = document.getElementById('menu-content');
-    menuToggle.addEventListener('click', function() {
-      const opened = menu.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', opened);
+    // Menu hamburger responsivo
+    const menuHamb = document.getElementById('menu-hamburger');
+    const menuNav = document.getElementById('menu-nav');
+    menuHamb.addEventListener('click', function() {
+      menuNav.classList.toggle('open');
     });
     document.addEventListener('click', function(e) {
-      if (!menu.contains(e.target)) menu.classList.remove('open');
+      if (!menuNav.contains(e.target) && !menuHamb.contains(e.target)) menuNav.classList.remove('open');
     });
-    menuToggle.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') menu.classList.remove('open');
+    menuHamb.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') menuNav.classList.remove('open');
     });
   </script>
 </body>
