@@ -5,25 +5,105 @@
   <title>INFO DANTAS BRASIL - Portal de Notícias</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Portal de notícias brasileiras e internacionais, bolsa de valores, investimentos e economia.">
-  <meta name="theme-color" content="#004aad">
+  <meta name="theme-color" content="#c00">
   <!-- Favicon personalizado -->
   <link rel="icon" type="image/png" href="images/logo-dantas.png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Roboto:400,700&display=swap">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .linha-alta-baixa {
+      width: 100%;
+      max-width: 900px;
+      margin: 0.7em auto 0.6em auto;
+      background: #ffeaea;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px #c0040444;
+      padding: 0.3em 1em;
+      font-family: 'Roboto', Arial, sans-serif;
+      font-size: 1.13rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #b00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5em;
+    }
+    .linha-alta-baixa .ativo-bloco {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background: #fff;
+      box-shadow: 0 1px 8px #c0040422;
+      border-radius: 8px;
+      padding: 0.4em 1em 0.4em 1em;
+      margin: 0.2em 0.5em;
+      min-width: 170px;
+    }
+    .linha-alta-baixa .ativo-bloco strong {
+      font-size: 1.02em;
+      color: #c00;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
+    }
+    .linha-alta-baixa span {
+      display: flex;
+      align-items: center;
+      gap: 0.18em;
+    }
+    .linha-alta-baixa .alta {
+      color: #065e00;
+    }
+    .linha-alta-baixa .baixa {
+      color: #c00;
+    }
+    .linha-alta-baixa .preco-atual {
+      color: #222;
+    }
+    .linha-alta-baixa .variacao {
+      font-weight: 700;
+      padding: 0 4px;
+      border-radius: 4px;
+      margin-left: 2px;
+    }
+    .linha-alta-baixa .variacao.positivo {
+      background: #d3ffd3;
+      color: #065e00;
+    }
+    .linha-alta-baixa .variacao.negativo {
+      background: #ffd3d3;
+      color: #c00;
+    }
+    @media (max-width: 900px) {
+      .linha-alta-baixa {
+        font-size: 0.98rem;
+        flex-direction: column;
+        gap: 0.8em;
+        padding: 0.5em 0.5em;
+      }
+      .linha-alta-baixa .ativo-bloco {
+        min-width: unset;
+        width: 100%;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 <body class="light">
   <header>
-    <div class="container header-flex">
-      <a href="/" class="logo" aria-label="Página inicial" style="display:flex;align-items:center;gap:0.7em;">
-        <!-- LOGO VISUAL: emoji, imagem e texto -->
-        <span style="font-size:2.7rem;vertical-align:middle;line-height:1;">🦅</span>
-        <img src="images/logo-dantas.png" alt="Logo INFO DANTAS BRASIL" height="50" style="vertical-align:middle;border-radius:12px;box-shadow:0 2px 10px #004aad55;">
+    <div class="container header-flex" style="flex-direction:column;align-items:flex-start;">
+      <a href="/" class="logo" aria-label="Página inicial" style="display:flex;align-items:center;gap:1em;margin-bottom:0.1em;">
+        <span style="font-size:2.4rem;vertical-align:middle;line-height:1;">🦅</span>
+        <img src="images/logo-dantas.png" alt="Logo INFO DANTAS BRASIL" height="48" style="vertical-align:middle;border-radius:12px;box-shadow:0 2px 10px #c0040444;">
         <span class="logo-title"
-          style="font-family:Montserrat,sans-serif;font-size:2rem;font-weight:900;letter-spacing:2px;color:#004aad;text-shadow:0 2px 8px #004aad22;">
-          INFO DANTAS <span style="color:#FFB800;text-shadow:0 1px 4px #ffb80066;">BRASIL</span>
+          style="font-family:Montserrat,sans-serif;font-size:2rem;font-weight:900;letter-spacing:2px;color:#c00;text-shadow:0 2px 8px #c0040444;">
+          INFO DANTAS <span style="color:#fff;background:#c00;padding:2px 8px;border-radius:6px;margin-left:3px;">BRASIL</span>
         </span>
       </a>
-      <nav aria-label="Menu principal">
+      <!-- LINHA ALTA/BAIXA E MAIS INFORMAÇÕES -->
+      <div class="linha-alta-baixa" id="linha-alta-baixa"></div>
+      <nav aria-label="Menu principal" style="margin-bottom:0.7em;">
         <ul>
           <li><a href="#">🏠 Início</a></li>
           <li><a href="#principais">📰 Principais</a></li>
@@ -34,7 +114,7 @@
           <li><a href="#contato">✉️ Contato</a></li>
         </ul>
       </nav>
-      <div class="header-actions">
+      <div class="header-actions" style="margin-left:0;">
         <button id="theme-toggle" title="Alternar modo claro/escuro" aria-label="Modo claro/escuro">🌙</button>
         <form class="search-form" id="search-form" role="search">
           <input type="search" id="search-input" placeholder="Buscar notícia..." aria-label="Buscar notícia" autocomplete="off">
@@ -184,4 +264,4 @@
 
   <script src="script.js"></script>
 </body>
-          </html>
+                        </html>
