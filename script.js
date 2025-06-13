@@ -231,20 +231,57 @@ setTimeout(function(){
   });
 }, 12000);
 
-// --- VÍDEOS CNN: Breaking News OU Governo/Política ---
-function buscarVideosCNNBreakingOrGoverno() {
+// --- VÍDEOS CNN e OUTRAS FONTES ---
+function buscarVideosNoticiasDestaque() {
   const apiKey = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
   const videosGrid = document.getElementById('videos-grid');
   if(!videosGrid) return;
   videosGrid.innerHTML = '<div style="color:#fff">Carregando vídeos...</div>';
-  const channelId = "UCR9I2YnsBT7Ip1oQb6R6Ueg";
-  const maxResults = 25; // busca mais para filtrar
-  let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=${maxResults}&channelId=${channelId}&order=date`;
-  fetch(url)
+  const cnnChannelId = "UCR9I2YnsBT7Ip1oQb6R6Ueg";
+  // Outras fontes de destaque nacionais/internacionais
+  const otherChannels = [
+    {id: "UCjRkUtHQ774mTg1vrQ6uA5A", nome: "Band Jornalismo"}, // Band Jornalismo
+    {id: "UCVgL_VeHteGecpPPhhXEF0Q", nome: "Record News"}, // Record News
+    {id: "UCn8zNIfYAQNdrFRrr8oibKw", nome: "BBC News Brasil"}, // BBC Brasil
+    {id: "UC16niRr50-MSBwiO3YDb3RA", nome: "BBC News"}, // BBC internacional
+    {id: "UCupvZG-5ko_eiXAupbDfxWw", nome: "CNN International"}, // CNN Int
+    {id: "UCLXo7UDZvByw2ixzpQCufnA", nome: "DW News"} // DW News
+  ];
+  const maxResults = 25;
+  // Busca CNN Brasil
+  let urlCnn = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=${maxResults}&channelId=${cnnChannelId}&order=date`;
+  // Busca das outras fontes (paralelo)
+  let otherUrls = otherChannels.map(ch =>
+    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=5&channelId=${ch.id}&order=date`)
+      .then(r=>r.json())
+      .then(res=>{
+        if(res.items && res.items.length) {
+          // Apenas vídeos de notícia (filtrar se quiser)
+          let filtered = res.items.filter(video=>{
+            const s = video.snippet;
+            const t = (s.title + " " + s.description).toLowerCase();
+            // Pega só vídeos de notícia relevantes por palavra-chave (ou todos)
+            return t.match(/notícia|breaking|news|governo|presidente|mundo|política|política|congresso|senado|parlamento|minister/);
+          }).slice(0,1); // pega 1 de cada fonte para destaque
+          return filtered.map(video=>{
+            let vid = video.id.videoId;
+            // Destaque na borda
+            return `<div class="video-relacionado" style="border: 3px solid #e30613; box-shadow: 0 0 10px #e30613;">
+              <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="Destaque: ${ch.nome}"></iframe>
+              <span>Destaque: ${ch.nome}</span>
+            </div>`;
+          }).join('');
+        }
+        return '';
+      })
+  );
+
+  // Busca CNN Brasil (governo/política/breaking news)
+  fetch(urlCnn)
     .then(r=>r.json())
     .then(res=>{
+      let html = '';
       if(res.items && res.items.length) {
-        // Filtra breaking news OU temas governo/política
         let filtered = res.items.filter(video => {
           const s = video.snippet;
           const t = (s.title + " " + s.description).toLowerCase();
@@ -262,9 +299,8 @@ function buscarVideosCNNBreakingOrGoverno() {
           );
         }).slice(0,4);
         if(filtered.length) {
-          videosGrid.innerHTML = filtered.map(video=>{
+          html = filtered.map(video=>{
             let vid = video.id.videoId;
-            // Escolhe a legenda conforme o tema
             const s = video.snippet;
             const t = (s.title + " " + s.description).toLowerCase();
             let legenda = "Breaking News";
@@ -282,22 +318,36 @@ function buscarVideosCNNBreakingOrGoverno() {
               legenda = "Notícias de Governo";
             }
             if (t.includes("breaking news")) legenda = "Breaking News";
-            return `<div class="video-relacionado">
+            return `<div class="video-relacionado" style="border: 3px solid #1fa7e6; box-shadow: 0 0 10px #1fa7e6;">
               <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="${legenda}"></iframe>
-              <span>${legenda}</span>
+              <span>${legenda} (CNN Brasil)</span>
             </div>`;
           }).join('');
-        } else {
-          videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo "Breaking News" ou de Governo encontrado no canal CNN Brasil.</div>';
         }
-      } else {
-        videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo encontrado do canal CNN Brasil.</div>';
       }
+      // Agora busca as outras fontes
+      Promise.all(otherUrls).then(results=>{
+        let outrosVideos = results.filter(Boolean).join('');
+        if(html || outrosVideos) {
+          videosGrid.innerHTML = html + outrosVideos;
+        } else {
+          videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo de notícias relevante encontrado no momento.</div>';
+        }
+      });
     })
-    .catch(()=>{videosGrid.innerHTML = '<div style="color:#fff">Erro ao buscar vídeos do canal CNN Brasil.</div>';});
+    .catch(()=>{
+      Promise.all(otherUrls).then(results=>{
+        let outrosVideos = results.filter(Boolean).join('');
+        if(outrosVideos) {
+          videosGrid.innerHTML = outrosVideos;
+        } else {
+          videosGrid.innerHTML = '<div style="color:#fff">Erro ao buscar vídeos de notícias no YouTube.</div>';
+        }
+      });
+    });
 }
 
 // Chama busca dos vídeos após as notícias serem carregadas
 window._onNoticiasCarregadas = function() {
-  buscarVideosCNNBreakingOrGoverno();
+  buscarVideosNoticiasDestaque();
 };
