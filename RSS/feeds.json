@@ -1,0 +1,26 @@
+{
+  "politica": [
+    "https://www.poder360.com.br/rss/",
+    "https://g1.globo.com/rss/g1/politica/",
+    "https://congressoemfoco.uol.com.br/feed/"
+  ],
+  "esportes": [
+    "https://ge.globo.com/rss/feeds/home.xml",
+    "https://www.espn.com.br/rss",
+    "https://www.lance.com.br/rss/"
+  ],
+  "tecnologia": [
+    "https://rss.tecmundo.com.br/feed",
+    "https://www.cnet.com/rss/news/",
+    "https://feeds.feedburner.com/GizmodoBrasil"
+  ],
+  "entretenimento": [
+    "https://g1.globo.com/rss/g1/pop-arte/",
+    "https://rollingstone.uol.com.br/rss/",
+    "https://www.adorocinema.com/rss/"
+  ],
+  "geral": [
+    "https://g1.globo.com/rss/g1/",
+    "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+  ]
+}
