@@ -5,407 +5,75 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Info Dantas Brasil - Últimas Notícias</title>
   <link rel="stylesheet" href="style.css">
+
   <style>
-    body {
-      background: #f7f7fa;
-      color: #222;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-    }
-    header {
-      background: #181b1e;
-      color: #fff;
-      padding: 0.7em 0.7em 0.5em 0.7em;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 3px solid #e30613;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-    .logo {
-      font-size: 1.3em;
-      font-weight: bold;
-      letter-spacing: 0.05em;
-      color: #e30613;
-      margin-right: 10px;
-    }
-    nav {
-      display: flex;
-      gap: 1.3em;
-      align-items: center;
-    }
-    #menu-toggle-cnn {
-      background: none;
-      border: none;
-      font-size: 2em;
-      color: #fff;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    #side-menu-cnn {
-      position: fixed;
-      top: 0;
-      left: -260px;
-      width: 250px;
-      height: 100vh;
-      background: #181b1e;
-      color: #fff;
-      transition: left 0.32s;
-      z-index: 3000;
-      box-shadow: 2px 0 20px #0004;
-      padding-top: 1.6em;
-      display: flex;
-      flex-direction: column;
-    }
-    #side-menu-cnn.open {
-      left: 0;
-    }
-    #menu-backdrop-cnn {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #0007;
-      z-index: 2999;
-      display: none;
-    }
-    #menu-backdrop-cnn.open {
-      display: block;
-    }
-    #menu-close-cnn {
-      background: none;
-      border: none;
-      font-size: 2em;
-      color: #fff;
-      align-self: flex-end;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-    .side-menu-list-cnn {
-      list-style: none;
-      margin: 1em 0 0 0;
-      padding: 0 0.5em;
-      flex: 1;
-    }
-    .side-menu-list-cnn li {
-      margin: 1em 0;
-    }
-    .side-menu-list-cnn a {
-      color: #e30613;
-      text-decoration: none;
-      font-size: 1.13em;
-      font-weight: 600;
-      padding: 0.2em 0.8em;
-      display: block;
-      border-radius: 8px;
-      transition: background 0.2s;
-    }
-    .side-menu-list-cnn a:hover {
-      background: #fff2;
-      color: #fff;
-    }
-    .marquee-horizontal {
-      width: 100vw;
-      overflow: hidden;
-      height: 34px;
-      background: #e30613;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      font-size: 1em;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      border-bottom: 2.5px solid #c00;
-      z-index: 10;
-    }
-    #marquee-urgente {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      width: 100%;
-      font-size: 1em;
-    }
-    .banner-carrossel {
-      width: 100%;
-      max-width: 100vw;
-      margin: 1.1em 0 2em 0;
-      overflow: hidden;
-      border-radius: 18px;
-      box-shadow: 0 2px 12px #e3061317;
-      background: #fff;
-      position: relative;
-      min-height: 190px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .banner-slide {
-      width: 100%;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      position: absolute;
-      top: 0; left: 0;
-      height: 100%;
-      transition: opacity 0.5s;
-      opacity: 0;
-      z-index: 1;
-    }
-    .banner-slide.active {
-      display: flex;
-      opacity: 1;
-      position: relative;
-      z-index: 2;
-    }
-    .banner-slide img {
-      width: 100%;
-      max-height: 205px;
-      object-fit: cover;
-      border-radius: 18px;
-    }
-    .banner-caption {
-      position: absolute;
-      left: 20px;
-      bottom: 22px;
-      background: #e30613e6;
-      color: #fff;
-      padding: 7px 18px;
-      border-radius: 12px;
-      font-size: 1.09em;
-      font-weight: bold;
-      letter-spacing: 0.02em;
-      box-shadow: 0 2px 8px #3003;
-      z-index: 5;
-      max-width: 86vw;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .banner-controls {
-      position: absolute;
-      width: 100%;
-      bottom: 7px;
-      left: 0;
-      display: flex;
-      justify-content: center;
-      z-index: 10;
-    }
-    .banner-dot {
-      width: 9px;
-      height: 9px;
-      background: #e30613a0;
-      border: none;
-      border-radius: 50%;
-      margin: 0 3px;
-      cursor: pointer;
-      outline: none;
-      transition: background .2s;
-    }
-    .banner-dot.active { background: #e30613; }
-    .banner-arrow {
-      position: absolute;
-      top: 44%;
-      transform: translateY(-50%);
-      background: #fff;
-      color: #e30613;
-      border: 2px solid #e30613;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      font-size: 1.4em;
-      font-weight: bold;
-      z-index: 20;
-      cursor: pointer;
-      outline: none;
-      opacity: 0.88;
-      box-shadow: 0 1px 6px #e3061322;
-      transition: background .2s, color .2s;
-    }
-    .banner-arrow:hover { background: #e30613; color: #fff; }
-    .banner-arrow.left { left: 15px; }
-    .banner-arrow.right { right: 15px; }
-    .destaques-aba {
-      margin: 1.7em 0 2.2em 0;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 12px #e3061318;
-      padding: 1em 0.5em 0.5em 0.5em;
-    }
-    .destaques-aba h2 {
-      color: #e30613;
-      font-size: 1.22em;
-      margin: 0 0 0.7em 0.7em;
-      font-family: 'Merriweather', serif;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-    }
-    .destaques-lista {
-      display: flex;
-      overflow-x: auto;
-      gap: 1.1em;
-      padding-bottom: 1em;
-      scroll-snap-type: x mandatory;
+    /* Galeria Destaques */
+    .destaques-galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1em;
+      padding: 0.7em 0.3em;
     }
     .destaque-card {
-      min-width: 272px;
-      max-width: 310px;
-      background: #f7f7fa;
-      border-radius: 14px;
-      box-shadow: 0 1px 7px #e3061312;
-      padding: 0.6em 0.8em 0.4em 0.8em;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 7px #e3061322;
+      background: #fff;
+      transition: transform .19s, box-shadow .19s;
+      cursor: pointer;
+      min-height: 180px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      scroll-snap-align: start;
+      justify-content: flex-end;
+      max-width: 250px;
+      margin: 0 auto;
     }
     .destaque-card img {
       width: 100%;
-      height: 120px;
+      height: 110px;
       object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 0.5em;
+      border-radius: 10px 10px 0 0;
+      transition: filter .15s;
+      display: block;
+      background: #eee;
     }
-    .destaque-card h3 {
-      font-size: 1.07em;
-      color: #e30613;
-      margin: 0.2em 0 0.1em 0;
-      font-weight: 700;
-    }
-    .destaque-card p {
-      font-size: 0.98em;
-      color: #444;
-      margin-top: 0.1em;
-      margin-bottom: 0.1em;
-    }
-    .secao-titulo {
-      font-size: 1.5em;
-      color: #e30613;
-      font-family: 'Merriweather', serif;
-      font-weight: 700;
-      margin: 2em 0 1em 0;
-      letter-spacing: 0.01em;
-      border-left: 6px solid #e30613;
-      background: #fff;
-      padding: 0.3em 1em;
-      border-radius: 0 18px 18px 0;
-      box-shadow: 0 2px 8px #e3061322;
-      display: inline-block;
-    }
-    @media (max-width: 700px) {
-      .secao-titulo { font-size: 1.18em; padding: 0.16em 0.7em; }
-    }
-    .noticia-img {
-      height: 70px !important;
-      max-width: 110px !important;
-      object-fit: cover !important;
-      border-radius: 8px !important;
-      margin-right: 10px;
-      vertical-align: middle;
-      box-shadow: 0 1px 8px #0002;
-    }
-    .noticia {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.8em;
-      background: #fff;
-      margin: 0.6em 0;
-      padding: 0.5em 1em;
-      border-radius: 8px;
-      color: #222;
-      box-shadow: 0 2px 12px #e3061312;
-    }
-    .noticia-content {
-      flex: 1;
-      min-width: 0;
-    }
-    .noticia-chapeu {
-      font-size: 0.9em;
-      font-weight: bold;
-      color: #e30613;
-      margin-right: 10px;
-    }
-    .noticia-data {
-      font-size: 0.85em;
-      color: #888;
-    }
-    .noticia h3 {
-      font-size: 1.05em;
-      margin: 0.15em 0 0.25em 0;
-      color: #e30613;
-      font-weight: 700;
-    }
-    .noticia h3 a {
-      color: #e30613;
-      text-decoration: underline;
-    }
-    .noticia p {
-      font-size: 0.96em;
-      color: #444;
-      margin-top: 0.15em;
-      margin-bottom: 0.2em;
-    }
-    .badge-urgente {
-      background: #e30613;
-      color: #fff;
-      font-size: 0.83em;
-      padding: 1.5px 7px;
-      border-radius: 8px;
-      margin-right: 7px;
-      letter-spacing: 0.03em;
-      font-weight: bold;
-    }
-    #videos-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.1em;
-      margin-bottom: 1em;
-      margin-top: 0.5em;
-    }
-    .video-relacionado.destaque {
-      border: 2px solid #e30613;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #fff;
-      box-shadow: 0 2px 10px #e3061311;
-      min-width: 300px;
-      max-width: 360px;
-      flex: 1 1 320px;
+    .destaque-card .destaque-info {
+      padding: 0.6em 0.7em 1em 0.7em;
+      background: linear-gradient(0deg,#fff 80%,#fff8 100%,#fff0 0%);
+      position: relative;
+      z-index: 2;
+      min-height: 55px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
+      justify-content: flex-end;
     }
-    .video-relacionado iframe {
-      width: 100%;
-      min-height: 190px;
-      background: #000;
-      border: none;
-      border-radius: 0 0 7px 7px;
-      margin-bottom: 0.1em;
-      display: block;
-    }
-    .video-relacionado span {
-      font-size: 0.97em;
+    .destaque-card h3 {
+      font-size: 1em;
       color: #e30613;
-      padding: 0.3em 0.7em;
-      font-weight: 600;
+      margin: 0.14em 0 0.18em 0;
+      line-height: 1.13em;
+      font-weight: bold;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
-    main {
-      padding: 1.7em 1em 1.2em 1em;
-      max-width: 900px;
-      margin: 0 auto;
+    .destaque-card p {
+      font-size: 0.93em;
+      color: #444;
+      margin: 0.06em 0 0 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
     @media (max-width: 700px) {
-      main { padding: 1.2em 2vw; }
-      .noticia { flex-direction: column; gap: 0.2em; }
-      .video-relacionado.destaque { min-width: 95vw; max-width: 98vw; }
-      .video-relacionado iframe { min-height: 205px; }
-      .banner-slide img { max-height: 150px; }
+      .destaques-galeria { grid-template-columns: repeat(auto-fit, minmax(75vw, 1fr)); }
+      .destaque-card { min-height: 150px; max-width: 94vw;}
+      .destaque-card img { height: 90px; }
+      .destaque-card .destaque-info { min-height: 40px; padding: 0.5em 0.5em 0.8em 0.5em;}
+      .destaque-card h3 { font-size: 0.97em;}
     }
+    /* (Deixe aqui seu CSS adicional, se houver) */
   </style>
 </head>
 <body>
@@ -465,7 +133,7 @@
 
   <section class="destaques-aba">
     <h2>Destaques</h2>
-    <div class="destaques-lista" id="destaques-lista">
+    <div class="destaques-galeria" id="destaques-lista">
       <!-- Cards de destaque serão inseridos via JS -->
     </div>
   </section>
@@ -509,4 +177,4 @@
 
   <script src="script.js"></script>
 </body>
-  </html>
+        </html>
