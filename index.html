@@ -6,6 +6,7 @@
   <title>Info Dantas Brasil - Últimas Notícias</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    /* Mantém o visual clássico do site */
     body {
       background: #f7f7fa;
       font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
@@ -66,6 +67,7 @@
       0% { transform: translateX(100%);}
       100% { transform: translateX(-100%);}
     }
+    /* Menu lateral */
     #side-menu-cnn {
       position: fixed;
       left: -260px;
@@ -103,6 +105,7 @@
       background: #0006;
     }
     #side-menu-cnn.open ~ #menu-backdrop-cnn { display: block; }
+    /* Carrossel */
     .banner-carrossel {
       margin: 1.4em auto 1.7em auto;
       max-width: 670px;
@@ -164,6 +167,7 @@
       outline: none;
     }
     .banner-dot.active { background: #e30613; }
+    /* Títulos de seção */
     .secao-titulo {
       font-size: 2em;
       color: #e30613;
@@ -173,109 +177,87 @@
       font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
       padding-left: 0.1em;
     }
-
-    /* Destaques PRO */
-    .destaques-galeria-pro {
+    /* Destaques galeria */
+    .destaques-galeria {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5em;
-      padding: 1.2em 0.7em 2em 0.7em;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.7em;
+      padding: 0.7em 0.3em;
     }
-    .destaque-card-pro {
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 4px 22px #181a1b15, 0 1.5px 7px #e3061325;
-      overflow: hidden;
-      transition: box-shadow .18s, transform .16s;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      border: 1.5px solid #f1f1f7;
+    .destaque-card {
       position: relative;
-      min-height: 230px;
-    }
-    .destaque-card-pro:hover {
-      box-shadow: 0 8px 32px #e3061344, 0 1.5px 10px #181a1b22;
-      transform: translateY(-3px) scale(1.015);
-      border-color: #e3061340;
-    }
-    .destaque-card-pro img {
-      width: 100%;
-      height: 145px;
-      object-fit: cover;
-      border-radius: 18px 18px 0 0;
-      background: #eee;
-      filter: brightness(0.97);
-      transition: filter .13s;
-    }
-    .destaque-card-pro:hover img {
-      filter: brightness(1.06) saturate(1.09);
-    }
-    .destaque-info-pro {
-      padding: 1em 1.2em 1.3em 1.2em;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 7px #e3061322;
+      background: #fff;
+      cursor: pointer;
+      min-height: 120px;
       display: flex;
       flex-direction: column;
-      gap: 0.35em;
-      background: linear-gradient(0deg,#fff 85%,#f7f7fa 100%);
-      min-height: 70px;
+      justify-content: flex-end;
+      max-width: 380px;
+      margin: 0 auto;
+      transition: box-shadow .17s, transform .17s;
     }
-    .destaque-info-pro h3 {
-      font-size: 1.17em;
-      color: #e30613;
-      font-weight: bold;
-      margin: 0.12em 0 0.15em 0;
-      line-height: 1.15em;
-      white-space: normal;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      transition: color .13s;
+    .destaque-card:hover {
+      box-shadow: 0 4px 16px #e306132a;
+      transform: translateY(-3px) scale(1.025);
     }
-    .destaque-card-pro:hover .destaque-info-pro h3 {
-      color: #b3000d;
+    .destaque-card img {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 12px 12px 0 0;
+      background: #eee;
+      display: block;
     }
-    .destaque-info-pro p {
+    .destaque-card .destaque-info {
+      padding: 0.4em 0.7em 0.7em 0.7em;
+      min-height: 40px;
+    }
+    .destaque-card h3 {
       font-size: 1em;
-      color: #282a2d;
-      margin: 0;
-      opacity: 0.92;
-      line-height: 1.23em;
-      white-space: normal;
+      color: #e30613;
+      margin: 0.14em 0 0.13em 0;
+      line-height: 1.13em;
+      font-weight: bold;
       text-overflow: ellipsis;
       overflow: hidden;
-      max-height: 2.6em;
+      white-space: nowrap;
     }
-    .destaque-meta-pro {
+    .destaque-card p {
       font-size: 0.93em;
-      color: #a6a6b3;
-      margin-bottom: 0.33em;
-      letter-spacing: 0.02em;
-      font-weight: 500;
+      color: #444;
+      margin: 0.06em 0 0 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
-    @media (max-width: 700px) {
-      .destaques-galeria-pro {
+    @media (max-width: 600px) {
+      .destaques-galeria {
         grid-template-columns: 1fr;
-        gap: 0.8em;
-        padding: 0.7em 0.18em 1.5em 0.18em;
+        gap: 0.4em;
       }
-      .destaque-card-pro {
-        min-height: 180px;
-        border-radius: 13px;
+      .destaque-card {
+        min-height: 100px;
+        max-width: 96vw;
+        margin: 0 auto;
       }
-      .destaque-card-pro img {
-        height: 100px;
-        border-radius: 13px 13px 0 0;
+      .destaque-card img {
+        height: 60px;
       }
-      .destaque-info-pro {
-        padding: 0.9em 0.7em 1em 0.7em;
-        min-height: 45px;
+      .destaque-card .destaque-info {
+        min-height: 30px;
+        padding: 0.3em 0.5em 0.5em 0.5em;
       }
-      .destaque-info-pro h3 {
-        font-size: 1.05em;
+      .destaque-card h3 {
+        font-size: 0.97em;
       }
       header, .secao-titulo {
         font-size: 1.1em;
       }
     }
+    /* Lista de notícias (cartões) */
     ul[id^="noticias-"] {
       list-style: none;
       padding: 0;
@@ -349,6 +331,7 @@
       margin-right: 0.45em;
       letter-spacing: 0.01em;
     }
+    /* Ao vivo cards */
     .aovivo-card {
       background: #fff;
       border-radius: 13px;
@@ -387,6 +370,7 @@
       overflow: hidden;
       white-space: nowrap;
     }
+    /* Vídeos grid */
     #videos-grid {
       display: flex;
       flex-wrap: wrap;
@@ -420,6 +404,7 @@
       font-weight: 600;
       margin-top: 0.2em;
     }
+    /* Loader, topo, barra progresso */
     #loader {
       position: fixed;
       top: 0; left:0; width:100vw; height:100vh;
@@ -512,7 +497,7 @@
 
   <section class="destaques-aba">
     <div class="secao-titulo" style="margin-top:1.3em;">Destaques</div>
-    <div class="destaques-galeria-pro" id="destaques-lista">
+    <div class="destaques-galeria" id="destaques-lista">
       <!-- Cards de destaque serão inseridos via JS -->
     </div>
   </section>
@@ -547,87 +532,12 @@
   <div id="loader">
     <div style="font-size:1.3em;color:#e30613;">Carregando...</div>
   </div>
-  <button id="topBtn">↑</button>
+
+  <button id="topBtn">
+    ↑
+  </button>
+
   <div id="progressBar"></div>
-
-  <script>
-    // Destaques sofisticados
-    const destaques = [
-      {
-        imagem: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
-        titulo: "Greve dos rodoviários intermunicipais e interestaduais é suspensa",
-        resumo: "Categoria decidiu suspender a paralisação após negociação com governo.",
-        meta: "Brasil • 13/06/2025"
-      },
-      {
-        imagem: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-        titulo: "FICOMEX 2025 tem rodadas da ApexBrasil com compradores de quatro continentes",
-        resumo: "Evento de negócios internacionais movimenta exportações brasileiras.",
-        meta: "Economia • 13/06/2025"
-      },
-      {
-        imagem: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
-        titulo: "Alunos de escola estadual terão aula de campo no Cemitério Nossa Senhora",
-        resumo: "Projeto pedagógico inclui história e cultura local como tema.",
-        meta: "Educação • 13/06/2025"
-      },
-      {
-        imagem: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
-        titulo: "Paes sanciona lei que cria Guarda Municipal armada na cidade",
-        resumo: "Nova legislação municipal visa fortalecer a segurança urbana.",
-        meta: "Política • 13/06/2025"
-      }
-    ];
-
-    const destaquesContainer = document.getElementById('destaques-lista');
-    destaquesContainer.innerHTML = destaques.map(d => `
-      <div class="destaque-card-pro">
-        <img src="${d.imagem}" alt="${d.titulo}">
-        <div class="destaque-info-pro">
-          <span class="destaque-meta-pro">${d.meta}</span>
-          <h3>${d.titulo}</h3>
-          <p>${d.resumo}</p>
-        </div>
-      </div>
-    `).join('');
-
-    // Carrossel JS (básico)
-    const slides = document.querySelectorAll('.banner-slide');
-    const dots = document.querySelectorAll('.banner-dot');
-    let currSlide = 0;
-    function showSlide(idx) {
-      slides.forEach((s,i)=>s.classList.toggle('active',i===idx));
-      dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
-      currSlide = idx;
-    }
-    dots.forEach((dot,i)=>dot.onclick=()=>showSlide(i));
-    document.getElementById('banner-prev').onclick = ()=>showSlide((currSlide-1+slides.length)%slides.length);
-    document.getElementById('banner-next').onclick = ()=>showSlide((currSlide+1)%slides.length);
-
-    // Menu lateral JS (básico)
-    document.getElementById('menu-toggle-cnn').onclick = ()=>document.getElementById('side-menu-cnn').classList.add('open');
-    document.getElementById('menu-close-cnn').onclick = ()=>document.getElementById('side-menu-cnn').classList.remove('open');
-    document.getElementById('menu-backdrop-cnn').onclick = ()=>document.getElementById('side-menu-cnn').classList.remove('open');
-
-    // Simular atualização do horário/online
-    function updateTime() {
-      const now = new Date(), pad=n=>n<10?'0'+n:n;
-      document.getElementById('updateTime').textContent =
-        pad(now.getDate())+'/'+pad(now.getMonth()+1)+'/'+now.getFullYear()+', '+
-        pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-    }
-    setInterval(updateTime,1000); updateTime();
-    document.getElementById('onlineCount').textContent = Math.floor(200+Math.random()*50);
-
-    // Loader (simulado)
-    window.addEventListener('load',()=>setTimeout(()=>{document.getElementById('loader').style.display='none'},800));
-    // Scroll top button
-    const topBtn = document.getElementById('topBtn');
-    window.onscroll = function() {
-      topBtn.style.display = window.scrollY > 250 ? 'block' : 'none';
-      document.getElementById('progressBar').style.width = (window.scrollY/(document.body.scrollHeight-window.innerHeight))*100+'vw';
-    };
-    topBtn.onclick = ()=>window.scrollTo({top:0,behavior:'smooth'});
-  </script>
+  <script src="script.js"></script>
 </body>
-  </html>
+            </html>
