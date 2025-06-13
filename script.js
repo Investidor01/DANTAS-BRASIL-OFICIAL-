@@ -1,208 +1,131 @@
-const API_KEYS = {
-  newsapi: '92221e88091bab959857e1a937a68fc9',
-  youtube: 'AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A',
-  gnews: '92221e88091bab959857e1a937a68fc9',
-  google: '871681144917-dptlmqik7kl1ulpnkrrgngk9q1dppa3b.apps.googleusercontent.com'
-};
+// Suas chaves de API:
+const YOUTUBE_API_KEY = 'AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A';
+const GNEWS_API_KEY = '92221e88091bab959857e1a937a68fc9';
+const NEWSAPI_API_KEY = '92221e88091bab959857e1a937a68fc9'; // Substitua se quiser, ou use GNews só
+// Você não passou chave da NewsAPI, apenas da GNews e YouTube. Usei GNews aqui.
 
-// Mapeia categorias para palavras-chave em APIs e RSS feeds
 const categoryMap = {
-  home: {
-    newsapi: 'general',
-    gnews: 'general',
-    youtube: 'news',
-    rss: [
-      'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
-      'https://feeds.bbci.co.uk/news/rss.xml'
-    ]
-  },
-  politica: {
-    newsapi: 'politics',
-    gnews: 'politics',
-    youtube: 'politics',
-    rss: [
-      'https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml',
-      'https://feeds.bbci.co.uk/news/politics/rss.xml'
-    ]
-  },
-  esportes: {
-    newsapi: 'sports',
-    gnews: 'sports',
-    youtube: 'sports',
-    rss: [
-      'https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml',
-      'https://feeds.bbci.co.uk/sport/rss.xml?edition=uk'
-    ]
-  },
-  tecnologia: {
-    newsapi: 'technology',
-    gnews: 'technology',
-    youtube: 'technology',
-    rss: [
-      'https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml',
-      'https://feeds.bbci.co.uk/news/technology/rss.xml'
-    ]
-  },
-  entretenimento: {
-    newsapi: 'entertainment',
-    gnews: 'entertainment',
-    youtube: 'entertainment',
-    rss: [
-      'https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml',
-      'https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml'
-    ]
-  }
+  'index.html': '', // Home pega notícias gerais
+  'politica.html': 'politics',
+  'esportes.html': 'sports',
+  'tecnologia.html': 'technology',
+  'entretenimento.html': 'entertainment',
 };
 
-const proxyUrl = 'https://api.allorigins.win/get?url='; // Proxy para evitar CORS
+const page = window.location.pathname.split('/').pop();
+const category = categoryMap[page] || '';
 
-// Detecta categoria da página pelo nome do arquivo
-function detectCategory() {
-  const path = window.location.pathname.toLowerCase();
-  if (path.includes('politica')) return 'politica';
-  if (path.includes('esportes')) return 'esportes';
-  if (path.includes('tecnologia')) return 'tecnologia';
-  if (path.includes('entretenimento')) return 'entretenimento';
-  return 'home'; // padrão home
+const newsContainer = document.getElementById('news-container');
+
+// Função para formatar datas
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
 }
 
-// Renderiza lista de notícias no container #news-container
-function renderNews(articles) {
-  const container = document.getElementById('news-container');
-  if (!container) return;
+// Função para criar card de notícia
+function createNewsItem(article) {
+  const div = document.createElement('div');
+  div.className = 'news-item';
 
-  if (!articles.length) {
-    container.innerHTML = '<p>Sem notícias disponíveis no momento.</p>';
+  const imgSrc = article.image || article.urlToImage || '';
+  const img = imgSrc
+    ? `<img src="${imgSrc}" alt="${article.title}" />`
+    : '';
+
+  div.innerHTML = `
+    ${img}
+    <h3><a href="${article.url}" target="_blank" rel="noopener">${article.title}</a></h3>
+    <p>${article.description || ''}</p>
+    <small>${article.source?.name || ''} - ${formatDate(article.publishedAt)}</small>
+  `;
+
+  return div;
+}
+
+// Buscar notícias da GNews API
+async function fetchGNews(category) {
+  let url = `https://gnews.io/api/v4/top-headlines?lang=pt&max=10&apikey=${GNEWS_API_KEY}`;
+  if (category) {
+    url += `&topic=${category}`;
+  }
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.articles) {
+      return data.articles.map(a => ({
+        title: a.title,
+        description: a.description,
+        url: a.url,
+        image: a.image,
+        publishedAt: a.publishedAt,
+        source: { name: a.source.name },
+      }));
+    }
+  } catch (err) {
+    console.error('Erro GNews:', err);
+  }
+  return [];
+}
+
+// Buscar feed RSS (exemplo feed globoesporte para esportes)
+// Como só podemos fazer CORS em front se o feed liberar, usaremos proxy público para dev
+async function fetchRSS(url) {
+  try {
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxyUrl);
+    const data = await res.json();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data.contents, 'application/xml');
+    const items = [...xml.querySelectorAll('item')].slice(0, 5);
+    return items.map(item => ({
+      title: item.querySelector('title')?.textContent || '',
+      description: item.querySelector('description')?.textContent || '',
+      url: item.querySelector('link')?.textContent || '',
+      pubDate: item.querySelector('pubDate')?.textContent || '',
+      image: '', // rss simples sem imagens, ou tente extrair
+    }));
+  } catch (err) {
+    console.error('Erro RSS:', err);
+    return [];
+  }
+}
+
+// Carregar notícias e mostrar na página
+async function loadNews() {
+  newsContainer.innerHTML = `<p>Carregando notícias...</p>`;
+
+  // Pega notícias GNews
+  const gnewsArticles = await fetchGNews(category);
+
+  // Pega RSS específico por categoria
+  let rssArticles = [];
+  if (category === 'sports') {
+    rssArticles = await fetchRSS('https://globoesporte.globo.com/rss/gauchazh/futebol-rs/');
+  } else if (category === 'politics') {
+    rssArticles = await fetchRSS('https://rss.uol.com.br/feed/politica.xml');
+  } else if (category === 'technology') {
+    rssArticles = await fetchRSS('https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml');
+  } else if (category === 'entertainment') {
+    rssArticles = await fetchRSS('https://rss.cnn.com/rss/edition_entertainment.rss');
+  }
+
+  // Juntando e ordenando (colocando GNews e RSS)
+  const combined = [...gnewsArticles, ...rssArticles].slice(0, 10);
+
+  if (combined.length === 0) {
+    newsContainer.innerHTML = `<p>Não foi possível carregar as notícias no momento.</p>`;
     return;
   }
 
-  container.innerHTML = ''; // limpa
-
-  articles.forEach(article => {
-    const div = document.createElement('div');
-    div.className = 'news-item';
-
-    const img = article.urlToImage || article.image || '';
-    div.innerHTML = `
-      <a href="${article.url}" target="_blank" rel="noopener noreferrer">
-        ${img ? `<img src="${img}" alt="${article.title}" loading="lazy">` : ''}
-        <h3>${article.title}</h3>
-      </a>
-      <p>${article.description || article.content || ''}</p>
-      <small>${new Date(article.publishedAt || article.pubDate).toLocaleString()}</small>
-    `;
-    container.appendChild(div);
+  newsContainer.innerHTML = '';
+  combined.forEach(article => {
+    newsContainer.appendChild(createNewsItem(article));
   });
-}
-
-// Busca notícias da NewsAPI
-async function fetchNewsAPI(category) {
-  try {
-    const url = `https://newsapi.org/v2/top-headlines?country=br&category=${categoryMap[category].newsapi}&apiKey=${API_KEYS.newsapi}&pageSize=5`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data.status === 'ok') return data.articles;
-    console.error('NewsAPI error:', data);
-    return [];
-  } catch (e) {
-    console.error('Erro NewsAPI:', e);
-    return [];
-  }
-}
-
-// Busca notícias da GNews
-async function fetchGNews(category) {
-  try {
-    const url = `https://gnews.io/api/v4/top-headlines?topic=${categoryMap[category].gnews}&lang=pt&token=${API_KEYS.gnews}&max=5`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data.articles) return data.articles;
-    console.error('GNews error:', data);
-    return [];
-  } catch (e) {
-    console.error('Erro GNews:', e);
-    return [];
-  }
-}
-
-// Busca vídeos do YouTube na categoria (busca vídeos recentes e relevantes)
-async function fetchYouTubeVideos(category) {
-  try {
-    const q = categoryMap[category].youtube;
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${q}&type=video&key=${API_KEYS.youtube}&regionCode=BR&relevanceLanguage=pt`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if (!data.items) return [];
-
-    // Converte itens em formato similar a artigos para renderizar
-    return data.items.map(item => ({
-      title: item.snippet.title,
-      description: item.snippet.description,
-      url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-      urlToImage: item.snippet.thumbnails.medium.url,
-      publishedAt: item.snippet.publishedAt
-    }));
-  } catch (e) {
-    console.error('Erro YouTube:', e);
-    return [];
-  }
-}
-
-// Busca e parseia feed RSS via proxy
-async function fetchRSSFeeds(feeds) {
-  let allItems = [];
-
-  for (const feedUrl of feeds) {
-    try {
-      const encoded = encodeURIComponent(feedUrl);
-      const res = await fetch(proxyUrl + encoded);
-      const data = await res.json();
-
-      // Parse XML (string) para DOM
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(data.contents, 'text/xml');
-      const items = xmlDoc.querySelectorAll('item');
-
-      items.forEach(item => {
-        allItems.push({
-          title: item.querySelector('title')?.textContent || '',
-          description: item.querySelector('description')?.textContent || '',
-          url: item.querySelector('link')?.textContent || '',
-          pubDate: item.querySelector('pubDate')?.textContent || ''
-        });
-      });
-    } catch (e) {
-      console.error('Erro ao carregar RSS:', e);
-    }
-  }
-
-  // Limita a 5 notícias para não poluir
-  return allItems.slice(0, 5);
-}
-
-// Função principal para carregar e mostrar notícias
-async function loadNews() {
-  const category = detectCategory();
-
-  const [newsapiArticles, gnewsArticles, youtubeVideos, rssArticles] = await Promise.all([
-    fetchNewsAPI(category),
-    fetchGNews(category),
-    fetchYouTubeVideos(category),
-    fetchRSSFeeds(categoryMap[category].rss)
-  ]);
-
-  // Junta e remove duplicados (baseado no título)
-  const combined = [...newsapiArticles, ...gnewsArticles, ...youtubeVideos, ...rssArticles];
-  const seenTitles = new Set();
-  const uniqueArticles = combined.filter(article => {
-    if (!article.title) return false;
-    if (seenTitles.has(article.title)) return false;
-    seenTitles.add(article.title);
-    return true;
-  });
-
-  renderNews(uniqueArticles);
 }
 
 window.addEventListener('DOMContentLoaded', loadNews);
-    
