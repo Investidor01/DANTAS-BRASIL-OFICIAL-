@@ -157,6 +157,7 @@ function adicionaNoticiasPorCategoria() {
   let noticiasPorCat = {};
   for(const cat in categorias) noticiasPorCat[cat] = [];
   let aovivoArr = [];
+  let manchetesArr = [];
   let feedsConcluidos=0, totalFeeds=feedUrls.length;
   feedUrls.forEach(url => {
     fetch(url).then(res=>res.json()).then(data=>{
@@ -166,6 +167,7 @@ function adicionaNoticiasPorCategoria() {
           if(cat && !titulosSet.has(item.title)){
             titulosSet.add(item.title);
             noticiasPorCat[cat].push(noticiaHTML(item, cat));
+            manchetesArr.push(item.title);
           }
           if(isAoVivo(item)) {
             let card = aovivoCard(item);
@@ -195,6 +197,8 @@ function adicionaNoticiasPorCategoria() {
           }).join('');
           urgentUl.innerHTML = urgentNews;
         }
+        // Chama hook para buscar vídeos relacionados
+        if(window._onNoticiasCarregadas) window._onNoticiasCarregadas(manchetesArr.slice(0,8));
       }
     });
   });
