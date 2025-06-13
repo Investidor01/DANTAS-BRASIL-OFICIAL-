@@ -1,122 +1,208 @@
-const GNEWS_API_KEY = '92221e88091bab959857e1a937a68fc9';
-const YOUTUBE_API_KEY = 'AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A';
+const API_KEYS = {
+  newsapi: '92221e88091bab959857e1a937a68fc9',
+  youtube: 'AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A',
+  gnews: '92221e88091bab959857e1a937a68fc9',
+  google: '871681144917-dptlmqik7kl1ulpnkrrgngk9q1dppa3b.apps.googleusercontent.com'
+};
 
-// Alternar tema claro/escuro
-document.getElementById('theme-toggle')?.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  // Salvar preferencia localmente
-  if(document.body.classList.contains('dark')){
-    localStorage.setItem('theme', 'dark');
-    document.getElementById('theme-toggle').textContent = '☀️';
-  } else {
-    localStorage.setItem('theme', 'light');
-    document.getElementById('theme-toggle').textContent = '🌙';
+// Mapeia categorias para palavras-chave em APIs e RSS feeds
+const categoryMap = {
+  home: {
+    newsapi: 'general',
+    gnews: 'general',
+    youtube: 'news',
+    rss: [
+      'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
+      'https://feeds.bbci.co.uk/news/rss.xml'
+    ]
+  },
+  politica: {
+    newsapi: 'politics',
+    gnews: 'politics',
+    youtube: 'politics',
+    rss: [
+      'https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml',
+      'https://feeds.bbci.co.uk/news/politics/rss.xml'
+    ]
+  },
+  esportes: {
+    newsapi: 'sports',
+    gnews: 'sports',
+    youtube: 'sports',
+    rss: [
+      'https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml',
+      'https://feeds.bbci.co.uk/sport/rss.xml?edition=uk'
+    ]
+  },
+  tecnologia: {
+    newsapi: 'technology',
+    gnews: 'technology',
+    youtube: 'technology',
+    rss: [
+      'https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml',
+      'https://feeds.bbci.co.uk/news/technology/rss.xml'
+    ]
+  },
+  entretenimento: {
+    newsapi: 'entertainment',
+    gnews: 'entertainment',
+    youtube: 'entertainment',
+    rss: [
+      'https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml',
+      'https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml'
+    ]
   }
-});
+};
 
-// Aplicar tema salvo
-window.addEventListener('load', () => {
-  const theme = localStorage.getItem('theme');
-  if(theme === 'dark'){
-    document.body.classList.add('dark');
-    document.getElementById('theme-toggle').textContent = '☀️';
-  }
-});
+const proxyUrl = 'https://api.allorigins.win/get?url='; // Proxy para evitar CORS
 
-function fetchGNews(type, containerId, query = '') {
-  // type: 'top-headlines' ou 'search'
-  // query: string de busca (ex: "política")
-  const container = document.getElementById(containerId);
-  if(!container) return;
-
-  let url = '';
-
-  if(type === 'top-headlines'){
-    url = `https://gnews.io/api/v4/top-headlines?token=${GNEWS_API_KEY}&lang=pt&max=6`;
-  } else if(type === 'search'){
-    url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&token=${GNEWS_API_KEY}&lang=pt&max=12`;
-  }
-
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      if(data.articles && data.articles.length){
-        container.innerHTML = data.articles.map(article => `
-          <article class="news-article">
-            <img src="${article.image || 'https://via.placeholder.com/400x200?text=No+Image'}" alt="${article.title}" />
-            <h3>${article.title}</h3>
-            <p>${article.description || ''}</p>
-            <a href="${article.url}" target="_blank" rel="noopener noreferrer">Leia mais</a>
-          </article>
-        `).join('');
-      } else {
-        container.innerHTML = '<p>Nenhuma notícia encontrada.</p>';
-      }
-    })
-    .catch(err => {
-      container.innerHTML = `<p>Erro ao carregar notícias: ${err.message}</p>`;
-    });
+// Detecta categoria da página pelo nome do arquivo
+function detectCategory() {
+  const path = window.location.pathname.toLowerCase();
+  if (path.includes('politica')) return 'politica';
+  if (path.includes('esportes')) return 'esportes';
+  if (path.includes('tecnologia')) return 'tecnologia';
+  if (path.includes('entretenimento')) return 'entretenimento';
+  return 'home'; // padrão home
 }
 
-function fetchRSS(rssUrl, containerId) {
-  // Como browsers bloqueiam CORS em RSS, vamos usar um proxy público gratuito para teste (exemplo: https://api.rss2json.com/v1/api.json?rss_url=)
-  const container = document.getElementById(containerId);
-  if(!container) return;
+// Renderiza lista de notícias no container #news-container
+function renderNews(articles) {
+  const container = document.getElementById('news-container');
+  if (!container) return;
 
-  const proxy = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+  if (!articles.length) {
+    container.innerHTML = '<p>Sem notícias disponíveis no momento.</p>';
+    return;
+  }
 
-  fetch(proxy)
-    .then(res => res.json())
-    .then(data => {
-      if(data.items && data.items.length){
-        container.innerHTML = data.items.slice(0,6).map(item => `
-          <article class="news-article">
-            <img src="${item.thumbnail || 'https://via.placeholder.com/400x200?text=No+Image'}" alt="${item.title}" />
-            <h3>${item.title}</h3>
-            <p>${item.description ? item.description.replace(/<[^>]*>?/gm, '').slice(0, 120) + '...' : ''}</p>
-            <a href="${item.link}" target="_blank" rel="noopener noreferrer">Leia mais</a>
-          </article>
-        `).join('');
-      } else {
-        container.innerHTML = '<p>Nenhuma notícia encontrada no feed RSS.</p>';
-      }
-    })
-    .catch(err => {
-      container.innerHTML = `<p>Erro ao carregar feed RSS: ${err.message}</p>`;
-    });
+  container.innerHTML = ''; // limpa
+
+  articles.forEach(article => {
+    const div = document.createElement('div');
+    div.className = 'news-item';
+
+    const img = article.urlToImage || article.image || '';
+    div.innerHTML = `
+      <a href="${article.url}" target="_blank" rel="noopener noreferrer">
+        ${img ? `<img src="${img}" alt="${article.title}" loading="lazy">` : ''}
+        <h3>${article.title}</h3>
+      </a>
+      <p>${article.description || article.content || ''}</p>
+      <small>${new Date(article.publishedAt || article.pubDate).toLocaleString()}</small>
+    `;
+    container.appendChild(div);
+  });
 }
 
-function fetchYouTubeVideos() {
-  const container = document.getElementById('video-container');
-  if(!container) return;
+// Busca notícias da NewsAPI
+async function fetchNewsAPI(category) {
+  try {
+    const url = `https://newsapi.org/v2/top-headlines?country=br&category=${categoryMap[category].newsapi}&apiKey=${API_KEYS.newsapi}&pageSize=5`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.status === 'ok') return data.articles;
+    console.error('NewsAPI error:', data);
+    return [];
+  } catch (e) {
+    console.error('Erro NewsAPI:', e);
+    return [];
+  }
+}
 
-  // Pesquisar vídeos no canal ou palavra-chave
-  // Exemplo de busca no canal "GloboNews": canalId=UClYlywVYL8pW-9QbQpvyANw (pode mudar)
-  // Para simplicidade: pegar os últimos vídeos de palavra-chave 'notícias'
-  const channelId = 'UClYlywVYL8pW-9QbQpvyANw';
+// Busca notícias da GNews
+async function fetchGNews(category) {
+  try {
+    const url = `https://gnews.io/api/v4/top-headlines?topic=${categoryMap[category].gnews}&lang=pt&token=${API_KEYS.gnews}&max=5`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.articles) return data.articles;
+    console.error('GNews error:', data);
+    return [];
+  } catch (e) {
+    console.error('Erro GNews:', e);
+    return [];
+  }
+}
 
-  const url = `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`;
+// Busca vídeos do YouTube na categoria (busca vídeos recentes e relevantes)
+async function fetchYouTubeVideos(category) {
+  try {
+    const q = categoryMap[category].youtube;
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${q}&type=video&key=${API_KEYS.youtube}&regionCode=BR&relevanceLanguage=pt`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!data.items) return [];
 
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      if(data.items && data.items.length){
-        container.innerHTML = data.items.map(item => {
-          const videoId = item.id.videoId;
-          if(!videoId) return '';
-          return `
-            <div class="video-item">
-              <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
-              <p>${item.snippet.title}</p>
-            </div>
-          `;
-        }).join('');
-      } else {
-        container.innerHTML = '<p>Nenhum vídeo encontrado.</p>';
-      }
-    })
-    .catch(err => {
-      container.innerHTML = `<p>Erro ao carregar vídeos: ${err.message}</p>`;
-    });
-          }
-          
+    // Converte itens em formato similar a artigos para renderizar
+    return data.items.map(item => ({
+      title: item.snippet.title,
+      description: item.snippet.description,
+      url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+      urlToImage: item.snippet.thumbnails.medium.url,
+      publishedAt: item.snippet.publishedAt
+    }));
+  } catch (e) {
+    console.error('Erro YouTube:', e);
+    return [];
+  }
+}
+
+// Busca e parseia feed RSS via proxy
+async function fetchRSSFeeds(feeds) {
+  let allItems = [];
+
+  for (const feedUrl of feeds) {
+    try {
+      const encoded = encodeURIComponent(feedUrl);
+      const res = await fetch(proxyUrl + encoded);
+      const data = await res.json();
+
+      // Parse XML (string) para DOM
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data.contents, 'text/xml');
+      const items = xmlDoc.querySelectorAll('item');
+
+      items.forEach(item => {
+        allItems.push({
+          title: item.querySelector('title')?.textContent || '',
+          description: item.querySelector('description')?.textContent || '',
+          url: item.querySelector('link')?.textContent || '',
+          pubDate: item.querySelector('pubDate')?.textContent || ''
+        });
+      });
+    } catch (e) {
+      console.error('Erro ao carregar RSS:', e);
+    }
+  }
+
+  // Limita a 5 notícias para não poluir
+  return allItems.slice(0, 5);
+}
+
+// Função principal para carregar e mostrar notícias
+async function loadNews() {
+  const category = detectCategory();
+
+  const [newsapiArticles, gnewsArticles, youtubeVideos, rssArticles] = await Promise.all([
+    fetchNewsAPI(category),
+    fetchGNews(category),
+    fetchYouTubeVideos(category),
+    fetchRSSFeeds(categoryMap[category].rss)
+  ]);
+
+  // Junta e remove duplicados (baseado no título)
+  const combined = [...newsapiArticles, ...gnewsArticles, ...youtubeVideos, ...rssArticles];
+  const seenTitles = new Set();
+  const uniqueArticles = combined.filter(article => {
+    if (!article.title) return false;
+    if (seenTitles.has(article.title)) return false;
+    seenTitles.add(article.title);
+    return true;
+  });
+
+  renderNews(uniqueArticles);
+}
+
+window.addEventListener('DOMContentLoaded', loadNews);
+    
