@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>INFO DANTAS BRASIL</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="logo">INFO DANTAS BRASIL</div>
+      <button id="menu-toggle" class="menu-toggle">☰</button>
+      <nav id="nav" class="nav">
+        <a href="#manchetes">Manchetes</a>
+        <a href="#urgentes">Urgentes</a>
+        <a href="#politica">Política</a>
+        <a href="#economia">Economia</a>
+        <a href="#esportes">Esportes</a>
+        <a href="#videos">Vídeos</a>
+        <a href="#clima">Clima</a>
+        <a href="#dantas">Dantas Brasil</a>
+      </nav>
+    </div>
+    <div class="ticker" id="ticker">Carregando notícias urgentes...</div>
+  </header>
+
+  <main class="main">
+    <section id="manchetes" class="section"><h2>Manchetes</h2><div id="manchetes-container" class="grid"></div></section>
+    <section id="urgentes" class="section"><h2>Urgentes</h2><div id="urgentes-container" class="grid"></div></section>
+    <section id="politica" class="section"><h2>Política</h2><div id="politica-container" class="grid"></div></section>
+    <section id="economia" class="section"><h2>Economia</h2><div id="economia-container" class="grid"></div></section>
+    <section id="esportes" class="section"><h2>Esportes</h2><div id="esportes-container" class="grid"></div></section>
+    <section id="videos" class="section"><h2>Vídeos</h2><div id="videos-container" class="grid"></div></section>
+    <section id="clima" class="section"><h2>Clima</h2><div id="clima-container" class="card"></div></section>
+    <section id="dantas" class="section"><h2>Dantas Brasil</h2><div id="dantas-container" class="grid"></div></section>
+  </main>
+
+  <footer class="footer">
+    <button id="topBtn" class="top-btn">↑ Voltar ao topo</button>
+    <p>&copy; 2025 INFO DANTAS BRASIL - Todos os direitos reservados</p>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
