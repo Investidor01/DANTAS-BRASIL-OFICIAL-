@@ -230,3 +230,74 @@ setTimeout(function(){
     }
   });
 }, 12000);
+
+// --- VÍDEOS CNN: Breaking News OU Governo/Política ---
+function buscarVideosCNNBreakingOrGoverno() {
+  const apiKey = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
+  const videosGrid = document.getElementById('videos-grid');
+  if(!videosGrid) return;
+  videosGrid.innerHTML = '<div style="color:#fff">Carregando vídeos...</div>';
+  const channelId = "UCR9I2YnsBT7Ip1oQb6R6Ueg";
+  const maxResults = 25; // busca mais para filtrar
+  let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=${maxResults}&channelId=${channelId}&order=date`;
+  fetch(url)
+    .then(r=>r.json())
+    .then(res=>{
+      if(res.items && res.items.length) {
+        // Filtra breaking news OU temas governo/política
+        let filtered = res.items.filter(video => {
+          const s = video.snippet;
+          const t = (s.title + " " + s.description).toLowerCase();
+          return (
+            t.includes("breaking news") ||
+            t.includes("governo") ||
+            t.includes("presidente") ||
+            t.includes("congresso") ||
+            t.includes("palácio do planalto") ||
+            t.includes("senado") ||
+            t.includes("câmara") ||
+            t.includes("ministro") ||
+            t.includes("politica") ||
+            t.includes("política")
+          );
+        }).slice(0,4);
+        if(filtered.length) {
+          videosGrid.innerHTML = filtered.map(video=>{
+            let vid = video.id.videoId;
+            // Escolhe a legenda conforme o tema
+            const s = video.snippet;
+            const t = (s.title + " " + s.description).toLowerCase();
+            let legenda = "Breaking News";
+            if (
+              t.includes("governo") ||
+              t.includes("presidente") ||
+              t.includes("congresso") ||
+              t.includes("palácio do planalto") ||
+              t.includes("senado") ||
+              t.includes("câmara") ||
+              t.includes("ministro") ||
+              t.includes("politica") ||
+              t.includes("política")
+            ) {
+              legenda = "Notícias de Governo";
+            }
+            if (t.includes("breaking news")) legenda = "Breaking News";
+            return `<div class="video-relacionado">
+              <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="${legenda}"></iframe>
+              <span>${legenda}</span>
+            </div>`;
+          }).join('');
+        } else {
+          videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo "Breaking News" ou de Governo encontrado no canal CNN Brasil.</div>';
+        }
+      } else {
+        videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo encontrado do canal CNN Brasil.</div>';
+      }
+    })
+    .catch(()=>{videosGrid.innerHTML = '<div style="color:#fff">Erro ao buscar vídeos do canal CNN Brasil.</div>';});
+}
+
+// Chama busca dos vídeos após as notícias serem carregadas
+window._onNoticiasCarregadas = function() {
+  buscarVideosCNNBreakingOrGoverno();
+};
