@@ -262,11 +262,10 @@ setTimeout(function(){
   });
 }, 12000);
 
-// ---- DESTAQUES ----
+// ---- DESTAQUES EM GALERIA ----
 function preencherDestaques(noticiasPorCat) {
   const destaquesLista = document.getElementById("destaques-lista");
   if (!destaquesLista) return;
-  // Junta todas as notícias de todas categorias
   let todas = [];
   for (const cat in noticiasPorCat) {
     noticiasPorCat[cat].forEach(item => {
@@ -279,30 +278,22 @@ function preencherDestaques(noticiasPorCat) {
       });
     });
   }
-  // Remove duplicadas por título
+  // Remove duplicadas pelo título
   const vistos = new Set();
   todas = todas.filter(n => {
     if (vistos.has(n.title)) return false;
     vistos.add(n.title);
     return true;
   });
-  // Prioriza urgentes ou com imagem
-  let destaques = todas.filter(n => /urgente|breaking|ao vivo/i.test(n.title + n.description) && n.image)
-    .concat(todas.filter(n => n.image && !/urgente|breaking|ao vivo/i.test(n.title + n.description)))
-    .slice(0, 6);
-
-  if (destaques.length < 6) {
-    const extras = todas.filter(n => n.image && !destaques.includes(n));
-    destaques = destaques.concat(extras.slice(0, 6 - destaques.length));
-  }
-  destaques = destaques.slice(0, 6);
-
-  // Renderiza os cards
+  // Prioriza urgentes e com imagem
+  let destaques = todas.filter(n => n.image).slice(0, 8);
   destaquesLista.innerHTML = destaques.map(n =>
-    `<div class="destaque-card">
+    `<div class="destaque-card" onclick="window.open('${n.link}','_blank')">
       <img src="${n.image}" alt="${n.title}">
-      <h3><a href="${n.link}" target="_blank" style="color:#e30613;text-decoration:none;">${n.title}</a></h3>
-      <p>${(n.description || "").slice(0, 110)}...</p>
+      <div class="destaque-info">
+        <h3>${n.title}</h3>
+        <p>${(n.description || "").slice(0, 80)}...</p>
+      </div>
     </div>`
   ).join("");
 }
@@ -387,4 +378,4 @@ function iniciarMarqueeUrgenteHorizontal() {
     }`;
     document.head.appendChild(style);
   }
-    }
+                          }
