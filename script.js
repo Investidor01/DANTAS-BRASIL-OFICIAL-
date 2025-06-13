@@ -193,9 +193,11 @@ function adicionaNoticiasPorCategoria() {
             let tmp = document.createElement('div');
             tmp.innerHTML = item;
             let h3 = tmp.querySelector('h3');
-            return `<li>${h3?.innerText || 'Notícia'}</li>`;
-          }).join('');
-          urgentUl.innerHTML = urgentNews;
+            return h3?.innerText || 'Notícia';
+          }).join(" • ");
+          // Horizontal marquee: single li with all headlines separated by •
+          urgentUl.innerHTML = `<li style="display:inline;white-space:nowrap;padding-right:2em;">${urgentNews}</li>`;
+          iniciarMarqueeUrgenteHorizontal();
         }
         // Chama hook para buscar vídeos relacionados
         if(window._onNoticiasCarregadas) window._onNoticiasCarregadas(manchetesArr.slice(0,8));
@@ -231,123 +233,93 @@ setTimeout(function(){
   });
 }, 12000);
 
-// --- VÍDEOS CNN e OUTRAS FONTES ---
-function buscarVideosNoticiasDestaque() {
+// --- VÍDEOS NOTÍCIAS AO VIVO E RECENTES DE QUALQUER CANAL ---
+function buscarVideosNoticiasAoVivo() {
   const apiKey = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
   const videosGrid = document.getElementById('videos-grid');
   if(!videosGrid) return;
   videosGrid.innerHTML = '<div style="color:#fff">Carregando vídeos...</div>';
-  const cnnChannelId = "UCR9I2YnsBT7Ip1oQb6R6Ueg";
-  // Outras fontes de destaque nacionais/internacionais
-  const otherChannels = [
-    {id: "UCjRkUtHQ774mTg1vrQ6uA5A", nome: "Band Jornalismo"}, // Band Jornalismo
-    {id: "UCVgL_VeHteGecpPPhhXEF0Q", nome: "Record News"}, // Record News
-    {id: "UCn8zNIfYAQNdrFRrr8oibKw", nome: "BBC News Brasil"}, // BBC Brasil
-    {id: "UC16niRr50-MSBwiO3YDb3RA", nome: "BBC News"}, // BBC internacional
-    {id: "UCupvZG-5ko_eiXAupbDfxWw", nome: "CNN International"}, // CNN Int
-    {id: "UCLXo7UDZvByw2ixzpQCufnA", nome: "DW News"} // DW News
-  ];
-  const maxResults = 25;
-  // Busca CNN Brasil
-  let urlCnn = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=${maxResults}&channelId=${cnnChannelId}&order=date`;
-  // Busca das outras fontes (paralelo)
-  let otherUrls = otherChannels.map(ch =>
-    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=5&channelId=${ch.id}&order=date`)
-      .then(r=>r.json())
-      .then(res=>{
-        if(res.items && res.items.length) {
-          // Apenas vídeos de notícia (filtrar se quiser)
-          let filtered = res.items.filter(video=>{
-            const s = video.snippet;
-            const t = (s.title + " " + s.description).toLowerCase();
-            // Pega só vídeos de notícia relevantes por palavra-chave (ou todos)
-            return t.match(/notícia|breaking|news|governo|presidente|mundo|política|política|congresso|senado|parlamento|minister/);
-          }).slice(0,1); // pega 1 de cada fonte para destaque
-          return filtered.map(video=>{
-            let vid = video.id.videoId;
-            // Destaque na borda
-            return `<div class="video-relacionado" style="border: 3px solid #e30613; box-shadow: 0 0 10px #e30613;">
-              <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="Destaque: ${ch.nome}"></iframe>
-              <span>Destaque: ${ch.nome}</span>
-            </div>`;
-          }).join('');
-        }
-        return '';
-      })
-  );
 
-  // Busca CNN Brasil (governo/política/breaking news)
-  fetch(urlCnn)
-    .then(r=>r.json())
-    .then(res=>{
-      let html = '';
-      if(res.items && res.items.length) {
-        let filtered = res.items.filter(video => {
-          const s = video.snippet;
-          const t = (s.title + " " + s.description).toLowerCase();
-          return (
-            t.includes("breaking news") ||
-            t.includes("governo") ||
-            t.includes("presidente") ||
-            t.includes("congresso") ||
-            t.includes("palácio do planalto") ||
-            t.includes("senado") ||
-            t.includes("câmara") ||
-            t.includes("ministro") ||
-            t.includes("politica") ||
-            t.includes("política")
-          );
-        }).slice(0,4);
-        if(filtered.length) {
-          html = filtered.map(video=>{
-            let vid = video.id.videoId;
-            const s = video.snippet;
-            const t = (s.title + " " + s.description).toLowerCase();
-            let legenda = "Breaking News";
-            if (
-              t.includes("governo") ||
-              t.includes("presidente") ||
-              t.includes("congresso") ||
-              t.includes("palácio do planalto") ||
-              t.includes("senado") ||
-              t.includes("câmara") ||
-              t.includes("ministro") ||
-              t.includes("politica") ||
-              t.includes("política")
-            ) {
-              legenda = "Notícias de Governo";
-            }
-            if (t.includes("breaking news")) legenda = "Breaking News";
-            return `<div class="video-relacionado" style="border: 3px solid #1fa7e6; box-shadow: 0 0 10px #1fa7e6;">
-              <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="${legenda}"></iframe>
-              <span>${legenda} (CNN Brasil)</span>
-            </div>`;
-          }).join('');
-        }
-      }
-      // Agora busca as outras fontes
-      Promise.all(otherUrls).then(results=>{
-        let outrosVideos = results.filter(Boolean).join('');
-        if(html || outrosVideos) {
-          videosGrid.innerHTML = html + outrosVideos;
-        } else {
-          videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo de notícias relevante encontrado no momento.</div>';
-        }
-      });
-    })
-    .catch(()=>{
-      Promise.all(otherUrls).then(results=>{
-        let outrosVideos = results.filter(Boolean).join('');
-        if(outrosVideos) {
-          videosGrid.innerHTML = outrosVideos;
-        } else {
-          videosGrid.innerHTML = '<div style="color:#fff">Erro ao buscar vídeos de notícias no YouTube.</div>';
-        }
-      });
+  // Busca global de vídeos ao vivo de notícias
+  const pesquisaAoVivo = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&eventType=live&key=${apiKey}&maxResults=6&q=notícias OR news OR jornalismo OR breaking`;
+  // Busca global dos vídeos recentes de notícias (não apenas ao vivo)
+  const pesquisaNoticiasRecentes = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=6&order=date&q=notícias OR news OR jornalismo OR breaking`;
+
+  Promise.all([
+    fetch(pesquisaAoVivo).then(r=>r.json()),
+    fetch(pesquisaNoticiasRecentes).then(r=>r.json())
+  ]).then(([resAoVivo, resNoticias])=>{
+    let videos = [];
+
+    // Vídeos ao vivo
+    if(resAoVivo.items && resAoVivo.items.length) {
+      videos = videos.concat(resAoVivo.items.map(video=>{
+        let vid = video.id.videoId;
+        let canal = video.snippet.channelTitle;
+        return `<div class="video-relacionado destaque">
+          <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="Ao Vivo: ${canal}"></iframe>
+          <span>AO VIVO: ${canal}</span>
+        </div>`;
+      }));
+    }
+
+    // Vídeos recentes de notícias (não ao vivo, de outros canais)
+    if(resNoticias.items && resNoticias.items.length) {
+      videos = videos.concat(resNoticias.items.map(video=>{
+        let vid = video.id.videoId;
+        let canal = video.snippet.channelTitle;
+        return `<div class="video-relacionado destaque">
+          <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="Notícias: ${canal}"></iframe>
+          <span>Notícias: ${canal}</span>
+        </div>`;
+      }));
+    }
+
+    // Remove vídeos duplicados (mesmo videoId)
+    const seen = new Set();
+    videos = videos.filter(v => {
+      const match = v.match(/embed\/([a-zA-Z0-9_-]{11})/);
+      if(!match) return false;
+      const vid = match[1];
+      if(seen.has(vid)) return false;
+      seen.add(vid);
+      return true;
     });
+
+    if(videos.length) {
+      videosGrid.innerHTML = videos.slice(0,8).join('');
+    } else {
+      videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo de notícia relevante encontrado no momento.</div>';
+    }
+  }).catch(()=>{
+    videosGrid.innerHTML = '<div style="color:#fff">Erro ao buscar vídeos de notícias no YouTube.</div>';
+  });
 }
 
 // Chama busca dos vídeos após as notícias serem carregadas
 window._onNoticiasCarregadas = function() {
-  buscarVideosNoticiasDestaque();
+  buscarVideosNoticiasAoVivo();
 };
+
+// --- Marquee horizontal para barra urgente ---
+function iniciarMarqueeUrgenteHorizontal() {
+  const marquee = document.getElementById('marquee-urgente');
+  if (!marquee) return;
+  marquee.parentElement.style.overflow = "hidden";
+  marquee.style.display = "flex";
+  marquee.style.flexDirection = "row";
+  marquee.style.animation = "marqueeLeft 30s linear infinite";
+  marquee.style.whiteSpace = "nowrap";
+  marquee.style.position = "relative";
+  // CSS da animação marqueeLeft:
+  if (!document.getElementById('marqueeLeftStyle')) {
+    const style = document.createElement('style');
+    style.id = 'marqueeLeftStyle';
+    style.innerHTML = `
+    @keyframes marqueeLeft {
+      0% { transform: translateX(100%);}
+      100% { transform: translateX(-100%);}
+    }`;
+    document.head.appendChild(style);
+  }
+    }
