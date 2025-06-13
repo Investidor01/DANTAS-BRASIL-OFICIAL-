@@ -131,45 +131,39 @@
     .banner-dot.active {background:#e30613;}
     .banner-slide.active {display:block;}
     .banner-slide a {display:block;}
-    .area-aovivo {background: #1b1f27; border-radius: 1.2em; box-shadow: 0 2px 16px #0003; padding: 1.5em 1em 1.2em 1em; margin-bottom: 2em; text-align: center;}
-    .aovivo-title {color: #e30613; font-size: 2em; font-weight: bold; margin-bottom: 0.7em;}
-    .aovivo-list {display:flex;flex-wrap:wrap;gap:1.2em;justify-content:center;}
-    .aovivo-card {background:#22262d;border-radius:1em;box-shadow:0 1px 8px #0002;padding:0.8em;width:345px;display:flex;flex-direction:column;align-items:center;position:relative;}
-    .aovivo-thumb {width:100%;max-width:320px;aspect-ratio:16/9;border-radius:0.7em;box-shadow:0 2px 10px #0002;border:2px solid #e30613;}
-    .aovivo-card-title {color:#fff;font-weight:700;margin:0.6em 0 0.4em 0;text-align:center;font-size:1.1em;}
-    .aovivo-live {position:absolute;top:10px;left:10px;background:#e30613;color:#fff;font-weight:bold;padding:0.18em 1em;border-radius:0.9em;font-size:1.05em;letter-spacing:0.04em;box-shadow:0 2px 8px #0003;}
-    .noticias-bloco {
-      margin: 0;
-      padding: 0;
-      list-style: none;
+    #videos-relacionados {
+      margin: 2.5em 0;
     }
-    .noticia {
+    .videos-grid {
       display: flex;
-      align-items: flex-start;
-      gap: 1.2em;
+      flex-wrap: wrap;
+      gap: 1.5em;
+      justify-content: center;
+    }
+    .video-relacionado {
+      width: 340px;
       background: #22262d;
       border-radius: 1em;
-      margin-bottom: 1.3em;
       box-shadow: 0 1px 8px #0002;
-      padding: 1.1em 1.5em 1.1em 1.2em;
-      border-left: 5px solid #e30613;
+      padding: 0.7em 0.7em 1.1em 0.7em;
+      text-align: center;
+      margin-bottom: 0.8em;
     }
-    .noticia-img {
-      width: 70px;
-      height: 70px;
-      border-radius: 0.5em;
-      object-fit: cover;
-      background: #222;
-      flex-shrink: 0;
+    .video-relacionado iframe {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 0.6em;
+      border: none;
+      margin-bottom: 0.5em;
+      background: #111;
+    }
+    .video-relacionado span {
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.08em;
       display: block;
+      margin-top: 0.2em;
     }
-    .noticia-content { flex: 1 1 0%; min-width: 0; }
-    .noticia h3 { margin: 0 0 0.2em 0; font-size: 1.15em; font-weight: bold; color: #fff; }
-    .noticia .noticia-chapeu { color: #e30613; font-size: 0.94em; font-weight: bold; margin-right: 0.6em; }
-    .noticia .noticia-data { color: #bbb; font-size: 0.93em; margin-left: 0.6em; }
-    .noticia p { margin: 0.4em 0 0 0; color: #d6d6d6; font-size: 1.07em; }
-    button[onclick*="navigator.share"] { display: none !important; }
-    button[onclick*="navigator.share"]:hover { background:#b5050e; }
   </style>
 </head>
 <body>
@@ -183,7 +177,7 @@
         <li>Fique por dentro das notícias mais recentes</li>
       </ul>
     </div>
-    <span class="badge-urgente">AO VIVO</span>
+    <!-- badge-urgente removido -->
   </div>
   <div id="progressBar"></div>
   <button id="topBtn" title="Voltar ao topo">&#8679;</button>
@@ -255,6 +249,10 @@
         </div>
       </div>
     </section>
+    <div id="videos-relacionados">
+      <h2 class="section-title">Vídeos relacionados às últimas manchetes</h2>
+      <div id="videos-grid" class="videos-grid"></div>
+    </div>
     <div id="loader"><div></div></div>
     <section class="area-aovivo" id="aovivo" aria-label="AO VIVO">
       <h2 class="aovivo-title">AO VIVO Agora</h2>
@@ -283,5 +281,43 @@
     </footer>
   </main>
   <script src="script.js"></script>
+  <script>
+    // Busca vídeos no YouTube relacionados às manchetes principais e exibe
+    function buscarVideosRelacionados(titulos) {
+      const apiKey = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
+      const videosGrid = document.getElementById('videos-grid');
+      if(!videosGrid) return;
+      videosGrid.innerHTML = '<div style="color:#fff">Carregando vídeos...</div>';
+      let promises = titulos.slice(0,4).map(titulo => {
+        let query = encodeURIComponent(titulo);
+        let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=1&q=${query}+noticias+brasil`;
+        return fetch(url)
+          .then(r=>r.json())
+          .then(res=>{
+            if(res.items && res.items.length) {
+              let video = res.items[0];
+              let vid = video.id.videoId;
+              let vtitle = video.snippet.title;
+              return `<div class="video-relacionado">
+                <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="${vtitle}"></iframe>
+                <span>${vtitle}</span>
+              </div>`;
+            }
+            return '';
+          }).catch(()=> '');
+      });
+      Promise.all(promises).then(videos=>{
+        videosGrid.innerHTML = videos.filter(Boolean).join('') || '<div style="color:#fff">Nenhum vídeo relacionado encontrado.</div>';
+      });
+    }
+
+    // Chame buscarVideosRelacionados quando as notícias forem carregadas
+    // (hook no final da função adicionaNoticiasPorCategoria em script.js)
+    window._ultimasManchetes = [];
+    window._onNoticiasCarregadas = function(titulos) {
+      window._ultimasManchetes = titulos;
+      buscarVideosRelacionados(titulos);
+    };
+  </script>
 </body>
-          </html>
+                                                                                      </html>
