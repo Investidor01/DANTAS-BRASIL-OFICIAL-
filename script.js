@@ -1,131 +1,99 @@
-// Suas chaves de API:
-const YOUTUBE_API_KEY = 'AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A';
-const GNEWS_API_KEY = '92221e88091bab959857e1a937a68fc9';
-const NEWSAPI_API_KEY = '92221e88091bab959857e1a937a68fc9'; // Substitua se quiser, ou use GNews só
-// Você não passou chave da NewsAPI, apenas da GNews e YouTube. Usei GNews aqui.
+// script.js - INFO DANTAS BRASIL
 
-const categoryMap = {
-  'index.html': '', // Home pega notícias gerais
-  'politica.html': 'politics',
-  'esportes.html': 'sports',
-  'tecnologia.html': 'technology',
-  'entretenimento.html': 'entertainment',
-};
+const GNEWS_API_KEY = "92221e88091bab959857e1a937a68fc9";
+const NEWSAPI_KEY = "coloque-sua-chave-newsapi-aqui"; // Caso vá usar também
+const YOUTUBE_API_KEY = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
 
-const page = window.location.pathname.split('/').pop();
-const category = categoryMap[page] || '';
+const RSS_FEEDS = [
+  "https://g1.globo.com/rss/g1/", 
+  "https://feeds.bbci.co.uk/portuguese/rss.xml"
+];
 
-const newsContainer = document.getElementById('news-container');
+const breakingList = document.getElementById("breaking-list");
+const highlightContainer = document.getElementById("highlight-news");
+const latestContainer = document.getElementById("latest-news");
+const youtubeContainer = document.getElementById("youtube-videos");
 
-// Função para formatar datas
-function formatDate(dateStr) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
+// ========== FETCH GNEWS ==========
+async function fetchGNews(query = "Brasil", max = 6) {
+  const url = `https://gnews.io/api/v4/search?q=${query}&lang=pt&country=br&max=${max}&apikey=${GNEWS_API_KEY}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return data.articles || [];
 }
 
-// Função para criar card de notícia
-function createNewsItem(article) {
-  const div = document.createElement('div');
-  div.className = 'news-item';
-
-  const imgSrc = article.image || article.urlToImage || '';
-  const img = imgSrc
-    ? `<img src="${imgSrc}" alt="${article.title}" />`
-    : '';
-
-  div.innerHTML = `
-    ${img}
-    <h3><a href="${article.url}" target="_blank" rel="noopener">${article.title}</a></h3>
-    <p>${article.description || ''}</p>
-    <small>${article.source?.name || ''} - ${formatDate(article.publishedAt)}</small>
-  `;
-
-  return div;
-}
-
-// Buscar notícias da GNews API
-async function fetchGNews(category) {
-  let url = `https://gnews.io/api/v4/top-headlines?lang=pt&max=10&apikey=${GNEWS_API_KEY}`;
-  if (category) {
-    url += `&topic=${category}`;
-  }
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data.articles) {
-      return data.articles.map(a => ({
-        title: a.title,
-        description: a.description,
-        url: a.url,
-        image: a.image,
-        publishedAt: a.publishedAt,
-        source: { name: a.source.name },
-      }));
-    }
-  } catch (err) {
-    console.error('Erro GNews:', err);
-  }
-  return [];
-}
-
-// Buscar feed RSS (exemplo feed globoesporte para esportes)
-// Como só podemos fazer CORS em front se o feed liberar, usaremos proxy público para dev
+// ========== FETCH RSS ==========
 async function fetchRSS(url) {
-  try {
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-    const res = await fetch(proxyUrl);
-    const data = await res.json();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(data.contents, 'application/xml');
-    const items = [...xml.querySelectorAll('item')].slice(0, 5);
-    return items.map(item => ({
-      title: item.querySelector('title')?.textContent || '',
-      description: item.querySelector('description')?.textContent || '',
-      url: item.querySelector('link')?.textContent || '',
-      pubDate: item.querySelector('pubDate')?.textContent || '',
-      image: '', // rss simples sem imagens, ou tente extrair
-    }));
-  } catch (err) {
-    console.error('Erro RSS:', err);
-    return [];
-  }
+  const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+  const data = await res.json();
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(data.contents, "text/xml");
+  const items = [...xml.querySelectorAll("item")].slice(0, 5);
+  return items.map(item => ({
+    title: item.querySelector("title").textContent,
+    link: item.querySelector("link").textContent
+  }));
 }
 
-// Carregar notícias e mostrar na página
-async function loadNews() {
-  newsContainer.innerHTML = `<p>Carregando notícias...</p>`;
+// ========== FETCH YOUTUBE ==========
+async function fetchYouTubeVideos(query = "notícias Brasil", max = 4) {
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=${max}&key=${YOUTUBE_API_KEY}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return data.items || [];
+}
 
-  // Pega notícias GNews
-  const gnewsArticles = await fetchGNews(category);
-
-  // Pega RSS específico por categoria
-  let rssArticles = [];
-  if (category === 'sports') {
-    rssArticles = await fetchRSS('https://globoesporte.globo.com/rss/gauchazh/futebol-rs/');
-  } else if (category === 'politics') {
-    rssArticles = await fetchRSS('https://rss.uol.com.br/feed/politica.xml');
-  } else if (category === 'technology') {
-    rssArticles = await fetchRSS('https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml');
-  } else if (category === 'entertainment') {
-    rssArticles = await fetchRSS('https://rss.cnn.com/rss/edition_entertainment.rss');
-  }
-
-  // Juntando e ordenando (colocando GNews e RSS)
-  const combined = [...gnewsArticles, ...rssArticles].slice(0, 10);
-
-  if (combined.length === 0) {
-    newsContainer.innerHTML = `<p>Não foi possível carregar as notícias no momento.</p>`;
-    return;
-  }
-
-  newsContainer.innerHTML = '';
-  combined.forEach(article => {
-    newsContainer.appendChild(createNewsItem(article));
+// ========== RENDERING FUNÇÕES ==========
+function renderBreakingNews(articles) {
+  articles.forEach(article => {
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="${article.link || article.url}" target="_blank">${article.title}</a>`;
+    breakingList.appendChild(li);
   });
 }
 
-window.addEventListener('DOMContentLoaded', loadNews);
+function renderArticles(container, articles) {
+  container.innerHTML = articles.map(article => `
+    <div class="news-card">
+      <img src="${article.image || 'placeholder.jpg'}" alt="${article.title}">
+      <div>
+        <h3>${article.title}</h3>
+        <p>${article.description || ''}</p>
+        <a href="${article.url}" target="_blank">Leia mais</a>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderYouTube(videos) {
+  youtubeContainer.innerHTML = videos.map(video => `
+    <iframe width="300" height="200" src="https://www.youtube.com/embed/${video.id.videoId}" frameborder="0" allowfullscreen></iframe>
+  `).join("");
+}
+
+// ========== CARREGAR TUDO ==========
+async function loadContent() {
+  const [gnews, rss1, rss2, youtube] = await Promise.all([
+    fetchGNews("Brasil"),
+    fetchRSS(RSS_FEEDS[0]),
+    fetchRSS(RSS_FEEDS[1]),
+    fetchYouTubeVideos("últimas notícias Brasil")
+  ]);
+
+  renderBreakingNews([...rss1, ...rss2]);
+  renderArticles(highlightContainer, gnews.slice(0, 3));
+  renderArticles(latestContainer, gnews.slice(3, 6));
+  renderYouTube(youtube);
+}
+
+loadContent();
+
+// ========== DARK MODE ==========
+const toggleTheme = document.getElementById("toggle-theme");
+toggleTheme.addEventListener("click", () => {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute("data-theme");
+  const newTheme = currentTheme === "light" ? "dark" : "light";
+  html.setAttribute("data-theme", newTheme);
+});
+                 
