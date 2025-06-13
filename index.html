@@ -3,280 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IDB INFO DANTAS BRASIL + Google Login</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="header-idb.css">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <title>Info Dantas Brasil - Notícias em tempo real</title>
+  <!-- SEO e Social -->
+  <meta name="description" content="As principais notícias do Brasil e do mundo, política, economia, esportes, entretenimento, tecnologia e muito mais com visual moderno.">
+  <meta name="keywords" content="notícias, brasil, política, economia, esportes, entretenimento, tecnologia, info dantas brasil, IDB">
+  <meta name="author" content="Info Dantas Brasil">
+  <meta property="og:title" content="Info Dantas Brasil - Notícias em tempo real">
+  <meta property="og:description" content="Fique por dentro das principais notícias do Brasil e do mundo com um visual moderno e organizado.">
+  <meta property="og:image" content="favicon.png">
+  <meta property="og:url" content="https://SEU-SITE.github.io/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Info Dantas Brasil - Notícias em tempo real">
+  <meta name="twitter:description" content="Notícias do Brasil e do mundo, política, economia, esportes, entretenimento, tecnologia e muito mais.">
+  <meta name="twitter:image" content="favicon.png">
+  <!-- Favicon e Manifest -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#181d23">
   <style>
-    .main-content {
-      max-width: 850px;
-      margin: 0 auto;
-      padding: 130px 1.2em 2.5em 1.2em;
-      min-height: 100vh;
-    }
-    /* HEADER + NOVO NOME CENTRAL */
-    .idb-header-cnn {
-      background: #181d23;
-      padding: 0;
-      width: 100vw;
-      z-index: 1200;
-      box-shadow: 0 2px 12px #0004;
-      position: fixed;
-      top: 40px;
-      left: 0;
-    }
-    .idb-header-inner-cnn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 13px 1.2em 13px 1.2em;
-      position: relative;
-    }
-    .idb-logo-cnn {
-      background: #e30613;
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.35em;
-      letter-spacing: 0.04em;
-      border-radius: 0.4em;
-      padding: 0.28em 1.3em;
-      text-decoration: none;
-      display: inline-block;
-      margin-right: 18px;
-    }
-    /* NOVO: Nome do site centralizado */
-    .idb-site-title-cnn {
-      color: #fff;
-      font-weight: 800;
-      font-size: 1.1em;
-      letter-spacing: 0.02em;
-      flex: 1 1 auto;
-      text-align: center;
-      margin-right: 18px;
-      margin-left: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
-      user-select: none;
-      pointer-events: none;
-    }
-    @media (max-width:900px) {
-      .idb-header-inner-cnn { padding: 13px 0.3em; }
-      .idb-site-title-cnn { font-size: 0.98em; }
-    }
-    @media (max-width:600px) {
-      .idb-site-title-cnn { font-size: 0.88em; padding:0 2vw;}
-      .idb-logo-cnn { font-size: 1.07em; padding:0.23em 0.8em;}
-    }
-    /* Fim HEADER */
-    .destaque {
-      background: #232932;
-      border-radius: 1.2em;
-      box-shadow: 0 2px 16px #0003;
-      padding: 2em 2em 1.2em 2em;
-      margin-bottom: 2em;
-      border-left: 10px solid #e30613;
-      position: relative;
-    }
-    .destaque h2 {
-      color: #e30613;
-      font-size: 2.1em;
-      margin-top: 0;
-      margin-bottom: 0.35em;
-      font-weight: 900;
-      line-height: 1.13;
-    }
-    .destaque .destaque-chapeu {
-      color: #fff;
-      background: #e30613;
-      display: inline-block;
-      font-size: 1em;
-      padding: 0.18em 1em;
-      border-radius: 0.9em;
-      font-weight: bold;
-      position: absolute;
-      left: 0;
-      top: -20px;
-      letter-spacing: 0.04em;
-      box-shadow: 0 2px 8px #0003;
-    }
-    .destaque p {
-      margin: 1.2em 0 0.7em 0;
-      font-size: 1.18em;
-      color: #eee;
-    }
-    .destaque .destaque-data {
-      font-size: 0.97em;
-      color: #bbb;
-    }
-    .noticias-bloco {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    .noticia {
-      background: #22262d;
-      border-radius: 1em;
-      margin-bottom: 1.3em;
-      box-shadow: 0 1px 8px #0002;
-      position: relative;
-      padding: 1.1em 1.5em 1.1em 1.2em;
-      border-left: 5px solid #e30613;
-      transition: box-shadow .15s;
-      display: flex;
-      align-items: flex-start;
-      gap: 1.2em;
-    }
-    .noticia:hover {
-      box-shadow: 0 4px 16px #0004;
-      background: #272d38;
-    }
-    .noticia h3 {
-      margin: 0 0 0.2em 0;
-      font-size: 1.23em;
-      font-weight: bold;
-      color: #fff;
-      letter-spacing: 0.02em;
-    }
-    .noticia .noticia-chapeu {
-      color: #e30613;
-      font-size: 0.94em;
-      font-weight: bold;
-      margin-right: 0.6em;
-      letter-spacing: 0.03em;
-    }
-    .noticia .noticia-data {
-      color: #bbb;
-      font-size: 0.93em;
-      margin-left: 0.6em;
-    }
-    .noticia p {
-      margin: 0.4em 0 0 0;
-      color: #d6d6d6;
-      font-size: 1.07em;
-    }
-    .noticia-img {
-      width: 104px;
-      height: 104px;
-      border-radius: 0.5em;
-      object-fit: cover;
-      background: #222;
-      flex-shrink: 0;
-      display: block;
-    }
-    .noticia-content {
-      flex: 1 1 0%;
-      min-width: 0;
-    }
-    .noticia-video {
-      margin-top: 0.7em;
-      width: 100%;
-      max-width: 400px;
-      aspect-ratio: 16/9;
-      border-radius: 0.6em;
-      border: 2px solid #e30613;
-      box-shadow: 0 2px 8px #0004;
-      display: block;
-    }
-    /* Carrossel de Manchetes */
-    .carrossel-manchetes {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      max-width: 850px;
-      margin: 0 auto 2em auto;
-      background: #181d23;
-      border-radius: 1.2em;
-      box-shadow: 0 1px 12px #0002;
-      padding: 0.7em 0.2em;
-      position: relative;
-      overflow: hidden;
-      min-height: 60px;
-    }
-    .carrossel-arrow {
-      background: none;
-      border: none;
-      color: #e30613;
-      font-size: 2em;
-      padding: 0 0.6em;
-      cursor: pointer;
-      z-index: 2;
-      transition: color .14s;
-    }
-    .carrossel-arrow:hover {
-      color: #fff;
-    }
-    .carrossel-lista {
-      display: flex;
-      transition: transform 0.4s cubic-bezier(.58,0,.39,1);
-      will-change: transform;
-      width: 100vw;
-      max-width: 700px;
-      overflow: hidden;
-    }
-    .manchete-carrossel {
-      min-width: 270px;
-      margin: 0 1em;
-      color: #fff;
-      background: #232932;
-      border-radius: 0.7em;
-      padding: 0.8em 1.3em;
-      text-decoration: none;
-      font-size: 1.09em;
-      font-weight: 600;
-      box-shadow: 0 1px 5px #0001;
-      display: flex;
-      align-items: center;
-      gap: 0.7em;
-      transition: background .13s, box-shadow .13s;
-      border-left: 5px solid #e30613;
-    }
-    .manchete-carrossel .fonte {
-      color: #e30613;
-      font-weight: bold;
-      margin-right: 0.6em;
-      font-size: 1em;
-      letter-spacing: 0.02em;
-    }
-    .manchete-carrossel .texto {
-      color: #fff;
-      font-size: 1em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .manchete-carrossel:hover {
-      background: #e30613;
-      color: #fff;
-      box-shadow: 0 4px 14px #0003;
-    }
-    @media (max-width:900px) {
-      .main-content { padding: 110px 0.3em 2em 0.3em; }
-      .idb-site-title-cnn { font-size: 0.98em; }
-      .destaque, .noticia { padding: 1.2em 0.7em; }
-    }
-    @media (max-width:600px) {
-      .idb-site-title-cnn { font-size: 0.86em; max-width:40vw; }
-      .idb-logo-cnn { font-size: 1.07em; padding:0.23em 0.8em;}
-      .carrossel-manchetes { min-height: 54px; }
-      .manchete-carrossel { min-width: 200px; padding: 0.7em 0.7em; font-size: 0.94em; }
-      .carrossel-lista { max-width: 94vw; }
-      .noticia-img { width: 70px; height: 70px; }
-    }
+    html { scroll-behavior: smooth; }
+    #loader { display:flex;align-items:center;justify-content:center;width:100%;padding:2em 0;}
+    #loader > div {border:4px solid #eee;border-top:4px solid #e30613;border-radius:50%;width:34px;height:34px;animation:spin 1s linear infinite}
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    #progressBar {position:fixed;top:0;left:0;height:3px;background:#e30613;width:0;z-index:999;}
+    #topBtn {position:fixed;bottom:28px;right:28px;z-index:999;background:#e30613;color:#fff;font-size:1.7em;border:none;border-radius:50%;width:44px;height:44px;display:none;box-shadow:0 2px 8px #0004;cursor:pointer;}
+    .badge-urgente {background:#f00;color:#fff;padding:0.2em 0.7em;border-radius:1em;font-weight:bold;animation:pulse 1s infinite alternate;}
+    @keyframes pulse {from{background:#e30613;}to{background:#c00;}}
+    .noticia { transition: box-shadow .18s, transform .18s; }
+    .noticia:hover { box-shadow: 0 8px 32px #0006; transform: translateY(-2px) scale(1.02); }
+    .main-content { max-width: 850px; margin: 0 auto; padding: 130px 1.2em 2.5em 1.2em; min-height: 100vh; }
+    .idb-header-cnn { background: #181d23; padding: 0; width: 100vw; z-index: 1200; box-shadow: 0 2px 12px #0004; position: fixed; top: 40px; left: 0; }
+    .idb-header-inner-cnn { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; padding: 13px 1.2em 13px 1.2em; position: relative; }
+    .idb-logo-cnn { background: #e30613; color: #fff; font-weight: bold; font-size: 1.35em; letter-spacing: 0.04em; border-radius: 0.4em; padding: 0.28em 1.3em; text-decoration: none; display: inline-block; margin-right: 18px; }
+    .idb-site-title-cnn { color: #fff; font-weight: 800; font-size: 1.1em; letter-spacing: 0.02em; flex: 1 1 auto; text-align: center; margin-right: 18px; margin-left: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; user-select: none; pointer-events: none; }
+    section { margin-bottom: 2.5em; }
+    .section-title { color: #e30613; font-size: 2em; margin: 1.3em 0 0.8em 0; font-weight: 900; }
+    .noticias-bloco { margin: 0; padding: 0; list-style: none; }
+    .noticia-img { width: 104px; height: 104px; border-radius: 0.5em; object-fit: cover; background: #222; flex-shrink: 0; display: block; }
+    .noticia-content { flex: 1 1 0%; min-width: 0; }
+
+    /* Banner rotativo */
+    #banner-carrossel-area {margin-bottom:2em;}
+    #banner-carrossel {position:relative;max-width:900px;margin:0 auto;overflow:hidden;border-radius:1.1em;box-shadow:0 2px 16px #0004;}
+    .banner-slide {display:none;}
+    .banner-slide img {width:100%;display:block;}
+    #banner-prev,#banner-next{position:absolute;top:50%;transform:translateY(-50%);background:#e30613bb;color:#fff;border:none;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:1.4em;z-index:2;}
+    #banner-prev {left:16px;}
+    #banner-next {right:16px;}
+    #banner-dots {position:absolute;bottom:13px;left:50%;transform:translateX(-50%);display:flex;gap:0.7em;}
+    .banner-dot {width:13px;height:13px;background:#fff4;border-radius:50%;display:inline-block;cursor:pointer;border:2px solid #e30613;}
+    .banner-dot.active {background:#e30613;}
+    
+    .banner-slide.active {display:block;}
+
+    .banner-slide a {display:block;}
+
+    .banner-slide img {border-radius:1.1em;box-shadow:0 2px 16px #0004;}
+    .banner-slide {transition:opacity .35s;}
+    .banner-slide:not(.active) {opacity:0;z-index:0;}
+    .banner-slide.active {opacity:1;z-index:1;}
+
+    /* AO VIVO */
+    .area-aovivo {background: #1b1f27; border-radius: 1.2em; box-shadow: 0 2px 16px #0003; padding: 1.5em 1em 1.2em 1em; margin-bottom: 2em;}
+    .aovivo-title {color: #e30613; font-size: 2em; font-weight: bold; margin-bottom: 0.7em;}
+    .aovivo-list {display:flex;flex-wrap:wrap;gap:1.2em;}
+    .aovivo-card {background:#22262d;border-radius:1em;box-shadow:0 1px 8px #0002;padding:0.8em;width:345px;display:flex;flex-direction:column;align-items:center;position:relative;}
+    .aovivo-thumb {width:100%;max-width:320px;aspect-ratio:16/9;border-radius:0.7em;box-shadow:0 2px 10px #0002;border:2px solid #e30613;}
+    .aovivo-card-title {color:#fff;font-weight:700;margin:0.6em 0 0.4em 0;text-align:center;font-size:1.1em;}
+    .aovivo-live {position:absolute;top:10px;left:10px;background:#e30613;color:#fff;font-weight:bold;padding:0.18em 1em;border-radius:0.9em;font-size:1.05em;letter-spacing:0.04em;box-shadow:0 2px 8px #0003;}
+    @media (max-width:900px) { .main-content { padding: 110px 0.3em 2em 0.3em; } .idb-site-title-cnn { font-size: 0.98em; } section { margin-bottom: 1.8em; } .aovivo-list{flex-direction:column;align-items:center;} .aovivo-card{width:97%;max-width:400px;} }
+    @media (max-width:600px) { .idb-site-title-cnn { font-size: 0.86em; max-width:40vw; } .idb-logo-cnn { font-size: 1.07em; padding:0.23em 0.8em;} .noticia-img { width: 70px; height: 70px; } .aovivo-thumb{max-width:97vw;} }
   </style>
 </head>
 <body>
   <div class="barra-urgente" style="background:#e30613;color:#fff;padding:8px 1em;font-weight:bold;position:fixed;top:0;left:0;width:100vw;z-index:1300;">
-    URGENTE: Últimas notícias importantes aqui!
+    URGENTE: Últimas notícias importantes aqui! <span class="badge-urgente">AO VIVO</span>
   </div>
+  <div id="progressBar"></div>
+  <button id="topBtn" title="Voltar ao topo">&#8679;</button>
   <header class="idb-header-cnn">
     <div class="idb-header-inner-cnn">
-      <button id="menu-toggle-cnn" class="idb-menu-btn-cnn" aria-label="Abrir menu">
-        <span class="idb-menu-icon-cnn"></span>
-      </button>
+      <button id="menu-toggle-cnn" class="idb-menu-btn-cnn" aria-label="Abrir menu"><span class="idb-menu-icon-cnn"></span></button>
       <a href="/" class="idb-logo-cnn">IDB</a>
       <span class="idb-site-title-cnn">INFO DANTAS BRASIL</span>
       <div id="idb-google-login-cnn" class="idb-login-google-cnn"></div>
@@ -284,110 +92,164 @@
   </header>
   <aside id="side-menu-cnn" class="side-menu-cnn">
     <div class="side-menu-header-cnn">
-      <button id="menu-close-cnn" class="idb-menu-btn-cnn" aria-label="Fechar menu">
-        <span class="idb-close-icon-cnn">&times;</span>
-      </button>
+      <button id="menu-close-cnn" class="idb-menu-btn-cnn" aria-label="Fechar menu"><span class="idb-close-icon-cnn">&times;</span></button>
       <a href="/" class="idb-logo-cnn side-logo-cnn">IDB</a>
     </div>
     <ul class="side-menu-list-cnn">
-      <li><a href="#">Política</a></li>
-      <li><a href="#">Internacional</a></li>
-      <li><a href="#">Nacional</a></li>
-      <li><a href="#">Esportes</a></li>
-      <li><a href="#">Economia</a></li>
-      <li><a href="#">Money</a></li>
-      <li><a href="#">Entretenimento</a></li>
-      <li><a href="#">Saúde</a></li>
-      <li><a href="#">Tecnologia</a></li>
-      <li><a href="#">Lifestyle</a></li>
-      <li><a href="#">Viagem & Gastronomia</a></li>
-      <li><a href="#">Auto</a></li>
-      <li><a href="#">Educação</a></li>
-      <li><a href="#">Colunas</a></li>
-      <li><a href="#">Programação</a></li>
-      <li><a href="#">Equipe IDB</a></li>
-      <li><a href="#">Newsletters</a></li>
+      <li><a href="#aovivo">AO VIVO</a></li>
+      <li><a href="#politica">Política</a></li>
+      <li><a href="#internacional">Internacional</a></li>
+      <li><a href="#nacional">Nacional</a></li>
+      <li><a href="#esportes">Esportes</a></li>
+      <li><a href="#economia">Economia</a></li>
+      <li><a href="#money">Money</a></li>
+      <li><a href="#entretenimento">Entretenimento</a></li>
+      <li><a href="#saude">Saúde</a></li>
+      <li><a href="#tecnologia">Tecnologia</a></li>
+      <li><a href="#lifestyle">Lifestyle</a></li>
+      <li><a href="#viagem">Viagem & Gastronomia</a></li>
+      <li><a href="#auto">Auto</a></li>
+      <li><a href="#educacao">Educação</a></li>
+      <li><a href="#colunas">Colunas</a></li>
+      <li><a href="#programacao">Programação</a></li>
+      <li><a href="#equipe">Equipe IDB</a></li>
+      <li><a href="#newsletters">Newsletters</a></li>
     </ul>
   </aside>
   <div id="menu-backdrop-cnn" class="menu-backdrop-cnn"></div>
   <main class="main-content">
-    <!-- Carrossel de Manchetes de outros sites -->
-    <div class="carrossel-manchetes" aria-label="Carrossel de Manchetes">
-      <button class="carrossel-arrow" id="carrossel-prev" aria-label="Anterior">&#10094;</button>
-      <div class="carrossel-lista" id="carrossel-lista">
-        <a class="manchete-carrossel" href="https://g1.globo.com/" target="_blank" aria-label="Notícia G1">
-          <span class="fonte">G1</span>
-          <span class="texto">Senado aprova novo piso salarial nacional</span>
-        </a>
-        <a class="manchete-carrossel" href="https://www.cnnbrasil.com.br/" target="_blank" aria-label="Notícia CNN">
-          <span class="fonte">CNN</span>
-          <span class="texto">Inflação oficial desacelera em maio, diz IBGE</span>
-        </a>
-        <a class="manchete-carrossel" href="https://economia.uol.com.br/" target="_blank" aria-label="Notícia UOL">
-          <span class="fonte">UOL</span>
-          <span class="texto">Petrobras anuncia queda no preço da gasolina</span>
-        </a>
-        <a class="manchete-carrossel" href="https://www.bbc.com/portuguese" target="_blank" aria-label="Notícia BBC">
-          <span class="fonte">BBC</span>
-          <span class="texto">ONU alerta para aumento de calor extremo em 2025</span>
-        </a>
-        <a class="manchete-carrossel" href="https://exame.com/" target="_blank" aria-label="Notícia Exame">
-          <span class="fonte">Exame</span>
-          <span class="texto">Dólar opera em queda após divulgação de novos dados econômicos</span>
-        </a>
-        <a class="manchete-carrossel" href="https://oglobo.globo.com/economia/" target="_blank" aria-label="Notícia O Globo">
-          <span class="fonte">O Globo</span>
-          <span class="texto">Mercado financeiro fecha em alta após decisão do Banco Central</span>
-        </a>
-        <a class="manchete-carrossel" href="https://feeds.folha.uol.com.br/cotidiano/rss091.xml" target="_blank" aria-label="Notícia Folha">
-          <span class="fonte">Folha</span>
-          <span class="texto">Reforma tributária é aprovada e segue para sanção presidencial</span>
-        </a>
-        <a class="manchete-carrossel" href="https://www.terra.com.br/noticias/" target="_blank" aria-label="Notícia Terra">
-          <span class="fonte">Terra</span>
-          <span class="texto">Brasil conquista medalha de ouro em competição internacional</span>
-        </a>
-        <a class="manchete-carrossel" href="https://valor.globo.com/" target="_blank" aria-label="Notícia Valor">
-          <span class="fonte">Valor</span>
-          <span class="texto">Empresas brasileiras lideram ranking de inovação na América Latina</span>
-        </a>
+    <!-- Banner Rotativo/Carrossel -->
+    <section id="banner-carrossel-area">
+      <div id="banner-carrossel">
+        <div class="banner-slide active">
+          <a href="https://www.cnnbrasil.com.br/" target="_blank" rel="noopener">
+            <img src="banner-cnn.jpg" alt="CNN Brasil - Ao vivo">
+          </a>
+        </div>
+        <div class="banner-slide">
+          <a href="https://oglobo.globo.com/" target="_blank" rel="noopener">
+            <img src="banner-globo.jpg" alt="O Globo - Notícias">
+          </a>
+        </div>
+        <div class="banner-slide">
+          <a href="https://g1.globo.com/" target="_blank" rel="noopener">
+            <img src="banner-g1.jpg" alt="G1 - Atualidade">
+          </a>
+        </div>
+        <div class="banner-slide">
+          <a href="https://investidor01.github.io/" target="_blank" rel="noopener">
+            <img src="banner-idb.jpg" alt="Info Dantas Brasil">
+          </a>
+        </div>
+        <button id="banner-prev" aria-label="Banner anterior">&#10094;</button>
+        <button id="banner-next" aria-label="Próximo banner">&#10095;</button>
+        <div id="banner-dots">
+          <span class="banner-dot active"></span>
+          <span class="banner-dot"></span>
+          <span class="banner-dot"></span>
+          <span class="banner-dot"></span>
+        </div>
       </div>
-      <button class="carrossel-arrow" id="carrossel-next" aria-label="Próxima">&#10095;</button>
-    </div>
-    <!-- Breaking news em vídeo ao vivo do YouTube (será exibido automaticamente se houver) -->
-    <section id="breaking-news-video" style="display:none;margin-bottom:2em;">
-      <h2 style="color:#e30613;margin-bottom:1em;">AO VIVO: Cobertura Urgente</h2>
-      <div id="breaking-video-embed"></div>
     </section>
-    <section class="destaque" aria-label="Notícia em Destaque">
-      <span class="destaque-chapeu">Destaque</span>
-      <h2>Governo anuncia novo pacote econômico para 2025</h2>
-      <p>Ministro da Economia apresenta medidas para estimular o crescimento e controlar a inflação. Mercado reage positivamente.</p>
-      <span class="destaque-data">12/06/2025 - 19:30</span>
+
+    <!-- Compartilhamento fácil -->
+    <button onclick="navigator.share ? navigator.share({title:document.title, url:location.href}) : alert('Copie o link: '+location.href)" style="background:#e30613;color:#fff;border:none;padding:0.5em 1em;border-radius:0.8em;cursor:pointer;margin-bottom:1em;">
+      &#128257; Compartilhar
+    </button>
+
+    <!-- Loader -->
+    <div id="loader"><div></div></div>
+
+    <!-- ÁREA AO VIVO -->
+    <section class="area-aovivo" id="aovivo" aria-label="AO VIVO">
+      <h2 class="aovivo-title">AO VIVO Agora</h2>
+      <div class="aovivo-list" id="aovivo-list"></div>
     </section>
-    <ul class="noticias-bloco" id="noticias-bloco">
-      <!-- Notícias automáticas de outros sites serão adicionadas via JS -->
-    </ul>
+
+    <!-- Seções de notícias -->
+    <section id="politica"><h2 class="section-title">Política</h2><ul class="noticias-bloco" id="noticias-politica"></ul></section>
+    <section id="internacional"><h2 class="section-title">Internacional</h2><ul class="noticias-bloco" id="noticias-internacional"></ul></section>
+    <section id="nacional"><h2 class="section-title">Nacional</h2><ul class="noticias-bloco" id="noticias-nacional"></ul></section>
+    <section id="esportes"><h2 class="section-title">Esportes</h2><ul class="noticias-bloco" id="noticias-esportes"></ul></section>
+    <section id="economia"><h2 class="section-title">Economia</h2><ul class="noticias-bloco" id="noticias-economia"></ul></section>
+    <section id="money"><h2 class="section-title">Money</h2><ul class="noticias-bloco" id="noticias-money"></ul></section>
+    <section id="entretenimento"><h2 class="section-title">Entretenimento</h2><ul class="noticias-bloco" id="noticias-entretenimento"></ul></section>
+    <section id="saude"><h2 class="section-title">Saúde</h2><ul class="noticias-bloco" id="noticias-saude"></ul></section>
+    <section id="tecnologia"><h2 class="section-title">Tecnologia</h2><ul class="noticias-bloco" id="noticias-tecnologia"></ul></section>
+    <section id="lifestyle"><h2 class="section-title">Lifestyle</h2><ul class="noticias-bloco" id="noticias-lifestyle"></ul></section>
+    <section id="viagem"><h2 class="section-title">Viagem & Gastronomia</h2><ul class="noticias-bloco" id="noticias-viagem"></ul></section>
+    <section id="auto"><h2 class="section-title">Auto</h2><ul class="noticias-bloco" id="noticias-auto"></ul></section>
+    <section id="educacao"><h2 class="section-title">Educação</h2><ul class="noticias-bloco" id="noticias-educacao"></ul></section>
+    <section id="colunas"><h2 class="section-title">Colunas</h2><ul class="noticias-bloco" id="noticias-colunas"></ul></section>
+    <section id="programacao"><h2 class="section-title">Programação</h2><ul class="noticias-bloco" id="noticias-programacao"></ul></section>
+    <section id="equipe"><h2 class="section-title">Equipe IDB</h2><ul class="noticias-bloco" id="noticias-equipe"></ul></section>
+    <section id="newsletters"><h2 class="section-title">Newsletters</h2><ul class="noticias-bloco" id="noticias-newsletters"></ul></section>
+    <footer style="text-align:center;color:#bbb;margin-top:2em;font-size:0.98em;">
+      Última atualização: <span id="updateTime"></span> | Visitantes online: <span id="onlineCount">...</span>
+      <br>&copy; 2025 Info Dantas Brasil
+    </footer>
   </main>
-  <script src="header-idb.js" defer></script>
   <script>
+    // Banner rotativo/carrossel de banners
     (function(){
-      const lista=document.getElementById("carrossel-lista"),items=lista.querySelectorAll(".manchete-carrossel");
-      let idx=0;
-      function update(){
-        lista.style.transform=`translateX(-${idx*(items[0].offsetWidth+32)}px)`
+      let slides = document.querySelectorAll("#banner-carrossel .banner-slide");
+      let dots = document.querySelectorAll("#banner-dots .banner-dot");
+      let current = 0;
+      function showSlide(idx) {
+        slides.forEach((s,i)=>{s.classList.toggle("active", i===idx);});
+        dots.forEach((d,i)=>{d.classList.toggle("active", i===idx);});
+        current = idx;
       }
-      document.getElementById("carrossel-prev").onclick=function(){
-        idx=(idx-1+items.length)%items.length;update()
-      };
-      document.getElementById("carrossel-next").onclick=function(){
-        idx=(idx+1)%items.length;update()
-      };
-      setInterval(()=>{idx=(idx+1)%items.length;update()},7000);
-      window.addEventListener("resize",update);
-      lista.addEventListener("transitionend",()=>items[idx].focus&&items[idx].focus());
+      function nextSlide() { showSlide((current+1) % slides.length); }
+      function prevSlide() { showSlide((current-1+slides.length) % slides.length); }
+      document.getElementById("banner-next").onclick = nextSlide;
+      document.getElementById("banner-prev").onclick = prevSlide;
+      dots.forEach((dot,i)=>dot.onclick=()=>showSlide(i));
+      setInterval(nextSlide, 7000);
+      showSlide(0);
     })();
-    // Feeds populares de todos os temas de grandes portais
+    // ProgressBar & TopBtn
+    window.onscroll = function() {
+      var h = document.documentElement, s = h.scrollTop || document.body.scrollTop, sh = h.scrollHeight-h.clientHeight;
+      document.getElementById("progressBar").style.width = (s/sh*100)+"%";
+      document.getElementById("topBtn").style.display = window.scrollY > 300 ? "block" : "none";
+    };
+    document.getElementById("topBtn").onclick = function() {
+      window.scrollTo({top:0, behavior:'smooth'});
+    };
+    document.querySelectorAll('.side-menu-list-cnn a').forEach(link => {
+      link.addEventListener('click', function() {
+        document.getElementById('side-menu-cnn').classList.remove('open');
+        document.getElementById('menu-backdrop-cnn').classList.remove('open');
+      });
+    });
+    document.getElementById('updateTime').innerText = new Date().toLocaleString('pt-BR');
+    fetch('https://api.countapi.xyz/hit/info-dantas-brasil/online').then(r=>r.json()).then(d=>{
+      document.getElementById('onlineCount').innerText = d.value || '1';
+    });
+  </script>
+  <script>
+    // Categorias para filtro
+    const categorias = {
+      politica: ["política","governo","presidente","congresso","senado","câmara"],
+      internacional: ["internacional","exterior","onu","eua","china","rússia","mundo"],
+      nacional: ["nacional","brasil","região","estadual","municipal"],
+      esportes: ["esporte","esportes","futebol","copa","olimpíada","campeonato"],
+      economia: ["economia","inflação","dólar","mercado","bolsa","banco central"],
+      money: ["money","finanças","investimento","bolsa","ações","bancos"],
+      entretenimento: ["entretenimento","cinema","filme","tv","novela","famosos","celebridade","série"],
+      saude: ["saúde","covid","hospitais","médico","vacina"],
+      tecnologia: ["tecnologia","tech","app","aplicativo","celular","internet","software"],
+      lifestyle: ["lifestyle","moda","comportamento","beleza","tendência"],
+      viagem: ["viagem","turismo","gastronomia","hotel","restaurante"],
+      auto: ["auto","carro","veículo","moto","automóvel","transporte"],
+      educacao: ["educação","escola","universidade","vestibular","enem"],
+      colunas: ["coluna","opinião","artigo","editorial"],
+      programacao: ["programação","código","dev","desenvolvedor","software"],
+      equipe: ["equipe idb","sobre","quem somos","redação"],
+      newsletters: ["newsletter","boletim"]
+    };
+    // Feeds
     const feedUrls = [
       "https://rss2json.com/api.json?rss_url=https://g1.globo.com/rss/g1/",
       "https://rss2json.com/api.json?rss_url=https://g1.globo.com/economia/rss/g1/economia/",
@@ -416,80 +278,109 @@
       "https://rss2json.com/api.json?rss_url=https://olhardigital.com.br/feed/",
       "https://rss2json.com/api.json?rss_url=https://www.tecmundo.com.br/rss"
     ];
+    function filtraCategoria(titulo, desc, chapeu) {
+      const texto = (titulo + " " + (desc||"") + " " + (chapeu||"")).toLowerCase();
+      for (const cat in categorias) {
+        if (categorias[cat].some(pal => texto.includes(pal))) return cat;
+      }
+      return null;
+    }
+    function noticiaHTML(item, cat) {
+      let img = "";
+      if(item.thumbnail) img = `<img class="noticia-img" src="${item.thumbnail}" alt="Thumb da notícia">`;
+      else if(item.enclosure && item.enclosure.link && item.enclosure.type && item.enclosure.type.startsWith("image"))
+        img = `<img class="noticia-img" src="${item.enclosure.link}" alt="Thumb da notícia">`;
+      else if(item.enclosure && typeof item.enclosure === "string" && item.enclosure.match(/\.(jpg|jpeg|png|webp|gif)$/i))
+        img = `<img class="noticia-img" src="${item.enclosure}" alt="Thumb da notícia">`;
+      let safeDesc = (item.description||"").replace(/<[^>]+>/g,'').slice(0,140);
+      let badge = /urgente|ao vivo|breaking/i.test(item.title+item.description) ? '<span class="badge-urgente">URGENTE</span> ' : '';
+      return `<li class="noticia">${img}
+        <div class="noticia-content">
+          <span class="noticia-chapeu">${cat.charAt(0).toUpperCase()+cat.slice(1)}</span>
+          <span class="noticia-data">${item.pubDate ? new Date(item.pubDate).toLocaleDateString("pt-BR") : ""}</span>
+          <h3>${badge}<a href="${item.link}" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">${item.title}</a></h3>
+          <p>${safeDesc}...</p>
+        </div>
+      </li>`;
+    }
     function getYoutubeIdFromUrl(url) {
       if (!url) return null;
       let idMatch = url.match(/(?:youtube\.com.*(?:\?|&)v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
       return idMatch ? idMatch[1] : null;
-    }
-    function isBreakingNews(item) {
-      const keywords = [
-        "breaking news","urgente","ao vivo","live","em tempo real",
-        "breaking","urgency","urgent","em andamento"
-      ];
-      const campo = ((item.title||"") + " " + (item.description||"")).toLowerCase();
-      return keywords.some(k => campo.includes(k));
     }
     function extractFirstYoutubeFromText(text) {
       if(!text) return null;
       const yt = text.match(/https?:\/\/(?:www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_\-]{11})/);
       return yt ? (yt[2] || yt[0]) : null;
     }
-    function adicionarNoticiasAutomaticas() {
-      const cacheKey = 'noticiasAutoCacheV2';
-      const cacheMaxAge = 5 * 60 * 1000;
-      let cache = null;
-      try { cache = JSON.parse(localStorage.getItem(cacheKey)); } catch(e){}
-      const breakingVideoSection = document.getElementById("breaking-news-video");
-      const breakingVideoEmbed = document.getElementById("breaking-video-embed");
-      if(cache && Date.now() - cache.timestamp < cacheMaxAge && cache.html){
-        document.getElementById("noticias-bloco").insertAdjacentHTML('beforeend',cache.html);
-        if(cache.breakingVideoId){
-          breakingVideoEmbed.innerHTML = `
-            <iframe class="noticia-video" src="https://www.youtube.com/embed/${cache.breakingVideoId}?autoplay=1" title="AO VIVO Breaking News" frameborder="0" allowfullscreen></iframe>
-          `;
-          breakingVideoSection.style.display="block";
-        }
-        return;
-      }
+    function isAoVivo(item) {
+      // Critérios: título ou descrição contém palavras-chave
+      const keywords = [
+        "ao vivo","live","breaking news","urgente","em andamento","transmissão ao vivo"
+      ];
+      const campo = ((item.title||"") + " " + (item.description||"")).toLowerCase();
+      return keywords.some(k => campo.includes(k));
+    }
+    function aovivoCard(item) {
+      let youtubeId = extractFirstYoutubeFromText(item.description||"") || getYoutubeIdFromUrl(item.link);
+      if(!youtubeId) return '';
+      let thumb = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+      return `<div class="aovivo-card">
+        <span class="aovivo-live">AO VIVO</span>
+        <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank" title="Assistir ao vivo" rel="noopener">
+          <img class="aovivo-thumb" src="${thumb}" alt="Thumb ao vivo">
+        </a>
+        <div class="aovivo-card-title">${item.title}</div>
+      </div>`;
+    }
+    function adicionaNoticiasPorCategoria() {
       let titulosSet = new Set();
-      let htmlFinal = '';
-      let firstBreakingNewsYoutubeId = null;
-      Promise.all(feedUrls.map(url=>
-        fetch(url).then(res=>res.json()).catch(()=>null)
-      )).then(results=>{
-        results.forEach(data=>{
+      let noticiasPorCat = {};
+      for(const cat in categorias) noticiasPorCat[cat] = [];
+      let aovivoArr = [];
+      let feedsConcluidos=0, totalFeeds=feedUrls.length;
+      feedUrls.forEach(url => {
+        fetch(url).then(res=>res.json()).then(data=>{
           if(data && data.items && data.items.length){
-            data.items.slice(0,2).forEach(item=>{
-              const tit = item.title.trim();
-              if(!titulosSet.has(tit)){
-                titulosSet.add(tit);
-                let img = "";
-                if(item.thumbnail) img = `<img class="noticia-img" src="${item.thumbnail}" alt="Thumb da notícia">`;
-                else if(item.enclosure && item.enclosure.link && item.enclosure.type && item.enclosure.type.startsWith("image"))
-                  img = `<img class="noticia-img" src="${item.enclosure.link}" alt="Thumb da notícia">`;
-                else if(item.enclosure && typeof item.enclosure === "string" && item.enclosure.match(/\.(jpg|jpeg|png|webp|gif)$/i))
-                  img = `<img class="noticia-img" src="${item.enclosure}" alt="Thumb da notícia">`;
-                else if(item.media && item.media.thumbnail && item.media.thumbnail.url)
-                  img = `<img class="noticia-img" src="${item.media.thumbnail.url}" alt="Thumb da notícia">`;
-                let videoEmbed = "";
-                let youtubeId = null;
-                if(item.media && item.media.content && item.media.content.url && item.media.content.url.includes("youtube.com")) {
-                  youtubeId = getYoutubeIdFromUrl(item.media.content.url);
-                }
-                if(!youtubeId) youtubeId = extractFirstYoutubeFromText(item.description||"");
-                if(!youtubeId && item.link && item.link.includes("youtube.com/watch")) youtubeId = getYoutubeIdFromUrl(item.link);
-                if(youtubeId) videoEmbed = `<iframe class="noticia-video" src="https://www.youtube.com/embed/${youtubeId}" frameborder="0" allowfullscreen></iframe>`;
-                if(!firstBreakingNewsYoutubeId && isBreakingNews(item) && youtubeId) {
-                  firstBreakingNewsYoutubeId = youtubeId;
-                }
-                let safeDesc = (item.description||"").replace(/<[^>]+>/g,'').slice(0,180);
-                htmlFinal+=`
-                <li class="noticia">
-                  ${img || ""}
-                  <div class="noticia-content">
-                    <span class="noticia-chapeu">${data.feed.title ? data.feed.title.split(" ")[0] : "Notícia"}</span>
-                    <span class="noticia-data">${item.pubDate ? new Date(item.pubDate).toLocaleDateString("pt-BR") : ""}</span>
-                    <h3><a href="${item.link}" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">${tit}</a></h3>
-                    <p>${safeDesc}...</p>
-                    ${videoEmbed}
-            
+            data.items.slice(0,3).forEach(item=>{
+              const cat = filtraCategoria(item.title, item.description, item.categories && item.categories[0]);
+              if(cat && !titulosSet.has(item.title)){
+                titulosSet.add(item.title);
+                noticiasPorCat[cat].push(noticiaHTML(item, cat));
+              }
+              if(isAoVivo(item)) {
+                let card = aovivoCard(item);
+                if(card) aovivoArr.push(card);
+              }
+            });
+          }
+        }).catch(()=>{}).finally(()=>{
+          feedsConcluidos++;
+          if(feedsConcluidos===totalFeeds){
+            for(const cat in noticiasPorCat){
+              const bloco = document.getElementById("noticias-"+cat);
+              bloco.innerHTML = noticiasPorCat[cat].length ? noticiasPorCat[cat].join("") : `<li class="noticia"><div class="noticia-content"><h3 style="color:#e30613">Nenhuma notícia disponível no momento.</h3></div></li>`;
+            }
+            document.getElementById('aovivo-list').innerHTML = aovivoArr.length ? aovivoArr.join("") : "<div style='color:#fff;font-size:1.1em'>Nenhuma transmissão ao vivo no momento.</div>";
+            document.getElementById('loader').style.display = 'none';
+          }
+        });
+      });
+    }
+    // Lazy loading
+    if('IntersectionObserver' in window){
+      const obs = new IntersectionObserver((entries, observer)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            adicionaNoticiasPorCategoria();
+            observer.disconnect();
+          }
+        });
+      },{rootMargin:'200px'});
+      obs.observe(document.getElementById('noticias-politica'));
+    }else{
+      window.addEventListener('DOMContentLoaded',adicionaNoticiasPorCategoria);
+    }
+  </script>
+</body>
+</html>
