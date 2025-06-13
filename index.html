@@ -3,61 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>INFO DANTAS BRASIL - Notícias & Vídeos</title>
+  <title>INFO DANTAS BRASIL - Home</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
-    <div class="container">
-      <h1>INFO DANTAS BRASIL</h1>
-      <nav>
-        <ul id="menu">
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="politica.html">Política</a></li>
-          <li><a href="esportes.html">Esportes</a></li>
-          <li><a href="tecnologia.html">Tecnologia</a></li>
-          <li><a href="entretenimento.html">Entretenimento</a></li>
-        </ul>
-      </nav>
-      <button id="theme-toggle">🌙</button>
-    </div>
+    <h1>INFO DANTAS BRASIL</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="politica.html">Política</a>
+      <a href="esportes.html">Esportes</a>
+      <a href="tecnologia.html">Tecnologia</a>
+      <a href="entretenimento.html">Entretenimento</a>
+    </nav>
   </header>
 
-  <main class="container">
-    <section id="breaking-news">
-      <h2>Últimas Notícias</h2>
-      <div id="breaking-news-container"></div>
-    </section>
-
-    <section id="featured-news">
-      <h2>Destaques do Mundo</h2>
-      <div id="featured-news-container"></div>
-    </section>
-
-    <section id="videos">
-      <h2>Vídeos em Destaque</h2>
-      <div id="video-container"></div>
-    </section>
+  <main>
+    <section id="news-container" class="news-list"></section>
   </main>
 
   <footer>
-    <div class="container">
-      <p>© 2025 INFO DANTAS BRASIL - Todos os direitos reservados</p>
-    </div>
+    <p>© 2025 INFO DANTAS BRASIL</p>
   </footer>
 
-  <script src="scripts.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Notícias gerais - Últimas 6
-      fetchGNews('top-headlines', 'breaking-news-container');
-
-      // Destaques do mundo (feed RSS do NYTimes Mundo)
-      fetchRSS('https://rss.nytimes.com/services/xml/rss/nyt/World.xml', 'featured-news-container');
-
-      // Vídeos do YouTube
-      fetchYouTubeVideos();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
