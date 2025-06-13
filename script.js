@@ -1,7 +1,7 @@
 // script.js - INFO DANTAS BRASIL
 
 const GNEWS_API_KEY = "92221e88091bab959857e1a937a68fc9";
-const NEWSAPI_KEY = "coloque-sua-chave-newsapi-aqui"; // Caso vá usar também
+const NEWSAPI_KEY = "92221e88091bab959857e1a937a68fc9"; // Caso vá usar também
 const YOUTUBE_API_KEY = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
 
 const RSS_FEEDS = [
