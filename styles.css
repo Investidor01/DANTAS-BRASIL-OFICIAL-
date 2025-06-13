@@ -1,101 +1,118 @@
-/* Reset simples */
-* {
-  margin: 0; padding: 0; box-sizing: border-box;
+/* ========= CSS PROFISSIONAL PARA INFO DANTAS BRASIL ========= */
+
+:root {
+  --bg-light: #ffffff;
+  --bg-dark: #121212;
+  --text-light: #1c1c1c;
+  --text-dark: #f5f5f5;
+  --primary: #0055ff;
+  --accent: #ff5722;
+  --gray: #ccc;
+  --border: #e0e0e0;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f4f4;
-  color: #222;
-  line-height: 1.6;
-  padding: 0 1rem;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-header {
-  background-color: #004080;
+body.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+header, footer {
+  background-color: var(--primary);
   color: white;
-  padding: 1rem 0;
+  padding: 1rem;
   text-align: center;
 }
 
-header h1 {
-  margin-bottom: 0.5rem;
-  font-size: 2rem;
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: var(--gray);
+  padding: 0.5rem;
 }
 
 nav a {
-  color: white;
-  margin: 0 1rem;
   text-decoration: none;
-  font-weight: 600;
+  color: var(--text-light);
+  font-weight: bold;
 }
 
-nav a:hover, nav a:focus {
-  text-decoration: underline;
+nav a:hover {
+  color: var(--primary);
 }
 
-main {
-  flex-grow: 1;
-  max-width: 960px;
-  margin: 2rem auto;
-}
-
-.news-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.news-item {
-  background: white;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+.container {
+  max-width: 1200px;
+  margin: auto;
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: box-shadow 0.3s ease;
 }
 
-.news-item:hover {
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
+section {
+  margin-bottom: 2rem;
 }
 
-.news-item img {
+.card {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
   max-width: 100%;
   border-radius: 4px;
-  margin-bottom: 0.8rem;
-  object-fit: cover;
-  height: 160px;
-  width: 100%;
 }
 
-.news-item h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: #004080;
+.card h3 {
+  margin: 0.5rem 0;
 }
 
-.news-item p {
-  flex-grow: 1;
-  font-size: 0.9rem;
-  color: #444;
-  margin-bottom: 0.5rem;
+.card p {
+  color: #555;
 }
 
-.news-item small {
-  color: #666;
-  font-size: 0.8rem;
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
-footer {
-  background-color: #004080;
-  color: white;
-  text-align: center;
-  padding: 1rem 0;
-  margin-top: auto;
-  font-size: 0.9rem;
+/* Tema Claro/Escuro */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+  }
+
+  .theme-toggle {
+    top: auto;
+    bottom: 1rem;
+  }
 }
