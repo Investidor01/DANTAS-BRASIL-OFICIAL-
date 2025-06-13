@@ -387,26 +387,36 @@
   </main>
   <script src="script.js"></script>
   <script>
-    // Exibe sempre os 4 vídeos mais recentes do canal CNN Brasil
-    function buscarVideosCNNBrasil() {
+    // Exibe os 4 vídeos mais recentes "breaking news" da CNN Brasil
+    function buscarVideosCNNBreakingNews() {
       const apiKey = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
       const videosGrid = document.getElementById('videos-grid');
       if(!videosGrid) return;
       videosGrid.innerHTML = '<div style="color:#fff">Carregando vídeos...</div>';
       const channelId = "UCR9I2YnsBT7Ip1oQb6R6Ueg";
-      let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=4&channelId=${channelId}&order=date`;
+      const maxResults = 15; // pega vários, filtra depois
+      let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=${maxResults}&channelId=${channelId}&order=date&q=breaking+news`;
       fetch(url)
         .then(r=>r.json())
         .then(res=>{
           if(res.items && res.items.length) {
-            videosGrid.innerHTML = res.items.map(video=>{
-              let vid = video.id.videoId;
-              let vtitle = video.snippet.title;
-              return `<div class="video-relacionado">
-                <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="${vtitle}"></iframe>
-                <span>${vtitle}</span>
-              </div>`;
-            }).join('');
+            // Filtra vídeos com 'breaking news' no título ou descrição
+            let filtered = res.items.filter(video => {
+              const s = video.snippet;
+              const t = (s.title + " " + s.description).toLowerCase();
+              return t.includes("breaking news");
+            }).slice(0,4);
+            if(filtered.length) {
+              videosGrid.innerHTML = filtered.map(video=>{
+                let vid = video.id.videoId;
+                return `<div class="video-relacionado">
+                  <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="Breaking News"></iframe>
+                  <span>Breaking News</span>
+                </div>`;
+              }).join('');
+            } else {
+              videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo "Breaking News" encontrado no canal CNN Brasil.</div>';
+            }
           } else {
             videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo encontrado do canal CNN Brasil.</div>';
           }
@@ -414,9 +424,9 @@
         .catch(()=>{videosGrid.innerHTML = '<div style="color:#fff">Erro ao buscar vídeos do canal CNN Brasil.</div>';});
     }
 
-    // Chama buscarVideosCNNBrasil quando as notícias forem carregadas
+    // Chama buscarVideosCNNBreakingNews quando as notícias forem carregadas
     window._onNoticiasCarregadas = function() {
-      buscarVideosCNNBrasil();
+      buscarVideosCNNBreakingNews();
     };
   </script>
 </body>
