@@ -39,7 +39,74 @@
       gap: 1.3em;
       align-items: center;
     }
-    /* Barra urgente */
+    #menu-toggle-cnn {
+      background: none;
+      border: none;
+      font-size: 2em;
+      color: #fff;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    #side-menu-cnn {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 250px;
+      height: 100vh;
+      background: #181b1e;
+      color: #fff;
+      transition: left 0.32s;
+      z-index: 3000;
+      box-shadow: 2px 0 20px #0004;
+      padding-top: 1.6em;
+      display: flex;
+      flex-direction: column;
+    }
+    #side-menu-cnn.open {
+      left: 0;
+    }
+    #menu-backdrop-cnn {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #0007;
+      z-index: 2999;
+      display: none;
+    }
+    #menu-backdrop-cnn.open {
+      display: block;
+    }
+    #menu-close-cnn {
+      background: none;
+      border: none;
+      font-size: 2em;
+      color: #fff;
+      align-self: flex-end;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .side-menu-list-cnn {
+      list-style: none;
+      margin: 1em 0 0 0;
+      padding: 0 0.5em;
+      flex: 1;
+    }
+    .side-menu-list-cnn li {
+      margin: 1em 0;
+    }
+    .side-menu-list-cnn a {
+      color: #e30613;
+      text-decoration: none;
+      font-size: 1.13em;
+      font-weight: 600;
+      padding: 0.2em 0.8em;
+      display: block;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .side-menu-list-cnn a:hover {
+      background: #fff2;
+      color: #fff;
+    }
     .marquee-horizontal {
       width: 100vw;
       overflow: hidden;
@@ -61,79 +128,6 @@
       width: 100%;
       font-size: 1em;
     }
-    /* Seção */
-    .secao-titulo {
-      font-size: 1.5em;
-      color: #e30613;
-      font-family: 'Merriweather', serif;
-      font-weight: 700;
-      margin: 2em 0 1em 0;
-      letter-spacing: 0.01em;
-      border-left: 6px solid #e30613;
-      background: #fff;
-      padding: 0.3em 1em;
-      border-radius: 0 18px 18px 0;
-      box-shadow: 0 2px 8px #e3061322;
-      display: inline-block;
-    }
-    @media (max-width: 700px) {
-      .secao-titulo { font-size: 1.18em; padding: 0.16em 0.7em; }
-    }
-    /* Destaques */
-    .destaques-aba {
-      margin: 1.7em 0 2.2em 0;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 12px #e3061318;
-      padding: 1em 0.5em 0.5em 0.5em;
-    }
-    .destaques-aba h2 {
-      color: #e30613;
-      font-size: 1.22em;
-      margin: 0 0 0.7em 0.7em;
-      font-family: 'Merriweather', serif;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-    }
-    .destaques-lista {
-      display: flex;
-      overflow-x: auto;
-      gap: 1.1em;
-      padding-bottom: 1em;
-      scroll-snap-type: x mandatory;
-    }
-    .destaque-card {
-      min-width: 272px;
-      max-width: 310px;
-      background: #f7f7fa;
-      border-radius: 14px;
-      box-shadow: 0 1px 7px #e3061312;
-      padding: 0.6em 0.8em 0.4em 0.8em;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      scroll-snap-align: start;
-    }
-    .destaque-card img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 0.5em;
-    }
-    .destaque-card h3 {
-      font-size: 1.07em;
-      color: #e30613;
-      margin: 0.2em 0 0.1em 0;
-      font-weight: 700;
-    }
-    .destaque-card p {
-      font-size: 0.98em;
-      color: #444;
-      margin-top: 0.1em;
-      margin-bottom: 0.1em;
-    }
-    /* Carrossel */
     .banner-carrossel {
       width: 100%;
       max-width: 100vw;
@@ -234,7 +228,76 @@
     .banner-arrow:hover { background: #e30613; color: #fff; }
     .banner-arrow.left { left: 15px; }
     .banner-arrow.right { right: 15px; }
-    /* Notícias imagens menores */
+    .destaques-aba {
+      margin: 1.7em 0 2.2em 0;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px #e3061318;
+      padding: 1em 0.5em 0.5em 0.5em;
+    }
+    .destaques-aba h2 {
+      color: #e30613;
+      font-size: 1.22em;
+      margin: 0 0 0.7em 0.7em;
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .destaques-lista {
+      display: flex;
+      overflow-x: auto;
+      gap: 1.1em;
+      padding-bottom: 1em;
+      scroll-snap-type: x mandatory;
+    }
+    .destaque-card {
+      min-width: 272px;
+      max-width: 310px;
+      background: #f7f7fa;
+      border-radius: 14px;
+      box-shadow: 0 1px 7px #e3061312;
+      padding: 0.6em 0.8em 0.4em 0.8em;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      scroll-snap-align: start;
+    }
+    .destaque-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 0.5em;
+    }
+    .destaque-card h3 {
+      font-size: 1.07em;
+      color: #e30613;
+      margin: 0.2em 0 0.1em 0;
+      font-weight: 700;
+    }
+    .destaque-card p {
+      font-size: 0.98em;
+      color: #444;
+      margin-top: 0.1em;
+      margin-bottom: 0.1em;
+    }
+    .secao-titulo {
+      font-size: 1.5em;
+      color: #e30613;
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      margin: 2em 0 1em 0;
+      letter-spacing: 0.01em;
+      border-left: 6px solid #e30613;
+      background: #fff;
+      padding: 0.3em 1em;
+      border-radius: 0 18px 18px 0;
+      box-shadow: 0 2px 8px #e3061322;
+      display: inline-block;
+    }
+    @media (max-width: 700px) {
+      .secao-titulo { font-size: 1.18em; padding: 0.16em 0.7em; }
+    }
     .noticia-img {
       height: 70px !important;
       max-width: 110px !important;
@@ -244,7 +307,6 @@
       vertical-align: middle;
       box-shadow: 0 1px 8px #0002;
     }
-    /* Cards e layout notícias */
     .noticia {
       display: flex;
       align-items: flex-start;
@@ -296,7 +358,6 @@
       letter-spacing: 0.03em;
       font-weight: bold;
     }
-    /* Vídeo grid */
     #videos-grid {
       display: flex;
       flex-wrap: wrap;
@@ -338,7 +399,6 @@
       max-width: 900px;
       margin: 0 auto;
     }
-    /* Responsivo */
     @media (max-width: 700px) {
       main { padding: 1.2em 2vw; }
       .noticia { flex-direction: column; gap: 0.2em; }
@@ -350,6 +410,7 @@
 </head>
 <body>
   <header>
+    <button id="menu-toggle-cnn">&#9776;</button>
     <span class="logo">IDB</span>
     <span style="font-size:1.07em; font-weight:500;">INFO DANTAS BRASIL</span>
     <nav>
@@ -358,14 +419,28 @@
     </nav>
   </header>
 
-  <!-- Barra Urgente Horizontal -->
+  <aside id="side-menu-cnn">
+    <button id="menu-close-cnn">&times;</button>
+    <ul class="side-menu-list-cnn">
+      <li><a href="#destaques-lista">Destaques</a></li>
+      <li><a href="#banner-carrossel">Carrossel</a></li>
+      <li><a href="#videos-grid">Vídeos AoVivo</a></li>
+      <li><a href="#aovivo-list">AO VIVO</a></li>
+      <li><a href="#noticias-politica">Política</a></li>
+      <li><a href="#noticias-internacional">Internacional</a></li>
+      <li><a href="#noticias-economia">Economia</a></li>
+      <li><a href="#noticias-esportes">Esportes</a></li>
+      <li><a href="#noticias-tecnologia">Tecnologia</a></li>
+    </ul>
+  </aside>
+  <div id="menu-backdrop-cnn"></div>
+
   <div class="marquee-horizontal">
     <ul id="marquee-urgente">
       <li>Carregando notícias urgentes...</li>
     </ul>
   </div>
 
-  <!-- Carrossel banners -->
   <div class="banner-carrossel" id="banner-carrossel">
     <div class="banner-slide active">
       <img src="https://cdn.pixabay.com/photo/2015/10/12/15/13/news-984949_1280.jpg" alt="Destaque 1">
@@ -379,7 +454,6 @@
       <img src="https://cdn.pixabay.com/photo/2017/01/06/19/15/news-1953619_1280.jpg" alt="Destaque 3">
       <span class="banner-caption">Economia e política: acompanhe os fatos que impactam seu dia</span>
     </div>
-    <!-- Você pode adicionar mais slides dinamicamente via JS se quiser -->
     <button class="banner-arrow left" id="banner-prev">&#8592;</button>
     <button class="banner-arrow right" id="banner-next">&#8594;</button>
     <div class="banner-controls" id="banner-dots">
@@ -389,7 +463,6 @@
     </div>
   </div>
 
-  <!-- Destaques -->
   <section class="destaques-aba">
     <h2>Destaques</h2>
     <div class="destaques-lista" id="destaques-lista">
@@ -422,11 +495,8 @@
 
     <div class="secao-titulo">Tecnologia</div>
     <ul id="noticias-tecnologia"></ul>
-
-    <!-- Adicione outras categorias conforme necessário -->
   </main>
 
-  <!-- Loader -->
   <div id="loader" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#f7f7faee;z-index:999;display:flex;align-items:center;justify-content:center;">
     <div style="font-size:1.3em;color:#e30613;">Carregando...</div>
   </div>
