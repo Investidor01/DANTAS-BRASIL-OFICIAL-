@@ -1,4 +1,4 @@
-// ----------- Notícias por seção -----------
+// Notícias por seção
 const noticias = {
   politica: [
     {
@@ -68,7 +68,7 @@ for (const secao in noticias) {
   preencherNoticias(secao, noticias[secao]);
 }
 
-// ----------- Vídeos ao vivo -----------
+// Vídeos ao vivo
 const videos = [
   {
     titulo: "AO VIVO: Câmara dos Deputados discute reforma tributária",
@@ -88,7 +88,7 @@ videosGrid.innerHTML = videos.map(v => `
   </div>
 `).join('');
 
-// ----------- Cards AO VIVO -----------
+// Cards AO VIVO
 const aovivo = [
   {
     imagem: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
@@ -106,12 +106,12 @@ aovivoList.innerHTML = aovivo.map(l => `
   </div>
 `).join('');
 
-// ----------- Menu lateral -----------
+// Menu lateral
 document.getElementById('menu-toggle-cnn').onclick = ()=>document.getElementById('side-menu-cnn').classList.add('open');
 document.getElementById('menu-close-cnn').onclick = ()=>document.getElementById('side-menu-cnn').classList.remove('open');
 document.getElementById('menu-backdrop-cnn').onclick = ()=>document.getElementById('side-menu-cnn').classList.remove('open');
 
-// ----------- Relógio e online -----------
+// Relógio e online
 function updateTime() {
   const now = new Date(), pad=n=>n<10?'0'+n:n;
   document.getElementById('updateTime').textContent =
@@ -121,9 +121,9 @@ function updateTime() {
 setInterval(updateTime,1000); updateTime();
 document.getElementById('onlineCount').textContent = Math.floor(200+Math.random()*50);
 
-// ----------- Loader -----------
+// Loader
 window.addEventListener('load',()=>setTimeout(()=>{document.getElementById('loader').style.display='none'},800));
-// ----------- Scroll Top Button -----------
+// Scroll Top Button
 const topBtn = document.getElementById('topBtn');
 window.onscroll = function() {
   topBtn.style.display = window.scrollY > 250 ? 'block' : 'none';
