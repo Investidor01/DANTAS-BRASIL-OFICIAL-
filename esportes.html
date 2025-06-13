@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esportes | Info Dantas Brasil</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>INFO DANTAS BRASIL - Esportes</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="politica.html">Política</a></li>
+        <li><a href="esportes.html">Esportes</a></li>
+        <li><a href="economia.html">Economia</a></li>
+        <li><a href="clima.html">Clima</a></li>
+        <li><a href="videos.html">Vídeos</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="destaques" id="esportes-section">
+      <h2>Notícias de Esportes</h2>
+      <div id="esportes-container">Carregando...</div>
+    </section>
+  </main>
+  <footer>
+    <p>© 2025 Info Dantas Brasil. Todos os direitos reservados.</p>
+  </footer>
+  <script>
+    fetch("https://gnews.io/api/v4/top-headlines?lang=pt&country=br&topic=sports&token=92221e88091bab959857e1a937a68fc9")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("esportes-container").innerHTML = data.articles.map(article => \`
+          <article>
+            <h3>\${article.title}</h3>
+            <p>\${article.description}</p>
+            <a href="\${article.url}" target="_blank">Leia mais</a>
+          </article>
+        \`).join("");
+      })
+      .catch(() => {
+        document.getElementById("esportes-container").innerText = "Erro ao carregar notícias.";
+      });
+  </script>
+</body>
+</html>
