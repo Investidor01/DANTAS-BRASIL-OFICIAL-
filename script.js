@@ -1,36 +1,3 @@
-// ----------- Destaques -----------
-const destaques = [
-  {
-    imagem: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
-    titulo: "FICOMEX 2025 tem rodadas da ApexBrasil com compradores de quatro continentes",
-    resumo: "Evento de negócios internacionais movimenta exportações brasileiras.",
-    meta: "Economia • 13/06/2025"
-  },
-  {
-    imagem: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-    titulo: "Alunos de escola estadual terão aula de campo no Cemitério Nossa Senhora",
-    resumo: "Projeto pedagógico inclui história e cultura local como tema.",
-    meta: "Educação • 13/06/2025"
-  },
-  {
-    imagem: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
-    titulo: "Paes sanciona lei que cria Guarda Municipal armada na cidade",
-    resumo: "Nova legislação municipal visa fortalecer a segurança urbana.",
-    meta: "Política • 13/06/2025"
-  }
-];
-
-const destaquesContainer = document.getElementById('destaques-lista');
-destaquesContainer.innerHTML = destaques.map(d => `
-  <div class="destaque-card">
-    <img src="${d.imagem}" alt="${d.titulo}">
-    <div class="destaque-info">
-      <h3>${d.titulo}</h3>
-      <p>${d.resumo}</p>
-    </div>
-  </div>
-`).join('');
-
 // ----------- Notícias por seção -----------
 const noticias = {
   politica: [
@@ -138,19 +105,6 @@ aovivoList.innerHTML = aovivo.map(l => `
     <div class="aovivo-card-title">${l.titulo}</div>
   </div>
 `).join('');
-
-// ----------- Carrossel básico -----------
-const slides = document.querySelectorAll('.banner-slide');
-const dots = document.querySelectorAll('.banner-dot');
-let currSlide = 0;
-function showSlide(idx) {
-  slides.forEach((s,i)=>s.classList.toggle('active',i===idx));
-  dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
-  currSlide = idx;
-}
-dots.forEach((dot,i)=>dot.onclick=()=>showSlide(i));
-document.getElementById('banner-prev').onclick = ()=>showSlide((currSlide-1+slides.length)%slides.length);
-document.getElementById('banner-next').onclick = ()=>showSlide((currSlide+1)%slides.length);
 
 // ----------- Menu lateral -----------
 document.getElementById('menu-toggle-cnn').onclick = ()=>document.getElementById('side-menu-cnn').classList.add('open');
