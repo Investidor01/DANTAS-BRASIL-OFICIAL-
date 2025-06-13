@@ -1,33 +1,4 @@
-// Carrossel de banners
-(function(){
-  let slides = document.querySelectorAll("#banner-carrossel .banner-slide");
-  let dots = document.querySelectorAll("#banner-dots .banner-dot");
-  let current = 0;
-  function showSlide(idx) {
-    slides.forEach((s,i)=>{s.classList.toggle("active", i===idx);});
-    dots.forEach((d,i)=>{d.classList.toggle("active", i===idx);});
-    current = idx;
-  }
-  function nextSlide() { showSlide((current+1) % slides.length); }
-  function prevSlide() { showSlide((current-1+slides.length) % slides.length); }
-  document.getElementById("banner-next").onclick = nextSlide;
-  document.getElementById("banner-prev").onclick = prevSlide;
-  dots.forEach((dot,i)=>dot.onclick=()=>showSlide(i));
-  setInterval(nextSlide, 7000);
-  showSlide(0);
-})();
-
-// Barra de progresso e botão para o topo
-window.onscroll = function() {
-  var h = document.documentElement, s = h.scrollTop || document.body.scrollTop, sh = h.scrollHeight-h.clientHeight;
-  document.getElementById("progressBar").style.width = (s/sh*100)+"%";
-  document.getElementById("topBtn").style.display = window.scrollY > 300 ? "block" : "none";
-};
-document.getElementById("topBtn").onclick = function() {
-  window.scrollTo({top:0, behavior:'smooth'});
-};
-
-// Menu lateral (hamburguer)
+// ---- MENU LATERAL (hamburguer) ----
 document.getElementById('menu-toggle-cnn')?.addEventListener('click', function() {
   document.getElementById('side-menu-cnn').classList.add('open');
   document.getElementById('menu-backdrop-cnn').classList.add('open');
@@ -47,18 +18,43 @@ document.querySelectorAll('.side-menu-list-cnn a').forEach(link => {
   });
 });
 
-// Atualiza data/hora e visitantes online
+// ---- CARROSSEL ----
+(function(){
+  let slides = document.querySelectorAll("#banner-carrossel .banner-slide");
+  let dots = document.querySelectorAll("#banner-dots .banner-dot");
+  let current = 0;
+  function showSlide(idx) {
+    slides.forEach((s,i)=>{s.classList.toggle("active", i===idx);});
+    dots.forEach((d,i)=>{d.classList.toggle("active", i===idx);});
+    current = idx;
+  }
+  function nextSlide() { showSlide((current+1) % slides.length); }
+  function prevSlide() { showSlide((current-1+slides.length) % slides.length); }
+  document.getElementById("banner-next").onclick = nextSlide;
+  document.getElementById("banner-prev").onclick = prevSlide;
+  dots.forEach((dot,i)=>dot.onclick=()=>showSlide(i));
+  setInterval(nextSlide, 7000);
+  showSlide(0);
+})();
+
+// ---- SCROLL, LOADER, TOPO ----
+window.onscroll = function() {
+  var h = document.documentElement, s = h.scrollTop || document.body.scrollTop, sh = h.scrollHeight-h.clientHeight;
+  document.getElementById("progressBar").style.width = (s/sh*100)+"%";
+  document.getElementById("topBtn").style.display = window.scrollY > 300 ? "block" : "none";
+};
+document.getElementById("topBtn").onclick = function() {
+  window.scrollTo({top:0, behavior:'smooth'});
+};
 document.getElementById('updateTime').innerText = new Date().toLocaleString('pt-BR');
 fetch('https://api.countapi.xyz/hit/info-dantas-brasil/online').then(r=>r.json()).then(d=>{
   document.getElementById('onlineCount').innerText = d.value || '1';
 });
-
-// Loader (apaga após 10s no máximo)
 setTimeout(function(){
   if(document.getElementById('loader')) document.getElementById('loader').style.display = 'none';
 }, 10000);
 
-// Carregamento automático de notícias e fallback
+// ---- NOTÍCIAS / FEEDS / DESTAQUES ----
 const categorias = {
   politica: ["política","governo","presidente","congresso","senado","câmara"],
   internacional: ["internacional","exterior","onu","eua","china","rússia","mundo"],
@@ -78,7 +74,6 @@ const categorias = {
   equipe: ["equipe idb","sobre","quem somos","redação"],
   newsletters: ["newsletter","boletim"]
 };
-
 const feedUrls = [
   "https://rss2json.com/api.json?rss_url=https://g1.globo.com/rss/g1/",
   "https://rss2json.com/api.json?rss_url=https://g1.globo.com/economia/rss/g1/economia/",
@@ -107,10 +102,7 @@ const feedUrls = [
   "https://rss2json.com/api.json?rss_url=https://olhardigital.com.br/feed/",
   "https://rss2json.com/api.json?rss_url=https://www.tecmundo.com.br/rss"
 ];
-
-// GNEWs API integration
 const gnewsApiKey = "92221e88091bab959857e1a937a68fc9";
-
 function filtraCategoria(titulo, desc, chapeu) {
   const texto = (titulo + " " + (desc||"") + " " + (chapeu||"")).toLowerCase();
   for (const cat in categorias) {
@@ -120,7 +112,6 @@ function filtraCategoria(titulo, desc, chapeu) {
 }
 function noticiaHTML(item, cat) {
   let img = "";
-  // Reduz o tamanho da imagem para 70px de altura (mantendo proporção)
   if(item.thumbnail) img = `<img class="noticia-img" src="${item.thumbnail}" alt="Thumb da notícia" style="height:70px;max-width:110px;object-fit:cover;border-radius:8px;">`;
   else if(item.enclosure && item.enclosure.link && item.enclosure.type && item.enclosure.type.startsWith("image"))
     img = `<img class="noticia-img" src="${item.enclosure.link}" alt="Thumb da notícia" style="height:70px;max-width:110px;object-fit:cover;border-radius:8px;">`;
@@ -132,7 +123,7 @@ function noticiaHTML(item, cat) {
     <div class="noticia-content">
       <span class="noticia-chapeu">${cat.charAt(0).toUpperCase()+cat.slice(1)}</span>
       <span class="noticia-data">${item.pubDate ? new Date(item.pubDate).toLocaleDateString("pt-BR") : ""}</span>
-      <h3>${badge}<a href="${item.link}" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">${item.title}</a></h3>
+      <h3>${badge}<a href="${item.link}" target="_blank" rel="noopener" style="color:#e30613;text-decoration:underline;">${item.title}</a></h3>
       <p>${safeDesc}...</p>
     </div>
   </li>`;
@@ -156,15 +147,17 @@ function aovivoCard(item) {
     <div class="aovivo-card-title">${item.title}</div>
   </div>`;
 }
+
+let noticiasPorCat = {};
 function adicionaNoticiasPorCategoria() {
   let titulosSet = new Set();
-  let noticiasPorCat = {};
+  noticiasPorCat = {};
   for(const cat in categorias) noticiasPorCat[cat] = [];
   let aovivoArr = [];
   let manchetesArr = [];
-  let feedsConcluidos=0, totalFeeds=feedUrls.length + 1; // +1 for GNEWs
+  let feedsConcluidos=0, totalFeeds=feedUrls.length + 1;
 
-  // GNEWs API (nacional e internacional)
+  // GNEWS API
   fetch(`https://gnews.io/api/v4/top-headlines?token=${gnewsApiKey}&lang=pt&country=br&max=16`)
     .then(r=>r.json()).then(data=>{
       if(data.articles && data.articles.length) {
@@ -172,13 +165,13 @@ function adicionaNoticiasPorCategoria() {
           const cat = filtraCategoria(art.title, art.description, "");
           if(cat && !titulosSet.has(art.title)){
             titulosSet.add(art.title);
-            noticiasPorCat[cat].push(noticiaHTML({
+            noticiasPorCat[cat].push({
               title: art.title,
               description: art.description,
               link: art.url,
               thumbnail: art.image,
               pubDate: art.publishedAt
-            }, cat));
+            });
             manchetesArr.push(art.title);
           }
         });
@@ -186,29 +179,7 @@ function adicionaNoticiasPorCategoria() {
     }).finally(()=>{
       feedsConcluidos++;
       if(feedsConcluidos===totalFeeds){
-        for(const cat in noticiasPorCat){
-          const bloco = document.getElementById("noticias-"+cat);
-          if(bloco)
-            bloco.innerHTML = noticiasPorCat[cat].length ? noticiasPorCat[cat].join("") : "";
-        }
-        document.getElementById('aovivo-list').innerHTML = aovivoArr.length ? aovivoArr.join("") : "<div style='color:#fff;font-size:1.1em'>Nenhuma transmissão ao vivo no momento.</div>";
-        if(document.getElementById('loader')) document.getElementById('loader').style.display = 'none';
-        // Atualiza barra urgente com as 4 primeiras manchetes
-        const politics = noticiasPorCat.politica || [];
-        const urgentUl = document.getElementById('marquee-urgente');
-        if (politics.length > 0 && urgentUl) {
-          let urgentNews = politics.slice(0,4).map(item => {
-            let tmp = document.createElement('div');
-            tmp.innerHTML = item;
-            let h3 = tmp.querySelector('h3');
-            return h3?.innerText || 'Notícia';
-          }).join(" • ");
-          // Horizontal marquee: single li with all headlines separated by •
-          urgentUl.innerHTML = `<li style="display:inline;white-space:nowrap;padding-right:2em;">${urgentNews}</li>`;
-          iniciarMarqueeUrgenteHorizontal();
-        }
-        // Chama hook para buscar vídeos relacionados
-        if(window._onNoticiasCarregadas) window._onNoticiasCarregadas(manchetesArr.slice(0,8));
+        renderizaNoticias(aovivoArr, manchetesArr);
       }
     });
 
@@ -220,7 +191,7 @@ function adicionaNoticiasPorCategoria() {
           const cat = filtraCategoria(item.title, item.description, item.categories && item.categories[0]);
           if(cat && !titulosSet.has(item.title)){
             titulosSet.add(item.title);
-            noticiasPorCat[cat].push(noticiaHTML(item, cat));
+            noticiasPorCat[cat].push(item);
             manchetesArr.push(item.title);
           }
           if(isAoVivo(item)) {
@@ -232,33 +203,38 @@ function adicionaNoticiasPorCategoria() {
     }).catch(()=>{}).finally(()=>{
       feedsConcluidos++;
       if(feedsConcluidos===totalFeeds){
-        for(const cat in noticiasPorCat){
-          const bloco = document.getElementById("noticias-"+cat);
-          if(bloco)
-            bloco.innerHTML = noticiasPorCat[cat].length ? noticiasPorCat[cat].join("") : "";
-        }
-        document.getElementById('aovivo-list').innerHTML = aovivoArr.length ? aovivoArr.join("") : "<div style='color:#fff;font-size:1.1em'>Nenhuma transmissão ao vivo no momento.</div>";
-        if(document.getElementById('loader')) document.getElementById('loader').style.display = 'none';
-        // Atualiza barra urgente com as 4 primeiras manchetes
-        const politics = noticiasPorCat.politica || [];
-        const urgentUl = document.getElementById('marquee-urgente');
-        if (politics.length > 0 && urgentUl) {
-          let urgentNews = politics.slice(0,4).map(item => {
-            let tmp = document.createElement('div');
-            tmp.innerHTML = item;
-            let h3 = tmp.querySelector('h3');
-            return h3?.innerText || 'Notícia';
-          }).join(" • ");
-          urgentUl.innerHTML = `<li style="display:inline;white-space:nowrap;padding-right:2em;">${urgentNews}</li>`;
-          iniciarMarqueeUrgenteHorizontal();
-        }
-        // Chama hook para buscar vídeos relacionados
-        if(window._onNoticiasCarregadas) window._onNoticiasCarregadas(manchetesArr.slice(0,8));
+        renderizaNoticias(aovivoArr, manchetesArr);
       }
     });
   });
 }
-// Dispara o carregamento ao exibir a primeira seção
+
+function renderizaNoticias(aovivoArr, manchetesArr) {
+  // Renderiza as notícias nas seções
+  for(const cat in noticiasPorCat){
+    const bloco = document.getElementById("noticias-"+cat);
+    if(bloco)
+      bloco.innerHTML = noticiasPorCat[cat].length ? noticiasPorCat[cat].map(item => noticiaHTML(item, cat)).join("") : "";
+  }
+  document.getElementById('aovivo-list').innerHTML = aovivoArr.length ? aovivoArr.join("") : "<div style='color:#e30613;font-size:1.1em'>Nenhuma transmissão ao vivo no momento.</div>";
+  if(document.getElementById('loader')) document.getElementById('loader').style.display = 'none';
+  // Atualiza barra urgente com as 4 primeiras manchetes
+  const politics = noticiasPorCat.politica || [];
+  const urgentUl = document.getElementById('marquee-urgente');
+  if (politics.length > 0 && urgentUl) {
+    let urgentNews = politics.slice(0,4).map(item => {
+      let tmp = document.createElement('div');
+      tmp.innerHTML = noticiaHTML(item, 'Política');
+      let h3 = tmp.querySelector('h3');
+      return h3?.innerText || 'Notícia';
+    }).join(" • ");
+    urgentUl.innerHTML = `<li style="display:inline;white-space:nowrap;padding-right:2em;">${urgentNews}</li>`;
+    iniciarMarqueeUrgenteHorizontal();
+  }
+  window._onNoticiasCarregadas && window._onNoticiasCarregadas(manchetesArr.slice(0,8));
+}
+
+// Carrega notícias ao aparecer a seção
 if('IntersectionObserver' in window){
   const obs = new IntersectionObserver((entries, observer)=>{
     entries.forEach(entry=>{
@@ -273,7 +249,7 @@ if('IntersectionObserver' in window){
   window.addEventListener('DOMContentLoaded',adicionaNoticiasPorCategoria);
 }
 
-// Fallback: mensagem caso não carregue nenhuma notícia (garante UX)
+// Fallback para UX caso não carregue nada
 setTimeout(function(){
   [
     "politica","internacional","nacional","esportes","economia","money","entretenimento",
@@ -286,16 +262,59 @@ setTimeout(function(){
   });
 }, 12000);
 
-// --- VÍDEOS NOTÍCIAS AO VIVO E RECENTES DE QUALQUER CANAL ---
+// ---- DESTAQUES ----
+function preencherDestaques(noticiasPorCat) {
+  const destaquesLista = document.getElementById("destaques-lista");
+  if (!destaquesLista) return;
+  // Junta todas as notícias de todas categorias
+  let todas = [];
+  for (const cat in noticiasPorCat) {
+    noticiasPorCat[cat].forEach(item => {
+      let img = item.thumbnail || item.image || (item.enclosure && item.enclosure.link) || "";
+      todas.push({
+        title: item.title,
+        description: item.description || "",
+        link: item.link,
+        image: img
+      });
+    });
+  }
+  // Remove duplicadas por título
+  const vistos = new Set();
+  todas = todas.filter(n => {
+    if (vistos.has(n.title)) return false;
+    vistos.add(n.title);
+    return true;
+  });
+  // Prioriza urgentes ou com imagem
+  let destaques = todas.filter(n => /urgente|breaking|ao vivo/i.test(n.title + n.description) && n.image)
+    .concat(todas.filter(n => n.image && !/urgente|breaking|ao vivo/i.test(n.title + n.description)))
+    .slice(0, 6);
+
+  if (destaques.length < 6) {
+    const extras = todas.filter(n => n.image && !destaques.includes(n));
+    destaques = destaques.concat(extras.slice(0, 6 - destaques.length));
+  }
+  destaques = destaques.slice(0, 6);
+
+  // Renderiza os cards
+  destaquesLista.innerHTML = destaques.map(n =>
+    `<div class="destaque-card">
+      <img src="${n.image}" alt="${n.title}">
+      <h3><a href="${n.link}" target="_blank" style="color:#e30613;text-decoration:none;">${n.title}</a></h3>
+      <p>${(n.description || "").slice(0, 110)}...</p>
+    </div>`
+  ).join("");
+}
+
+// ---- VÍDEOS ----
 function buscarVideosNoticiasAoVivo() {
   const apiKey = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
   const videosGrid = document.getElementById('videos-grid');
   if(!videosGrid) return;
-  videosGrid.innerHTML = '<div style="color:#fff">Carregando vídeos...</div>';
+  videosGrid.innerHTML = '<div style="color:#e30613">Carregando vídeos...</div>';
 
-  // Busca global de vídeos ao vivo de notícias
   const pesquisaAoVivo = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&eventType=live&key=${apiKey}&maxResults=6&q=notícias OR news OR jornalismo OR breaking`;
-  // Busca global dos vídeos recentes de notícias (não apenas ao vivo)
   const pesquisaNoticiasRecentes = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=6&order=date&q=notícias OR news OR jornalismo OR breaking`;
 
   Promise.all([
@@ -303,8 +322,6 @@ function buscarVideosNoticiasAoVivo() {
     fetch(pesquisaNoticiasRecentes).then(r=>r.json())
   ]).then(([resAoVivo, resNoticias])=>{
     let videos = [];
-
-    // Vídeos ao vivo
     if(resAoVivo.items && resAoVivo.items.length) {
       videos = videos.concat(resAoVivo.items.map(video=>{
         let vid = video.id.videoId;
@@ -315,8 +332,6 @@ function buscarVideosNoticiasAoVivo() {
         </div>`;
       }));
     }
-
-    // Vídeos recentes de notícias (não ao vivo, de outros canais)
     if(resNoticias.items && resNoticias.items.length) {
       videos = videos.concat(resNoticias.items.map(video=>{
         let vid = video.id.videoId;
@@ -327,8 +342,6 @@ function buscarVideosNoticiasAoVivo() {
         </div>`;
       }));
     }
-
-    // Remove vídeos duplicados (mesmo videoId)
     const seen = new Set();
     videos = videos.filter(v => {
       const match = v.match(/embed\/([a-zA-Z0-9_-]{11})/);
@@ -342,19 +355,19 @@ function buscarVideosNoticiasAoVivo() {
     if(videos.length) {
       videosGrid.innerHTML = videos.slice(0,8).join('');
     } else {
-      videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo de notícia relevante encontrado no momento.</div>';
+      videosGrid.innerHTML = '<div style="color:#e30613">Nenhum vídeo de notícia relevante encontrado no momento.</div>';
     }
   }).catch(()=>{
-    videosGrid.innerHTML = '<div style="color:#fff">Erro ao buscar vídeos de notícias no YouTube.</div>';
+    videosGrid.innerHTML = '<div style="color:#e30613">Erro ao buscar vídeos de notícias no YouTube.</div>';
   });
 }
 
-// Chama busca dos vídeos após as notícias serem carregadas
 window._onNoticiasCarregadas = function() {
   buscarVideosNoticiasAoVivo();
+  preencherDestaques(noticiasPorCat);
 };
 
-// --- Marquee horizontal para barra urgente ---
+// ---- MARQUEE URGENTE (Horizontal) ----
 function iniciarMarqueeUrgenteHorizontal() {
   const marquee = document.getElementById('marquee-urgente');
   if (!marquee) return;
@@ -364,7 +377,6 @@ function iniciarMarqueeUrgenteHorizontal() {
   marquee.style.animation = "marqueeLeft 30s linear infinite";
   marquee.style.whiteSpace = "nowrap";
   marquee.style.position = "relative";
-  // CSS da animação marqueeLeft:
   if (!document.getElementById('marqueeLeftStyle')) {
     const style = document.createElement('style');
     style.id = 'marqueeLeftStyle';
@@ -375,4 +387,4 @@ function iniciarMarqueeUrgenteHorizontal() {
     }`;
     document.head.appendChild(style);
   }
-  }
+    }
