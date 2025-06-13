@@ -108,6 +108,9 @@ const feedUrls = [
   "https://rss2json.com/api.json?rss_url=https://www.tecmundo.com.br/rss"
 ];
 
+// GNEWs API integration
+const gnewsApiKey = "92221e88091bab959857e1a937a68fc9";
+
 function filtraCategoria(titulo, desc, chapeu) {
   const texto = (titulo + " " + (desc||"") + " " + (chapeu||"")).toLowerCase();
   for (const cat in categorias) {
@@ -117,11 +120,12 @@ function filtraCategoria(titulo, desc, chapeu) {
 }
 function noticiaHTML(item, cat) {
   let img = "";
-  if(item.thumbnail) img = `<img class="noticia-img" src="${item.thumbnail}" alt="Thumb da notícia">`;
+  // Reduz o tamanho da imagem para 70px de altura (mantendo proporção)
+  if(item.thumbnail) img = `<img class="noticia-img" src="${item.thumbnail}" alt="Thumb da notícia" style="height:70px;max-width:110px;object-fit:cover;border-radius:8px;">`;
   else if(item.enclosure && item.enclosure.link && item.enclosure.type && item.enclosure.type.startsWith("image"))
-    img = `<img class="noticia-img" src="${item.enclosure.link}" alt="Thumb da notícia">`;
+    img = `<img class="noticia-img" src="${item.enclosure.link}" alt="Thumb da notícia" style="height:70px;max-width:110px;object-fit:cover;border-radius:8px;">`;
   else if(item.enclosure && typeof item.enclosure === "string" && item.enclosure.match(/\.(jpg|jpeg|png|webp|gif)$/i))
-    img = `<img class="noticia-img" src="${item.enclosure}" alt="Thumb da notícia">`;
+    img = `<img class="noticia-img" src="${item.enclosure}" alt="Thumb da notícia" style="height:70px;max-width:110px;object-fit:cover;border-radius:8px;">`;
   let safeDesc = (item.description||"").replace(/<[^>]+>/g,'').slice(0,140);
   let badge = /urgente|ao vivo|breaking/i.test(item.title+item.description) ? '<span class="badge-urgente">URGENTE</span> ' : '';
   return `<li class="noticia">${img}
@@ -158,7 +162,57 @@ function adicionaNoticiasPorCategoria() {
   for(const cat in categorias) noticiasPorCat[cat] = [];
   let aovivoArr = [];
   let manchetesArr = [];
-  let feedsConcluidos=0, totalFeeds=feedUrls.length;
+  let feedsConcluidos=0, totalFeeds=feedUrls.length + 1; // +1 for GNEWs
+
+  // GNEWs API (nacional e internacional)
+  fetch(`https://gnews.io/api/v4/top-headlines?token=${gnewsApiKey}&lang=pt&country=br&max=16`)
+    .then(r=>r.json()).then(data=>{
+      if(data.articles && data.articles.length) {
+        data.articles.forEach(art=>{
+          const cat = filtraCategoria(art.title, art.description, "");
+          if(cat && !titulosSet.has(art.title)){
+            titulosSet.add(art.title);
+            noticiasPorCat[cat].push(noticiaHTML({
+              title: art.title,
+              description: art.description,
+              link: art.url,
+              thumbnail: art.image,
+              pubDate: art.publishedAt
+            }, cat));
+            manchetesArr.push(art.title);
+          }
+        });
+      }
+    }).finally(()=>{
+      feedsConcluidos++;
+      if(feedsConcluidos===totalFeeds){
+        for(const cat in noticiasPorCat){
+          const bloco = document.getElementById("noticias-"+cat);
+          if(bloco)
+            bloco.innerHTML = noticiasPorCat[cat].length ? noticiasPorCat[cat].join("") : "";
+        }
+        document.getElementById('aovivo-list').innerHTML = aovivoArr.length ? aovivoArr.join("") : "<div style='color:#fff;font-size:1.1em'>Nenhuma transmissão ao vivo no momento.</div>";
+        if(document.getElementById('loader')) document.getElementById('loader').style.display = 'none';
+        // Atualiza barra urgente com as 4 primeiras manchetes
+        const politics = noticiasPorCat.politica || [];
+        const urgentUl = document.getElementById('marquee-urgente');
+        if (politics.length > 0 && urgentUl) {
+          let urgentNews = politics.slice(0,4).map(item => {
+            let tmp = document.createElement('div');
+            tmp.innerHTML = item;
+            let h3 = tmp.querySelector('h3');
+            return h3?.innerText || 'Notícia';
+          }).join(" • ");
+          // Horizontal marquee: single li with all headlines separated by •
+          urgentUl.innerHTML = `<li style="display:inline;white-space:nowrap;padding-right:2em;">${urgentNews}</li>`;
+          iniciarMarqueeUrgenteHorizontal();
+        }
+        // Chama hook para buscar vídeos relacionados
+        if(window._onNoticiasCarregadas) window._onNoticiasCarregadas(manchetesArr.slice(0,8));
+      }
+    });
+
+  // RSS feeds
   feedUrls.forEach(url => {
     fetch(url).then(res=>res.json()).then(data=>{
       if(data && data.items && data.items.length){
@@ -195,7 +249,6 @@ function adicionaNoticiasPorCategoria() {
             let h3 = tmp.querySelector('h3');
             return h3?.innerText || 'Notícia';
           }).join(" • ");
-          // Horizontal marquee: single li with all headlines separated by •
           urgentUl.innerHTML = `<li style="display:inline;white-space:nowrap;padding-right:2em;">${urgentNews}</li>`;
           iniciarMarqueeUrgenteHorizontal();
         }
@@ -322,4 +375,4 @@ function iniciarMarqueeUrgenteHorizontal() {
     }`;
     document.head.appendChild(style);
   }
-    }
+  }
