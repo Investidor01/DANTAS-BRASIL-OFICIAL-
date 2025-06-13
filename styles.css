@@ -27,10 +27,6 @@ header .logo {
   letter-spacing: 0.04em;
   color: #fff;
 }
-header .title {
-  font-size:1.07em;
-  font-weight:500;
-}
 header nav {
   margin-left: auto;
   font-size: 0.83em;
