@@ -355,7 +355,7 @@
       </div>
     </section>
     <div id="videos-relacionados">
-      <h2 class="section-title">Vídeos relacionados às últimas manchetes</h2>
+      <h2 class="section-title">Últimas Notícias AoVivo</h2>
       <div id="videos-grid" class="videos-grid"></div>
     </div>
     <div id="loader"><div></div></div>
@@ -387,35 +387,64 @@
   </main>
   <script src="script.js"></script>
   <script>
-    // Exibe os 4 vídeos mais recentes "breaking news" da CNN Brasil
-    function buscarVideosCNNBreakingNews() {
+    // Exibe até 4 vídeos recentes do canal CNN Brasil que sejam "breaking news" OU relacionados a governo
+    function buscarVideosCNNBreakingOrGoverno() {
       const apiKey = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
       const videosGrid = document.getElementById('videos-grid');
       if(!videosGrid) return;
       videosGrid.innerHTML = '<div style="color:#fff">Carregando vídeos...</div>';
       const channelId = "UCR9I2YnsBT7Ip1oQb6R6Ueg";
-      const maxResults = 15; // pega vários, filtra depois
-      let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=${maxResults}&channelId=${channelId}&order=date&q=breaking+news`;
+      const maxResults = 25; // busca mais para garantir variedade
+      let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=${maxResults}&channelId=${channelId}&order=date`;
       fetch(url)
         .then(r=>r.json())
         .then(res=>{
           if(res.items && res.items.length) {
-            // Filtra vídeos com 'breaking news' no título ou descrição
+            // Filtra vídeos de breaking news ou governo/política
             let filtered = res.items.filter(video => {
               const s = video.snippet;
               const t = (s.title + " " + s.description).toLowerCase();
-              return t.includes("breaking news");
+              return (
+                t.includes("breaking news") ||
+                t.includes("governo") ||
+                t.includes("presidente") ||
+                t.includes("congresso") ||
+                t.includes("palácio do planalto") ||
+                t.includes("senado") ||
+                t.includes("câmara") ||
+                t.includes("ministro") ||
+                t.includes("politica") ||
+                t.includes("política")
+              );
             }).slice(0,4);
             if(filtered.length) {
               videosGrid.innerHTML = filtered.map(video=>{
                 let vid = video.id.videoId;
+                // Escolhe a legenda conforme o tema
+                const s = video.snippet;
+                const t = (s.title + " " + s.description).toLowerCase();
+                let legenda = "Breaking News";
+                if (
+                  t.includes("governo") ||
+                  t.includes("presidente") ||
+                  t.includes("congresso") ||
+                  t.includes("palácio do planalto") ||
+                  t.includes("senado") ||
+                  t.includes("câmara") ||
+                  t.includes("ministro") ||
+                  t.includes("politica") ||
+                  t.includes("política")
+                ) {
+                  legenda = "Notícias de Governo";
+                }
+                if (t.includes("breaking news")) legenda = "Breaking News";
                 return `<div class="video-relacionado">
-                  <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="Breaking News"></iframe>
-                  <span>Breaking News</span>
+                  <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="${legenda}"></iframe>
+                  <span>${legenda}</span>
                 </div>`;
               }).join('');
             } else {
-              videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo "Breaking News" encontrado no canal CNN Brasil.</div>';
+              videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo "Breaking News" ou de Governo encontrado no canal CNN Brasil.</div>';
             }
           } else {
             videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo encontrado do canal CNN Brasil.</div>';
@@ -424,9 +453,9 @@
         .catch(()=>{videosGrid.innerHTML = '<div style="color:#fff">Erro ao buscar vídeos do canal CNN Brasil.</div>';});
     }
 
-    // Chama buscarVideosCNNBreakingNews quando as notícias forem carregadas
+    // Chama buscarVideosCNNBreakingOrGoverno quando as notícias forem carregadas
     window._onNoticiasCarregadas = function() {
-      buscarVideosCNNBreakingNews();
+      buscarVideosCNNBreakingOrGoverno();
     };
   </script>
 </body>
