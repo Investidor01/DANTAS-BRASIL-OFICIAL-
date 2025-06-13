@@ -387,42 +387,36 @@
   </main>
   <script src="script.js"></script>
   <script>
-    // Busca vídeos no YouTube relacionados às manchetes principais do canal CNN Brasil
-    function buscarVideosRelacionados(titulos) {
+    // Exibe sempre os 4 vídeos mais recentes do canal CNN Brasil
+    function buscarVideosCNNBrasil() {
       const apiKey = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
       const videosGrid = document.getElementById('videos-grid');
       if(!videosGrid) return;
       videosGrid.innerHTML = '<div style="color:#fff">Carregando vídeos...</div>';
-      // Canal CNN Brasil ID: UCR9I2YnsBT7Ip1oQb6R6Ueg
       const channelId = "UCR9I2YnsBT7Ip1oQb6R6Ueg";
-      let promises = titulos.slice(0,4).map(titulo => {
-        let query = encodeURIComponent(titulo);
-        let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=1&channelId=${channelId}&q=${query}`;
-        return fetch(url)
-          .then(r=>r.json())
-          .then(res=>{
-            if(res.items && res.items.length) {
-              let video = res.items[0];
+      let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=${apiKey}&maxResults=4&channelId=${channelId}&order=date`;
+      fetch(url)
+        .then(r=>r.json())
+        .then(res=>{
+          if(res.items && res.items.length) {
+            videosGrid.innerHTML = res.items.map(video=>{
               let vid = video.id.videoId;
               let vtitle = video.snippet.title;
               return `<div class="video-relacionado">
                 <iframe src="https://www.youtube.com/embed/${vid}" loading="lazy" allowfullscreen title="${vtitle}"></iframe>
                 <span>${vtitle}</span>
               </div>`;
-            }
-            return '';
-          }).catch(()=> '');
-      });
-      Promise.all(promises).then(videos=>{
-        videosGrid.innerHTML = videos.filter(Boolean).join('') || '<div style="color:#fff">Nenhum vídeo relacionado encontrado do canal CNN Brasil.</div>';
-      });
+            }).join('');
+          } else {
+            videosGrid.innerHTML = '<div style="color:#fff">Nenhum vídeo encontrado do canal CNN Brasil.</div>';
+          }
+        })
+        .catch(()=>{videosGrid.innerHTML = '<div style="color:#fff">Erro ao buscar vídeos do canal CNN Brasil.</div>';});
     }
 
-    // Chame buscarVideosRelacionados quando as notícias forem carregadas
-    window._ultimasManchetes = [];
-    window._onNoticiasCarregadas = function(titulos) {
-      window._ultimasManchetes = titulos;
-      buscarVideosRelacionados(titulos);
+    // Chama buscarVideosCNNBrasil quando as notícias forem carregadas
+    window._onNoticiasCarregadas = function() {
+      buscarVideosCNNBrasil();
     };
   </script>
 </body>
