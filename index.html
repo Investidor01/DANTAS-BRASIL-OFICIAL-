@@ -7,51 +7,42 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /* Galeria Destaques */
     .destaques-galeria {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 1em;
+      gap: 0.7em;
       padding: 0.7em 0.3em;
     }
     .destaque-card {
       position: relative;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 1px 7px #e3061322;
       background: #fff;
-      transition: transform .19s, box-shadow .19s;
       cursor: pointer;
-      min-height: 180px;
+      min-height: 120px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      max-width: 250px;
+      max-width: 380px;
       margin: 0 auto;
     }
     .destaque-card img {
       width: 100%;
-      height: 110px;
+      height: 80px;
       object-fit: cover;
-      border-radius: 10px 10px 0 0;
-      transition: filter .15s;
-      display: block;
+      border-radius: 12px 12px 0 0;
       background: #eee;
+      display: block;
     }
     .destaque-card .destaque-info {
-      padding: 0.6em 0.7em 1em 0.7em;
-      background: linear-gradient(0deg,#fff 80%,#fff8 100%,#fff0 0%);
-      position: relative;
-      z-index: 2;
-      min-height: 55px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      padding: 0.4em 0.7em 0.7em 0.7em;
+      min-height: 40px;
     }
     .destaque-card h3 {
       font-size: 1em;
       color: #e30613;
-      margin: 0.14em 0 0.18em 0;
+      margin: 0.14em 0 0.13em 0;
       line-height: 1.13em;
       font-weight: bold;
       text-overflow: ellipsis;
@@ -66,14 +57,28 @@
       overflow: hidden;
       white-space: nowrap;
     }
-    @media (max-width: 700px) {
-      .destaques-galeria { grid-template-columns: repeat(auto-fit, minmax(75vw, 1fr)); }
-      .destaque-card { min-height: 150px; max-width: 94vw;}
-      .destaque-card img { height: 90px; }
-      .destaque-card .destaque-info { min-height: 40px; padding: 0.5em 0.5em 0.8em 0.5em;}
-      .destaque-card h3 { font-size: 0.97em;}
+    @media (max-width: 600px) {
+      .destaques-galeria {
+        grid-template-columns: 1fr;
+        gap: 0.4em;
+      }
+      .destaque-card {
+        min-height: 100px;
+        max-width: 96vw;
+        margin: 0 auto;
+      }
+      .destaque-card img {
+        height: 60px;
+      }
+      .destaque-card .destaque-info {
+        min-height: 30px;
+        padding: 0.3em 0.5em 0.5em 0.5em;
+      }
+      .destaque-card h3 {
+        font-size: 0.97em;
+      }
     }
-    /* (Deixe aqui seu CSS adicional, se houver) */
+    /* (Seu CSS adicional permanece igual) */
   </style>
 </head>
 <body>
@@ -177,4 +182,4 @@
 
   <script src="script.js"></script>
 </body>
-        </html>
+  </html>
