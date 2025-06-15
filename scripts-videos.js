@@ -1,17 +1,18 @@
+const YOUTUBE_API_KEY = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
+const CHANNEL_ID = "UCn8zNIfYAQNdrFRrr8oibKw"; // CNN Brasil
 
-const container = document.getElementById("noticias-container");
-async function carregarNoticias() {
-  try {
-    const res = await fetch("https://gnews.io/api/v4/top-headlines?lang=pt&country=br&topic=nation&apikey=92221e88091bab959857e1a937a68fc9");
-    const dados = await res.json();
-    container.innerHTML = "";
-    dados.articles.forEach((noticia) => {
-      const div = document.createElement("div");
-      div.innerHTML = `<h3>${noticia.title}</h3><p>${noticia.description}</p><a href="${noticia.url}" target="_blank">Leia mais</a>`;
-      container.appendChild(div);
+fetch(`https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=6`)
+  .then(response => response.json())
+  .then(data => {
+    const container = document.getElementById("video-container");
+    data.items.forEach(item => {
+      const videoId = item.id.videoId;
+      const title = item.snippet.title;
+      container.innerHTML += `
+        <div style="margin-bottom:20px">
+          <iframe width="100%" height="215" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
+          <p>${title}</p>
+        </div>
+      `;
     });
-  } catch (e) {
-    container.innerHTML = "Erro ao carregar notícias.";
-  }
-}
-document.addEventListener("DOMContentLoaded", carregarNoticias);
+  });
