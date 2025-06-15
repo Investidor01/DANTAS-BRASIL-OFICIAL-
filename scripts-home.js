@@ -1,5 +1,4 @@
-
-// Clima usando OpenWeatherMap
+// scripts-home.js
 const WEATHER_API_KEY = "d2dbc9154fae0daaf42b27c046652291";
 fetch(`https://api.openweathermap.org/data/2.5/weather?q=Brasilia,br&appid=${WEATHER_API_KEY}&units=metric&lang=pt_br`)
   .then(res => res.json())
@@ -8,11 +7,9 @@ fetch(`https://api.openweathermap.org/data/2.5/weather?q=Brasilia,br&appid=${WEA
       `<strong>Clima em Brasília:</strong> ${data.weather[0].description}, ${data.main.temp}°C`;
   });
 
-// Notícias urgentes (placeholder)
 document.getElementById("breaking-news").innerHTML =
   '<marquee>🚨 Governo anuncia novas medidas econômicas | Última Hora: aumento de casos de gripe no Sul | Enchentes afetam o Norte do país...</marquee>';
 
-// Vídeos do YouTube
 const YOUTUBE_API_KEY = "AIzaSyBMakFQuTJwHYkaZ2t342UK4om3HsCtP8A";
 const CHANNEL_ID = "UCn8zNIfYAQNdrFRrr8oibKw"; // CNN Brasil
 fetch(`https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=4`)
