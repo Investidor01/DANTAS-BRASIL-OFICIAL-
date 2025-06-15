@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INFO DANTAS BRASIL</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div style="background-color: red; color: white; padding: 8px; text-align: center; font-weight: bold; position: fixed; top: 0; width: 100%; z-index: 1000;">
+  🔴 URGENTE: Acompanhe as principais notícias ao vivo em Info Dantas Brasil!
+</div>
+<div style="margin-top: 50px;"></div>
+
+
+<script>
+  async function buscarClima() {
+    const resposta = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Brasilia&units=metric&appid=d2dbc9154fae0daaf42b27c046652291&lang=pt_br');
+    const dados = await resposta.json();
+    document.getElementById("weather").innerText =
+      `🌤 ${dados.name}: ${dados.weather[0].description}, ${dados.main.temp}°C`;
+  }
+  buscarClima();
+</script>
+<div id="weather" style="background:#e3e3e3; padding: 8px; text-align: center;"></div>
+
+  <header>
+    <div class="container">
+      <h1>INFO DANTAS BRASIL</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="politica.html">Política</a></li>
+          <li><a href="esportes.html">Esportes</a></li>
+          <li><a href="economia.html">Economia</a></li>
+          <li><a href="videos.html">Vídeos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section>
+      <h2>Últimas Notícias</h2>
+      <div id="noticias-container">Carregando...</div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Info Dantas Brasil. Todos os direitos reservados.</p>
+  </footer>
+  <script src="scripts-home.js"></script>
+</body>
+</html>
